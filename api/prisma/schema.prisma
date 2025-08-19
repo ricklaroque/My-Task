@@ -1,0 +1,58 @@
+// PostgreSQL
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id         String   @id @default(uuid())
+  nome       String
+  email      String   @unique
+  senhaHash  String
+  boards     Board[]  @relation("BoardMembros")
+}
+
+model Workspace {
+  id     String  @id @default(uuid())
+  nome   String
+  boards Board[]
+}
+
+model Board {
+  id           String     @id @default(uuid())
+  titulo       String
+  workspace    Workspace  @relation(fields: [workspaceId], references: [id])
+  workspaceId  String
+  listas       Lista[]
+  membros      Usuario[]  @relation("BoardMembros")
+}
+
+model Lista {
+  id       String  @id @default(uuid())
+  titulo   String
+  ordem    Int
+  board    Board   @relation(fields: [boardId], references: [id])
+  boardId  String
+  cards    Card[]
+}
+
+model Card {
+  id          String       @id @default(uuid())
+  titulo      String
+  descricao   String?
+  prazo       DateTime?
+  lista       Lista        @relation(fields: [listaId], references: [id])
+  listaId     String
+  comentarios Comentario[]
+}
+
+model Comentario {
+  id       String @id @default(uuid())
+  conteudo String
+  card     Card   @relation(fields: [cardId], references: [id])
+  cardId   String
+}
