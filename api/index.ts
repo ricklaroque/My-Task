@@ -1,9 +1,11 @@
 import express from 'express'
 import cors from 'cors'
 
-import routesJogos from './routes/jogos'
-import routesDesenvolvedoras from './routes/desenvolvedoras'
-import routesGeneros from './routes/generos'
+import routesBoards from './routes/boards'
+import routesComentarios from './routes/comentarios'
+import routesUsuarios from './routes/usuarios'
+import routesTasks from './routes/tasks'
+import routesListas from './routes/listas'
 
 const app = express()
 const port = 3000
@@ -11,12 +13,14 @@ const port = 3000
 app.use(express.json())
 app.use(cors())
 
-app.use("/jogos", routesJogos)
-app.use("/desenvolvedoras", routesDesenvolvedoras)
-app.use("/generos", routesGeneros)
+app.use("/boards", routesBoards)
+app.use("/comentarios", routesComentarios)
+app.use("/usuarios", routesUsuarios)
+app.use("/tasks", routesTasks)
+app.use("/listas", routesListas)
 
 app.get('/', (req, res) => {
-  res.send('API: Locação de Jogos')
+  res.send('API: MyTask')
 })
 
 app.listen(port, () => {

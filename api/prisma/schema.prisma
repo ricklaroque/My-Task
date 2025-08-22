@@ -8,51 +8,90 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Usuario {
-  id         String   @id @default(uuid())
-  nome       String
-  email      String   @unique
-  senhaHash  String
-  boards     Board[]  @relation("BoardMembros")
+model Admin {
+  id    Int    @id @default(autoincrement())
+  nome  String @db.VarChar(70)
+  email String @db.VarChar(155)
+  senha String @db.VarChar(35)
+
+  @@map("admins")
 }
 
-model Workspace {
-  id     String  @id @default(uuid())
-  nome   String
-  boards Board[]
+model Usuario {
+  id         String    @id @default(uuid()) @db.VarChar(36)
+  nome       String    @db.VarChar(50)
+  email      String    @unique @db.VarChar(100)
+  senha      String    @db.VarChar(50)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  lastAccess DateTime?
+  boards     Board[]
+  Task       Task[]
+  Log        Log[]
+
+  @@map("usuarios")
+}
+
+enum Motivos {
+  TRABALHO
+  ESTUDO
+  PESSOAL
+  OUTRO
 }
 
 model Board {
-  id           String     @id @default(uuid())
-  titulo       String
-  workspace    Workspace  @relation(fields: [workspaceId], references: [id])
-  workspaceId  String
-  listas       Lista[]
-  membros      Usuario[]  @relation("BoardMembros")
+  id        Int     @id @default(autoincrement())
+  titulo    String  @db.VarChar(50)
+  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId String
+  motivo    Motivos
+  listas    Lista[]
+
+  @@map("boards")
 }
 
 model Lista {
-  id       String  @id @default(uuid())
-  titulo   String
-  ordem    Int
-  board    Board   @relation(fields: [boardId], references: [id])
-  boardId  String
-  cards    Card[]
+  id      Int    @id @default(autoincrement())
+  titulo  String @db.VarChar(30)
+  ordem   Int    @db.SmallInt()
+  board   Board  @relation(fields: [boardId], references: [id])
+  boardId Int
+  task    Task[]
+
+  @@map("listas")
 }
 
-model Card {
-  id          String       @id @default(uuid())
-  titulo      String
-  descricao   String?
-  prazo       DateTime?
+model Task {
+  id          Int          @id @default(autoincrement())
+  titulo      String       @db.VarChar(30)
+  descricao   String?      @db.VarChar(255)
+  prazo       DateTime     @db.Date()
   lista       Lista        @relation(fields: [listaId], references: [id])
-  listaId     String
+  listaId     Int
+  usuario     Usuario      @relation(fields: [usuarioId], references: [id])
+  usuarioId   String
   comentarios Comentario[]
+
+  @@map("tasks")
 }
 
 model Comentario {
-  id       String @id @default(uuid())
-  conteudo String
-  card     Card   @relation(fields: [cardId], references: [id])
-  cardId   String
+  id       Int    @id @default(autoincrement())
+  conteudo String @db.VarChar(255)
+  task     Task   @relation(fields: [taskId], references: [id])
+  taskId   Int
+
+  @@map("comentarios")
+}
+
+model Log {
+  id          Int      @id @default(autoincrement())
+  usuario     Usuario  @relation(fields: [usuarioId], references: [id])
+  usuarioId   String
+  descricao   String   @db.VarChar(60)
+  complemento String   @db.VarChar(200)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("logs")
 }
