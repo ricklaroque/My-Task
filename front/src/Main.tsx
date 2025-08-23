@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 
 import App from './App.tsx'
-// import Login from './Login.tsx'
+import Login from './routes/Login.tsx'
 
 import Layout from './Layout.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -14,7 +14,7 @@ const rotas = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <App /> },
-      // { path: 'login', element: <Login /> },
+      { path: 'login', element: <Login /> },
     ],
   },
 ])
