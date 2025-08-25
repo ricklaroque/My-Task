@@ -1,6 +1,7 @@
 import { PrismaClient, Motivos } from "@prisma/client";
 import { Router } from "express";
 import { z }  from 'zod'
+import { asyncHandler } from "../utils/http";
 
 const prisma = new PrismaClient()
 const router = Router();
@@ -13,19 +14,27 @@ const boardSchema = z.object({
     adminId: z.coerce.number().int().positive().optional(),
 })
 
+router.get("/", asyncHandler(async (_req, res) => {
+    const comentarios = await prisma.board.findMany({
+        include: {
+            usuario: true
+        }
+    })
+    res.status(200).json(comentarios)
+}))
 
-router.get("/", async (req, res) => {
-    try{
-        const boards = await prisma.board.findMany({
-            include: {
-                usuario: true,
-            }
-        })
-        res.status(200).json(boards)
-    } catch (error){
-        res.status(500).json({ erro: error})
-    }
-})
+// router.get("/", async (req, res) => {
+//     try{
+//         const boards = await prisma.board.findMany({
+//             include: {
+//                 usuario: true,
+//             }
+//         })
+//         res.status(200).json(boards)
+//     } catch (error){
+//         res.status(500).json({ erro: error})
+//     }
+// })
 
 router.post("/", async (req, res) => {
     const valida = boardSchema.safeParse(req.body)
@@ -44,18 +53,6 @@ router.post("/", async (req, res) => {
     }
 })
 
-router.delete("/:id", async (req, res) => {
-    const { id } = req.params
-
-    try{
-        const board = await prisma.board.delete({
-            where: { id: Number(id)}
-        })
-        res.status(200).json(board)
-    } catch (error) {
-        res.status(400).json({ erro: error })
-    }
-})
 
 router.put("/:id", async (req, res) => {
     const { id } = req.params
@@ -78,6 +75,19 @@ router.put("/:id", async (req, res) => {
   } catch (error) {
     res.status(400).json({ error })
   }
+})
+
+router.delete("/:id", async (req, res) => {
+    const { id } = req.params
+
+    try{
+        const board = await prisma.board.delete({
+            where: { id: Number(id)}
+        })
+        res.status(200).json(board)
+    } catch (error) {
+        res.status(400).json({ erro: error })
+    }
 })
 
 export default router

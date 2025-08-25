@@ -43,12 +43,12 @@ export default function Header({ setBoards }: HeaderProps) {
   }
 
   return (
-    <header className="sticky top-0 z-40 h-[10rem] w-full border-b border-gray-200 bg-white/80 backdrop-blur dark:bg-gray-900 dark:border-gray-800">
+    <header className="sticky top-0 z-40 h-[10rem] w-full border-b border-gray-200 bg-white/80 backdrop-blur dark:bg-gray-800 dark:border-gray-800">
       <div className="mx-auto py-3 flex items-center justify-between gap-4">
 
         {/* LOGO + TEXTO */}
         <div className="flex items-center gap-2 ml-[8rem]">
-          <img src={logoDefinitiva} className="w-[10rem] h-[10rem] rounded-[5rem]" />
+          <img src={logoDefinitiva} className="w-[7rem] h-[7rem] rounded-[5rem]" />
           <span className="text-lg font-semibold text-gray-900 dark:text-white">
             MyTask
           </span>
