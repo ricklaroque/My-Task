@@ -22,7 +22,7 @@ function corFonte(motivo: BoardType["motivo"]) {
 export function CardBoard({data}: {data: BoardType}){
 
   return (
-    <div className={`group max-w-sm w-full h-[10rem] rounded-2xl shadow-sm hover:shadow-md transition-all bg-slate-300 border-l-black`}>
+    <div className={`group max-w-sm w-full h-[10rem] rounded-2xl shadow-sm hover:shadow-md transition-all bg-slate-300 border-l-black `}>
       <div className="p-5">
         <div className="flex items-center justify-between gap-3">
           <h5 className={`text-xl font-semibold tracking-tight line-clamp-1 ${data.motivo}`}>
