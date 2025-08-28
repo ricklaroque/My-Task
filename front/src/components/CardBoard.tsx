@@ -23,12 +23,6 @@ function corFonte(motivo: BoardType["motivo"]) {
   }
 }
 
-type Inputs = {
-  titulo: string,
-  motivo: string,
-  usuarioId: string
-}
-
 export function CardBoard({ data }: { data: BoardType }) {
   
 
