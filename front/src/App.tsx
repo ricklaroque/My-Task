@@ -22,14 +22,11 @@ export default function App() {
   }, [])
 
   if (loading) return <div>Carregando...</div>
-
-  const listaBoards = boards.map( board => (
-    <CardBoard data={board} key={board.id} />
-  ))
-
   return (
-    <div className="flex flex-wrap justify-center gap-6 p-6 min-h-screen bg-gray-50 dark:bg-gray-900">
-      {listaBoards}
+    <div className="grid grid-cols-3 gap-6 justify-items-center p-[2rem]">
+      {boards.map((board) => (
+        <CardBoard data={board} key={board.id} />
+      ))}
     </div>
   );
 }

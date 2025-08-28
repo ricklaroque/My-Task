@@ -21,7 +21,6 @@ export default function Header({ setBoards }: HeaderProps) {
       toast.error("Informe, no mínimo, 1 caractere");
       return;
     }
-
     try {
       const response = await fetch(`${apiUrl}/boards/pesquisa/${data.termo}`);
       const dados = await response.json();
@@ -43,7 +42,7 @@ export default function Header({ setBoards }: HeaderProps) {
   }
 
   return (
-    <header className="w-full bg-slate-800 border-b border-slate-700">
+    <header className="w-full bg-slate-800/40 border-b dark:bg-gray-700">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
         <div className="flex items-center gap-3">
