@@ -26,6 +26,7 @@ router.get("/", async (req, res) => {
     }
 })
 
+
 router.post("/", async (req, res) => {
     const valida = listaSchema.safeParse(req.body)
     if (!valida.success) {

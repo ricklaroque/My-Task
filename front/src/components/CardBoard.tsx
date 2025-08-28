@@ -1,51 +1,50 @@
 import { Link } from "react-router-dom";
 import type { BoardType } from "../utils/BoardType";
 
-function badgeColor(motivo: BoardType["motivo"]) {
+function corFundo(motivo: BoardType["motivo"]) {
   switch (motivo) {
-    case "TRABALHO": return "bg-blue-100 text-blue-700";
-    case "ESTUDO":   return "bg-emerald-100 text-emerald-700";
-    case "PESSOAL":  return "bg-purple-100 text-purple-700";
-    default:         return "bg-gray-100 text-gray-700";
+    case "TRABALHO": return "bg-blue-300";
+    case "ESTUDO": return "bg-emerald-100 text-emerald-700";
+    case "PESSOAL": return "bg-green-300";
+    case "OUTRO": return "bg-red-300";
+    default: return "bg-gray-100 text-gray-700";
   }
 }
-
-export function CardBoard({ data }: { data: BoardType }) {
-  const listasCount = data.listas?.length ?? 0;
-  const progresso =
-    typeof data.progresso === "number"
-      ? Math.max(0, Math.min(100, data.progresso))
-      : undefined;
+function corFonte(motivo: BoardType["motivo"]) {
+  switch (motivo) {
+    case "TRABALHO": return "text-red-700";
+    case "ESTUDO": return "text-emerald-700";
+    case "PESSOAL": return "text-pink-700";
+    case "OUTRO": return "text-red-700";
+    default: return "text-white";
+  }
+}
+export function CardBoard({data}: {data: BoardType}){
 
   return (
-    <div className="group max-w-sm w-full bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-all dark:bg-gray-800 dark:border-gray-700">
+    <div className={`group max-w-sm w-full h-[10rem] rounded-2xl shadow-sm hover:shadow-md transition-all bg-slate-300 border-l-black `}>
       <div className="p-5">
         <div className="flex items-center justify-between gap-3">
-          <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-1">
+          <h5 className={`text-xl font-semibold tracking-tight line-clamp-1 ${data.motivo}`}>
             {data.titulo}
           </h5>
 
-          <span className={`px-2 py-1 rounded-full text-xs font-medium ${badgeColor(data.motivo)}`}>
+          {/* <span className={`px-2 py-1 rounded-full text-xs font-medium ${corFundo(motivo)}`}>
             {data.motivo}
-          </span>
+          </span> */}
+          {data?.motivo && (
+            <span className={`px-2 py${corFundo(data.motivo)} ${corFonte(data.motivo)} rounded-full text-xs font-medium`}>
+              {data.motivo}
+            </span>
+          )}
         </div>
 
-        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-          {listasCount} {listasCount === 1 ? "lista" : "listas"}
-          {typeof progresso === "number" && (
-            <> • {progresso}%</>
-          )}
-        </p>
-
-        {/* barra de progresso opcional */}
-        {typeof progresso === "number" && (
           <div className="mt-3 h-2 w-full rounded-full bg-gray-200 dark:bg-gray-700">
             <div
               className="h-2 rounded-full bg-blue-600 transition-all"
-              style={{ width: `${progresso}%` }}
+              style={{ width: `${data.progresso}%` }}
             />
           </div>
-        )}
 
         {data.updatedAt && (
           <p className="mt-3 text-xs text-gray-400">
@@ -54,7 +53,7 @@ export function CardBoard({ data }: { data: BoardType }) {
         )}
 
         <Link
-          to={`/boards/${data.id}`}
+          to={`/listas/${data.id}`}
           className="mt-4 inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           Abrir board
