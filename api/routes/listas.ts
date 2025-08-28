@@ -15,9 +15,9 @@ const listaSchema = z.object({
 
 router.get("/", async (req, res) => {
     try {
-        const listas = await prisma.board.findMany({
+        const listas = await prisma.lista.findMany({
             include: {
-                usuario: true,
+                board: true,
             }
         })
         res.status(200).json(listas)
@@ -25,6 +25,7 @@ router.get("/", async (req, res) => {
         res.status(500).json({ erro: error })
     }
 })
+
 
 router.post("/", async (req, res) => {
     const valida = listaSchema.safeParse(req.body)
@@ -43,18 +44,6 @@ router.post("/", async (req, res) => {
     }
 })
 
-router.delete("/:id", async (req, res) => {
-    const { id } = req.params
-
-    try {
-        const lista = await prisma.lista.delete({
-            where: { id: Number(id) }
-        })
-        res.status(200).json(lista)
-    } catch (error) {
-        res.status(400).json({ erro: error })
-    }
-})
 
 router.put("/:id", async (req, res) => {
     const { id } = req.params
@@ -76,6 +65,19 @@ router.put("/:id", async (req, res) => {
         res.status(200).json(lista)
     } catch (error) {
         res.status(400).json({ error })
+    }
+})
+
+router.delete("/:id", async (req, res) => {
+    const { id } = req.params
+
+    try {
+        const lista = await prisma.lista.delete({
+            where: { id: Number(id) }
+        })
+        res.status(200).json(lista)
+    } catch (error) {
+        res.status(400).json({ erro: error })
     }
 })
 

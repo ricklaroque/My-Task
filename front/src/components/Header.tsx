@@ -43,52 +43,43 @@ export default function Header({ setBoards }: HeaderProps) {
   }
 
   return (
-    <header className="sticky top-0 z-40 h-[10rem] w-full border-b border-gray-200 bg-white/80 backdrop-blur dark:bg-gray-900 dark:border-gray-800">
-      <div className="mx-auto py-3 flex items-center justify-between gap-4">
+    <header className="w-full bg-slate-800 border-b border-slate-700">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
-        {/* LOGO + TEXTO */}
-        <div className="flex items-center gap-2 ml-[8rem]">
-          <img src={logoDefinitiva} className="w-[10rem] h-[10rem] rounded-[5rem]" />
-          <span className="text-lg font-semibold text-gray-900 dark:text-white">
+        <div className="flex items-center gap-3">
+          <img src={logoDefinitiva} className="w-12 h-12 rounded-full" />
+          <span className="text-xl font-semibold text-white">
             MyTask
           </span>
         </div>
-
-        {/* PESQUISA */}
-        <form onSubmit={handleSubmit(enviaPesquisa)} className="relative flex-1 max-w-xl">
+        <form onSubmit={handleSubmit(enviaPesquisa)} className="relative flex-1 max-w-md mx-8">
           <input
             {...register("termo")}
             type="search"
             placeholder="Pesquisa"
-            className="h-10 w-full rounded-full border border-gray-300 bg-white pl-10 pr-4 text-sm
-               outline-none focus:ring-2 focus:ring-blue-400
-               dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+            className="h-10 w-full rounded-lg border border-slate-600 bg-slate-700 pl-10 pr-4 text-sm text-white placeholder-slate-400
+               outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
-
-          {/* Lupa centralizada e discreta */}
           <svg
-            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400"
+            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-            strokeWidth={2}
+            strokeWidth={1.5}
           >
-            <path strokeLinecap="round" strokeLinejoin="round"
-              d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18.5a7.5 7.5 0 006.15-3.85z" />
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
           </svg>
         </form>
-
-
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <button
             onClick={mostraDestaques}
-            className="px-4 py-2 rounded-full border border-gray-300 text-sm font-medium hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-800"
+            className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition-colors"
           >
             Novo
           </button>
-
-          <div className="h-8 mr-[8rem] w-8 rounded-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-gray-200 font-bold">
+          <div className="h-10 w-10 rounded-full bg-slate-600 flex items-center justify-center text-white font-semibold text-sm">
             R
           </div>
         </div>

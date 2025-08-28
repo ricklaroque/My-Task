@@ -13,11 +13,12 @@ const comentarioSchema = z.object({
 })
 
 
+
 router.get("/", async (req, res) => {
     try {
-        const comentarios = await prisma.board.findMany({
+        const comentarios = await prisma.comentario.findMany({
             include: {
-                usuario: true,
+                task: true,
             }
         })
         res.status(200).json(comentarios)

@@ -1,1 +1,6 @@
 front/.env
+api/ .envfront/.vite/
+front/.env/
+api/.env/
+node_modules/
+dist/
