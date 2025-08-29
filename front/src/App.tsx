@@ -21,12 +21,14 @@ export default function App() {
     buscaDados()
   }, [])
 
+    const listaBoards = boards.map( board => (
+      <CardBoard data={board} key={board.id} />
+    ))
+
   if (loading) return <div>Carregando...</div>
   return (
     <div className="grid grid-cols-3 gap-6 justify-items-center p-[2rem]">
-      {boards.map((board) => (
-        <CardBoard data={board} key={board.id} />
-      ))}
+        {listaBoards}
     </div>
   );
 }

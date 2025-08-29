@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import 'dotenv/config'
 
 import routesBoards from './routes/boards'
 import routesComentarios from './routes/comentarios'

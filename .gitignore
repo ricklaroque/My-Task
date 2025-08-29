@@ -2,5 +2,9 @@ front/.env
 api/ .envfront/.vite/
 front/.env/
 api/.env/
+.env.*.local
 node_modules/
-dist/
+dist
+build
+prisma/*.db
+prisma/*.db-journal

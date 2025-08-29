@@ -9,7 +9,6 @@ import CardLista  from './components/CardLista.tsx'
 
 import './index.css'
 
-
 const rotas = createBrowserRouter([
   {
     path: '/',
@@ -17,7 +16,7 @@ const rotas = createBrowserRouter([
     children: [
       { index: true, element: <App /> },
       { path: 'login', element: <Login /> },
-      { path: 'listas', element: <CardLista /> }
+      { path: 'listas/:boardId', element: <CardLista /> }
       // pobrema
     ],
   },

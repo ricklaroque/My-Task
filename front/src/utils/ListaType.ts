@@ -4,5 +4,5 @@ export type ListaType = {
     id: number
     titulo: string
     ordem: number
-    boardId: BoardType
+    boardId: number
 }

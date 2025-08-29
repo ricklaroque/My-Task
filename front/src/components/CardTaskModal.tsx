@@ -1,0 +1,83 @@
+import { useForm, type SubmitHandler } from "react-hook-form";
+
+type TaskForm = {
+    titulo: string
+    descricao?: string;
+    prazo: string
+    listaId: number
+    usuarioId: string
+}
+
+const apiUrl = import.meta.env.VITE_API_URL;
+
+export function NovaTask({ listaId, usuarioId }: { listaId: number; usuarioId: string }) {
+    const { register, handleSubmit, reset, formState: { errors, isSubmitting }, } = useForm<TaskForm>({
+        defaultValues: {
+            titulo: "",
+            descricao: "",
+            prazo: "",
+            listaId,
+            usuarioId,
+        },
+    });
+
+    const onSubmit: SubmitHandler<TaskForm> = async (data) => {
+        const isoPrazo = new Date(data.prazo + "T00:00:00");
+        const payload = {
+            ...data,
+            prazo: isoPrazo.toISOString(),
+        };
+
+        const resp = await fetch(`${apiUrl}/tasks`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+        });
+        if (!resp.ok) {
+            const txt = await resp.text();
+            console.error("Falha ao criar task:", txt);
+            return;
+        }
+
+        reset(); // limpa o form
+    };
+
+    return (
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+            <div>
+                <label className="block text-sm">Título</label>
+                <input
+                    className="border rounded px-2 py-1 w-full"
+                    {...register("titulo", { required: "Informe o título" })}
+                />
+                {errors.titulo && <p className="text-red-600 text-xs">{errors.titulo.message}</p>}
+            </div>
+
+            <div>
+                <label className="block text-sm">Descrição</label>
+                <textarea className="border rounded px-2 py-1 w-full" {...register("descricao")} />
+            </div>
+
+            <div>
+                <label className="block text-sm">Prazo</label>
+                <input
+                    type="date"
+                    className="border rounded px-2 py-1"
+                    {...register("prazo", { required: "Informe o prazo" })}
+                />
+                {errors.prazo && <p className="text-red-600 text-xs">{errors.prazo.message}</p>}
+            </div>
+
+            <input type="hidden" {...register("listaId", { valueAsNumber: true })} />
+            <input type="hidden" {...register("usuarioId")} />
+
+            <button
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-blue-600 text-white px-3 py-2 rounded hover:bg-blue-700"
+            >
+                {isSubmitting ? "Salvando..." : "Adicionar Task"}
+            </button>
+        </form>
+    )
+}
