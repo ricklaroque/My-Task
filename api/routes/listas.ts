@@ -1,109 +1,125 @@
-import { PrismaClient, Motivos } from "@prisma/client";
-import { Router } from "express";
-import { z } from 'zod'
+import { PrismaClient } from '@prisma/client';
+import { Router } from 'express';
+import { z } from 'zod';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 const router = Router();
 
 const listaSchema = z.object({
-    titulo: z.string().min(1,
-        { message: "Nome da lista deve ter pelo menos 1 caractere." }),
-    ordem: z.coerce.number(),
-    boardId: z.coerce.number().int().positive(),
-})
+  titulo: z.string().min(1, { message: 'Nome da lista deve ter pelo menos 1 caractere.' }),
+  ordem: z.coerce.number(),               // você já usava assim
+  boardId: z.coerce.number().int().positive(),
+});
 
+// TODAS AS LISTAS (com o board)
+router.get('/', async (_req, res) => {
+  try {
+    const listas = await prisma.lista.findMany({
+      include: { board: true },
+      orderBy: [{ boardId: 'asc' }, { ordem: 'asc' }],
+    });
+    res.status(200).json(listas);
+  } catch (error) {
+    console.error('ERRO GET /listas', error);
+    res.status(500).json({ erro: 'Falha ao listar listas.' });
+  }
+});
 
-router.get("/", async (req, res) => {
+// LISTAS DE UM BOARD ESPECÍFICO
+// use no front: GET /listas/by-board/:boardId
+router.get('/by-board/:boardId', async (req, res) => {
+  const id = Number(req.params.boardId);
+  if (Number.isNaN(id)) return res.status(400).json({ erro: 'boardId inválido' });
+  try {
+    const listas = await prisma.lista.findMany({
+      where: { boardId: id },
+      include: { board: true },
+      orderBy: { ordem: 'asc' },
+    });
+    res.status(200).json(listas);
+  } catch (error) {
+    console.error('ERRO GET /listas/by-board/:boardId', error);
+    res.status(500).json({ erro: 'Falha ao buscar listas do board.' });
+  }
+});
+
+// CRIAR LISTA
+router.post('/', async (req, res) => {
+  const valida = listaSchema.safeParse(req.body);
+  if (!valida.success) {
+    return res.status(400).json({ erro: valida.error.format() });
+  }
+  const { titulo, ordem, boardId } = valida.data;
+  try {
+    const nova = await prisma.lista.create({
+      data: { titulo, ordem, boardId },
+    });
+    res.status(201).json(nova);
+  } catch (error) {
+    console.error('ERRO POST /listas', error);
+    res.status(400).json({ erro: 'Erro ao criar lista.' });
+  }
+});
+
+// ATUALIZAR LISTA
+router.put('/:id', async (req, res) => {
+  const id = Number(req.params.id);
+  if (Number.isNaN(id)) return res.status(400).json({ erro: 'id inválido' });
+
+  const valida = listaSchema.safeParse(req.body);
+  if (!valida.success) {
+    return res.status(400).json({ erro: valida.error.format() });
+  }
+  const { titulo, ordem, boardId } = valida.data;
+
+  try {
+    const upd = await prisma.lista.update({
+      where: { id },
+      data: { titulo, ordem, boardId },
+    });
+    res.status(200).json(upd);
+  } catch (error) {
+    console.error('ERRO PUT /listas/:id', error);
+    res.status(400).json({ erro: 'Erro ao atualizar lista.' });
+  }
+});
+
+// DELETAR LISTA
+router.delete('/:id', async (req, res) => {
+  const id = Number(req.params.id);
+  if (Number.isNaN(id)) return res.status(400).json({ erro: 'id inválido' });
+  try {
+    const del = await prisma.lista.delete({ where: { id } });
+    res.status(200).json(del);
+  } catch (error) {
+    console.error('ERRO DELETE /listas/:id', error);
+    res.status(400).json({ erro: 'Erro ao deletar lista.' });
+  }
+});
+
+// BUSCA POR TERMO (título da lista ou do board)
+router.get('/lista/:termo', async (req, res) => {
+  const { termo } = req.params;
+  // quando termo NÃO for número, busca por texto
+  if (Number.isNaN(Number(termo))) {
     try {
-        const listas = await prisma.lista.findMany({
-            include: {
-                board: true,
-            }
-        })
-        res.status(200).json(listas)
+      const listas = await prisma.lista.findMany({
+        include: { board: true },
+        where: {
+          OR: [
+            { titulo: { contains: termo, mode: 'insensitive' } },
+            { board: { titulo: { equals: termo, mode: 'insensitive' } } },
+          ],
+        },
+      });
+      return res.status(200).json(listas);
     } catch (error) {
-        res.status(500).json({ erro: error })
+      console.error('ERRO GET /listas/lista/:termo', error);
+      return res.status(500).json({ erro: 'Falha na busca.' });
     }
-})
+  }
+  // se termo for número e quiser tratar diferente, poderia buscar por id
+  return res.status(400).json({ erro: 'Use /by-board/:boardId para listar por board.' });
+});
 
-
-router.post("/", async (req, res) => {
-    const valida = listaSchema.safeParse(req.body)
-    if (!valida.success) {
-        res.status(400).json({ erro: valida.error })
-        return
-    }
-    const { titulo, ordem, boardId } = valida.data
-    try {
-        const lista = await prisma.lista.create({
-            data: { titulo, ordem, boardId },
-        });
-        res.status(201).json(lista)
-    } catch (error) {
-        res.status(400).json({ error })
-    }
-})
-
-
-router.put("/:id", async (req, res) => {
-    const { id } = req.params
-
-    const valida = listaSchema.safeParse(req.body)
-    if (!valida.success) {
-        res.status(400).json({ erro: valida.error })
-        return
-    }
-    const { titulo, ordem, boardId } = valida.data
-
-    try {
-        const lista = await prisma.lista.update({
-            where: { id: Number(id) },
-            data: {
-                titulo, ordem, boardId
-            }
-        })
-        res.status(200).json(lista)
-    } catch (error) {
-        res.status(400).json({ error })
-    }
-})
-
-router.delete("/:id", async (req, res) => {
-    const { id } = req.params
-
-    try {
-        const lista = await prisma.lista.delete({
-            where: { id: Number(id) }
-        })
-        res.status(200).json(lista)
-    } catch (error) {
-        res.status(400).json({ erro: error })
-    }
-})
-
-router.get("/lista/:termo", async (req, res) => {
-    const { termo } = req.params
-    const termoNumero = Number(termo)
-
-    if (isNaN(termoNumero)) {
-        try {
-            const listas = await prisma.lista.findMany({
-                include: {
-                    board: true,
-                },
-                where: {
-                    OR: [
-                        { titulo: { contains: termo, mode:"insensitive" }},
-                        { board: { titulo: { equals: termo, mode:"insensitive" }} }
-                    ]
-                }
-            })
-            res.status(200).json(listas)
-        } catch(error) {
-            res.status(500).json({ erro: error })
-        }
-    } 
-})
-
-
-export default router
+export default router;
