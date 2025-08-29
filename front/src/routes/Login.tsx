@@ -46,13 +46,13 @@ export default function Login() {
 
     async function verificaLogin(data: Inputs) {
         // alert(`${data.email} ${data.senha} ${data.manter}`)
-        const response = await 
-          fetch(`${apiUrl}/usuarios/login`, {
-            headers: {"Content-Type": "application/json"},
-            method: "POST",
-            body: JSON.stringify({ email: data.email, senha: data.senha })
-          })
-        
+        const response = await
+            fetch(`${apiUrl}/usuarios/login`, {
+                headers: { "Content-Type": "application/json" },
+                method: "POST",
+                body: JSON.stringify({ email: data.email, senha: data.senha })
+            })
+
         // console.log(response)
         if (response.status == 200) {
             // toast.success("Ok!")            
@@ -60,7 +60,7 @@ export default function Login() {
 
             // "coloca" os dados do cliente no contexto
             logaUsuario(dados)
-            
+
             // se o cliente indicou que quer se manter conectado
             // salvamos os dados (id) dele em localStorage
             if (data.manter) {
@@ -85,7 +85,7 @@ export default function Login() {
             {/* background animado */}
             <div className="finisher-header absolute inset-0 w-full h-full" />
 
-            <div className="relative w-full max-w-sm p-6 bg-white/30 rounded-2xl shadow-lg py-14 hover:bg-white transition-colors z-10">
+            <div className="relative w-full max-w-sm p-6 bg-blue-300/50 rounded-2xl shadow-lg py-14transition-colors z-10">
                 <h1 className="text-2xl font-bold text-left mb-6">Entrar</h1>
                 <form onSubmit={handleSubmit(verificaLogin)} className="space-y-4">
                     <input
@@ -102,9 +102,20 @@ export default function Login() {
                         className="w-full p-2 border-b-2 border-blue-500 focus:outline-none"
                         required {...register("senha")}
                     />
-                    <input type="checkbox" id="remember" aria-describedby="remember"
-                        className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" 
-                        {...register("manter")} />
+
+                    <div className="flex items-start">
+
+                        <div className="flex items-center h-5">
+
+                            <input type="checkbox" id="remember" aria-describedby="remember"
+                                className="w-4 h-4 border focus:outline-none border-gray-300 rounded bg-gray-50 focus:ring-primary-300"
+                                {...register("manter")} />
+                        </div>
+
+                        <div className="ml-3 text-sm">
+                            <label htmlFor="remember" className="text-gray-500">Manter Conectado</label>
+                        </div>
+                    </div>
                     <button
                         type="submit"
                         className="w-full bg-blue-600 text-white py-2 rounded transition-colors hover:bg-blue-700 tracking-widest my-7"
