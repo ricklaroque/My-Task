@@ -24,8 +24,6 @@ function corFonte(motivo: BoardType["motivo"]) {
 }
 
 export function CardBoard({ data }: { data: BoardType }) {
-  
-
   return (
 
     <div className="group max-w-sm w-full h-[10rem] rounded-2xl shadow-sm hover:shadow-md transition-all bg-slate-300 border-l-black">
