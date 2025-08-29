@@ -53,7 +53,6 @@ router.post("/", async (req, res) => {
     }
 })
 
-
 router.put("/:id", async (req, res) => {
     const { id } = req.params
 
@@ -88,6 +87,30 @@ router.delete("/:id", async (req, res) => {
     } catch (error) {
         res.status(400).json({ erro: error })
     }
+})
+
+router.get("/lista/:termo", async (req, res) => {
+    const { termo } = req.params
+    const termoNumero = Number(termo)
+
+    if (isNaN(termoNumero)) {
+        try {
+            const listas = await prisma.lista.findMany({
+                include: {
+                    board: true,
+                },
+                where: {
+                    OR: [
+                        { titulo: { contains: termo, mode:"insensitive" }},
+                        { board: { titulo: { equals: termo, mode:"insensitive" }} }
+                    ]
+                }
+            })
+            res.status(200).json(listas)
+        } catch(error) {
+            res.status(500).json({ erro: error })
+        }
+    } 
 })
 
 export default router

@@ -8,7 +8,6 @@ export default function CardLista() {
     const { boardId } = useParams<{ boardId: string }>();
     const [listas, setListas] = useState<ListaType[]>([])
     const [board, setBoard] = useState<BoardType | null>(null)
-    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         async function buscaDados() {
@@ -22,14 +21,10 @@ export default function CardLista() {
                 setListas(dadosLista)
             } catch (error) {
                 console.error('Erro ao buscar dados:', error)
-            } finally {
-                setLoading(false)
             }
         }
         buscaDados()
     }, [boardId])
-
-    if (loading) return <div>Carregando...</div>
     if (!board) return <div>Board não encontrado</div>
 
     const listasMap = listas.map(lista => (
