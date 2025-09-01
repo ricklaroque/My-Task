@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import type { BoardType } from "../utils/BoardType";
+import { useBoardStore } from "../context/BoardContext";
 
 function corFundo(motivo: BoardType["motivo"]) {
   switch (motivo) {
@@ -20,8 +21,9 @@ function corFonte(motivo: BoardType["motivo"]) {
   }
 }
 
-export function CardBoard({data}: {data: BoardType | null}) {
-
+export function CardBoard({data}: {data:BoardType}) {
+  
+  if(!data) return null;
   
   return (
 
@@ -29,10 +31,10 @@ export function CardBoard({data}: {data: BoardType | null}) {
       <div className="p-5">
         <div className="flex items-center justify-between gap-3">
           <h5 className="text-xl font-semibold tracking-tight line-clamp-1">
-            {data?.titulo}
+            {data.titulo}
           </h5>
 
-          {data?.motivo && (
+          {data.motivo && (
             <span className={`px-2 py-1 rounded-full text-xs font-medium ${corFundo(data.motivo)} ${corFonte(data.motivo)}`}>
               {data.motivo}
             </span>
