@@ -5,7 +5,7 @@ export type TaskType = {
     id: number
     titulo: string
     descricao: string
-    prazo: Date
-    listaId: ListaType
-    usuarioId: UsuarioType
+    prazo: string
+    listaId: string
+    usuarioId: string
 }
