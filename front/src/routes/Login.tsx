@@ -28,15 +28,15 @@ export default function Login() {
         script.onload = () => {
             // @ts-ignore porque o TS não conhece FinisherHeader 
             new window.FinisherHeader({
-                count: 35,
-                size: { min: 5, max: 120, pulse: 0.1 },
-                speed: { x: { min: 0, max: 0.1 }, y: { min: 0, max: 0.2 } },
+                count: 12,
+                size: { min: 1300, max: 1500, pulse: 0 },
+                speed: { x: { min: 0.6, max: 1 }, y: { min: 0.6, max: 3 } },
                 colors: {
                     background: "#fff",
-                    particles: ["#3999db", "#87ddfe", "#416bb2"], //514df roxo 274360 azul
+                    particles: ["#1cffb3", "#87ddfe", "#231efe", "#5f0aff"], //514df roxo 274360 azul
                 },
-                blending: "overlay",
-                opacity: { center: 0, edge: 0.7 },
+                blending: "lighten",
+                opacity: { center: 0.6, edge: 0 },
                 skew: 0,
                 shapes: ["c"],
             });
