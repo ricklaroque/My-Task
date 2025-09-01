@@ -55,7 +55,7 @@ export function NovaTask({ listaId, usuarioId }: { listaId: number; usuarioId: s
 
             <div>
                 <label className="block text-sm">Descrição</label>
-                <textarea className="border rounded px-2 py-1 w-full" {...register("descricao")} />
+                <textarea className="border rounded px-2 py-1 w-full bg-red-950" {...register("descricao")} />
             </div>
 
             <div>

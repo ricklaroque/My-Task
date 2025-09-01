@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import type { BoardType } from "../utils/BoardType";
 
-const apiUrl = import.meta.env.VITE_API_URL
-
 function corFundo(motivo: BoardType["motivo"]) {
   switch (motivo) {
     case "TRABALHO": return "bg-blue-300";
@@ -23,6 +21,8 @@ function corFonte(motivo: BoardType["motivo"]) {
 }
 
 export function CardBoard({data}: {data: BoardType | null}) {
+
+  
   return (
 
     <div className="group max-w-sm w-full h-[10rem] rounded-2xl shadow-sm hover:shadow-md transition-all bg-slate-300 border-l-black">
