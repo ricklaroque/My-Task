@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import type { BoardType } from "../utils/BoardType";
+import Modal from "react-responsive-modal";
+import { useState } from "react"; 
 
 function corFundo(motivo: BoardType["motivo"]) {
   switch (motivo) {
