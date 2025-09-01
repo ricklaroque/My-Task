@@ -3,15 +3,14 @@ import { useParams } from "react-router-dom";
 import type { ListaType } from "../utils/ListaType";
 import type { BoardType } from "../utils/BoardType";
 import Modal from "react-responsive-modal";
-import type { TaskType } from "../utils/TaskType";
+import { NovaTask } from "./CardTaskModal";
 const apiUrl = import.meta.env.VITE_API_URL
+
 
 export default function CardLista() {
     const { boardId } = useParams<{ boardId: string }>();
-    const { taskId } = useParams<{ taskId: string }>();
     const [listas, setListas] = useState<ListaType[]>([])
     const [board, setBoard] = useState<BoardType | null>(null)
-    const [tasks, setTasks] = useState<TaskType[]>([])
     const [loading, setLoading] = useState(true)
     const [open, setOpen] = useState(false)
 
@@ -34,12 +33,21 @@ export default function CardLista() {
 
     if (loading) return <div>Carregando...</div>
     if (!board) return <div>Board não encontrado</div>
+    function abrirForm(){
+        setOpen(true)
+    }
 
     const listasMap = listas.map(lista => (
         <div key={lista.id} className="p-4 rounded-lg shadow text-center w-[15rem] pb-[15rem] bg-gray-500">
             <div className="flex justify-between">
                 <h2 className="text-lg font-semibold bg-blue-400/40 rounded-lg border-black border w-[11rem]">{lista.titulo}</h2>
-                <button className="bg-white rounded-[5rem] py-[0.2rem] px-[0.5rem]">+</button>
+                <button onClick={abrirForm} className="bg-white rounded-[5rem] py-[0.2rem] px-[0.5rem] cursor-pointer">+</button>
+                <Modal open={open} onClose={() => setOpen(false)} center>
+                    <NovaTask 
+                    listaId={lista.id}
+                    usuarioId={board.usuarioId}
+                    />
+                </Modal>
             </div>
         </div>
     ))
