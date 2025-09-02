@@ -49,6 +49,7 @@ export default function CardLista() {
                     />
                 </Modal>
             </div>
+            
         </div>
     ))
 
