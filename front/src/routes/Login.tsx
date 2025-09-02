@@ -85,7 +85,7 @@ export default function Login() {
             {/* background animado */}
             <div className="finisher-header absolute inset-0 w-full h-full" />
 
-            <div className="relative w-full max-w-sm p-6 bg-blue-300/50 rounded-2xl shadow-lg py-14transition-colors z-10">
+            <div className="relative w-full max-w-sm p-6 bg-white rounded-2xl shadow-lg py-14transition-colors z-10">
                 <h1 className="text-2xl font-bold text-left mb-6">Entrar</h1>
                 <form onSubmit={handleSubmit(verificaLogin)} className="space-y-4">
                     <input
@@ -123,12 +123,13 @@ export default function Login() {
                         CONTINUE
                     </button>
                 </form>
-                <a
-                    href=""
-                    className="flex justify-center text-gray-500 mb-7 transition-all hover:text-lg"
+                <button
+                    type="button"
+                    onClick={() => navigate("/cadastro")}
+                    className="flex justify-center text-gray-500 mb-7 transition-all hover:text-lg bg-transparent border-none cursor-pointer"
                 >
                     Não possue conta? Cadastre-se
-                </a>
+                </button>
             </div>
         </div>
     );
