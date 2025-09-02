@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import type { BoardType } from "../utils/BoardType";
-import { useBoardStore } from "../context/BoardContext";
 
 function corFundo(motivo: BoardType["motivo"]) {
   switch (motivo) {
