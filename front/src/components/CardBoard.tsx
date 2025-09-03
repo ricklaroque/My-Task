@@ -3,22 +3,25 @@ import type { BoardType } from "../utils/BoardType";
 
 function corFundo(motivo: BoardType["motivo"]) {
   switch (motivo) {
-    case "TRABALHO": return "bg-blue-300";
-    case "ESTUDO": return "bg-emerald-100";
-    case "PESSOAL": return "bg-green-300";
-    case "OUTRO": return "bg-red-300";
-    default: return "bg-gray-100";
+    case "TRABALHO": return "transition-colors duration-300 hover:bg-blue-300 hover:text-white";    // Azul médio destacado
+    case "ESTUDO": return "transition-colors duration-300 hover:bg-indigo-500 hover:text-white";    // Roxo/azulado vibrante
+    case "PESSOAL": return "transition-colors duration-300 hover:bg-blue-500 hover:text-white";  // Verde esmeralda claro
+    case "OUTRO": return "transition-colors duration-300 hover:bg-rose-300 hover:text-white";       // Rosa/vermelho claro
+    default: return "focus:ring-gray-200";
   }
 }
+
 function corFonte(motivo: BoardType["motivo"]) {
   switch (motivo) {
-    case "TRABALHO": return "text-red-700";
-    case "ESTUDO": return "text-emerald-700";
-    case "PESSOAL": return "text-pink-700";
-    case "OUTRO": return "text-red-700";
-    default: return "text-gray-700";
+        case "TRABALHO": return "transition-colors duration-300 hover:bg-gray-100 hover:text-blue-300";    // Azul médio destacado
+    case "ESTUDO": return "transition-colors duration-300 hover:bg-gray-100 hover:text-indigo-500";    // Roxo/azulado vibrante
+    case "PESSOAL": return "transition-colors duration-300 hover:bg-gray-100 hover:text-blue-500";  // Verde esmeralda claro
+    case "OUTRO": return "transition-colors duration-300 hover:bg-gray-100 hover:text-rose-300";       // Rosa/vermelho claro
+    default: return "focus:ring-gray-200";
   }
 }
+
+
 
 export function CardBoard({data}: {data:BoardType}) {
   
@@ -26,23 +29,23 @@ export function CardBoard({data}: {data:BoardType}) {
   
   return (
 
-    <div className="group max-w-sm w-full h-[10rem] rounded-2xl shadow-sm hover:shadow-md transition-all bg-slate-300 border-l-black">
-      <div className="p-5">
-        <div className="flex items-center justify-between gap-3">
-          <h5 className="text-xl font-semibold tracking-tight line-clamp-1">
+    <div className={`group w-full h-[10rem] bg-white rounded-2xl border-2 border-black shadow-md hover:shadow-lg focus:ring-2 ${corFonte(data.motivo)}`}>
+      <div className="p-4">
+        <div className="flex items-center  gap-3 col">
+          <h5 className={`text-xl font-bold tracking-tight line-clamp-1  w-[10rem]`}>
             {data.titulo}
           </h5>
 
           {data.motivo && (
-            <span className={`px-2 py-1 rounded-full text-xs font-medium ${corFundo(data.motivo)} ${corFonte(data.motivo)}`}>
+            <span className={`py-1 rounded-full text-xs font-bold ml-[5rem]`}>
               {data.motivo}
             </span>
           )}
         </div>
 
-        <div className="mt-3 h-2 w-full rounded-full bg-gray-200 dark:bg-gray-700">
+        <div className="mt-3 h-2 w-full rounded-full bg-black dark:bg-gray-700">
           <div
-            className="h-2 rounded-full bg-blue-600 transition-all"
+            className="h-2 rounded-full bg-black transition-all"
             style={{ width: `${Math.max(0, Math.min(100, data?.progresso ?? 0))}%` }}
           />
         </div>
@@ -55,7 +58,7 @@ export function CardBoard({data}: {data:BoardType}) {
 
         <Link
           to={`/listas/${data?.id}`}
-          className="mt-4 inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className={`mt-7 inline-flex items-center px-3 py-2 text-sm font-medium text-black white border-2 rounded-lg focus:ring-2 ${corFundo(data.motivo)}`}
         >
           Abrir board
           <svg

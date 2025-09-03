@@ -2,17 +2,19 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import type { ListaType } from "../utils/ListaType";
 import type { BoardType } from "../utils/BoardType";
-import Modal from "react-responsive-modal";
+// import Modal from "react-responsive-modal";
+import Modal from "../utils/Modal";
 import { NovaTask } from "./CardTaskModal";
+import { uselistaStore } from "../context/ListaContext";
 const apiUrl = import.meta.env.VITE_API_URL
 
 
 export default function CardLista() {
     const { boardId } = useParams<{ boardId: string }>();
-    const [listas, setListas] = useState<ListaType[]>([])
     const [board, setBoard] = useState<BoardType | null>(null)
     const [loading, setLoading] = useState(true)
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState<boolean>(false)
+    const { listas, carregarlistas, selecionarlista, listaSelecionado } = uselistaStore()
 
     useEffect(() => {
         async function buscaDados() {
@@ -21,7 +23,7 @@ export default function CardLista() {
                 const responseBoard = await fetch(`${apiUrl}/boards/${boardId}`)
                 const dadosBoard = await responseBoard.json()
                 setBoard(dadosBoard)
-                setListas(dadosBoard.listas ?? []);
+                carregarlistas(dadosBoard.listas ?? []);
             } catch (error) {
                 console.error('Erro ao buscar dados:', error)
             } finally {
@@ -29,11 +31,13 @@ export default function CardLista() {
             }
         }
         buscaDados()
-    }, [boardId])
+    }, [boardId, carregarlistas])
 
     if (loading) return <div>Carregando...</div>
     if (!board) return <div>Board não encontrado</div>
-    function abrirForm(){
+    function abrirForm() {
+        // id: number
+        // selecionarlista(listas.find(l => l.id === id)!)
         setOpen(true)
     }
 
@@ -41,24 +45,32 @@ export default function CardLista() {
         <div key={lista.id} className="p-4 rounded-lg shadow text-center w-[15rem] pb-[15rem] bg-gray-500">
             <div className="flex justify-between">
                 <h2 className="text-lg font-semibold bg-blue-400/40 rounded-lg border-black border w-[11rem]">{lista.titulo}</h2>
-                <button onClick={abrirForm} className="bg-white rounded-[5rem] py-[0.2rem] px-[0.5rem] cursor-pointer">+</button>
-                <Modal open={open} onClose={() => setOpen(false)} center>
-                    <NovaTask 
-                    listaId={lista.id}
-                    usuarioId={board.usuarioId}
-                    />
-                </Modal>
+                <button
+                    type="button" onClick={() => setOpen(true)} className="bg-white rounded-[5rem] py-[0.2rem] px-[0.5rem] cursor-pointer"
+                    // abrirForm(lista.id)
+                >+
+                </button>
             </div>
-            
         </div>
     ))
 
     return (
         <div className="p-6">
             <h1 className="text-2xl font-bold mb-6">Board: {board.titulo}</h1>
-            <div className="flex gap-4 ">
+            <div className="flex gap-4">
                 {listasMap}
             </div>
+            <Modal open={open} onClose={() => setOpen(false)} children={listaSelecionado?.id}>
+
+            </Modal>
+            {/* <Modal open={open} onClose={() => setOpen(false)} center>
+                {listaSelecionado && (
+                    <NovaTask
+                        listaId={listaSelecionado.id}
+                        usuarioId={String(board.usuarioId)}
+                    />
+                )}
+            </Modal> */}
 
         </div>
     )
