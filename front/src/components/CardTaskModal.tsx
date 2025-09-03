@@ -43,7 +43,7 @@ export function NovaTask({ listaId, usuarioId }: { listaId: number; usuarioId: s
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 w-[30vw] mx-auto h-[50vh] my-auto bg-gray-300 px-[2rem] py-[4rem]">
             <div>
                 <label className="block text-sm">Título</label>
                 <input
@@ -55,7 +55,7 @@ export function NovaTask({ listaId, usuarioId }: { listaId: number; usuarioId: s
 
             <div>
                 <label className="block text-sm">Descrição</label>
-                <textarea className="border rounded px-2 py-1 w-full bg-red-950" {...register("descricao")} />
+                <textarea className="border rounded px-2 py-1 w-full bg-gray-300" {...register("descricao")} />
             </div>
 
             <div>

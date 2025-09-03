@@ -12,7 +12,8 @@ export default function Layout() {
   return (
     <>
       {/* <Header setBoards={setBoards} /> */}
-      {!routesSemHeader.includes(location.pathname) && <Header setBoards={setBoards} />}
+      {/* {!routesSemHeader.includes(location.pathname) && <Header setBoards={setBoards} />} */}
+      <Header/>
       <Outlet />
       {/* context={{ boards, setBoards }}  */}
     </>
