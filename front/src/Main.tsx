@@ -11,6 +11,7 @@ import CardLista from './components/CardLista.tsx'
 import { Autenticador } from './context/Autenticador.tsx'
 
 import './index.css'
+import Cadastro from './routes/Cadastro.tsx'
 
 const rotas = createBrowserRouter([
   {
