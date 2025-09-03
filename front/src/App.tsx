@@ -38,11 +38,8 @@ export default function App() {
     <div className="mx-auto max-w-7xl px-4 py-6">
       <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-3 md:gap-4 place-items-stretch">
         {listaBoards}
-<<<<<<< HEAD
         <NewBoard onClick={handleCreateBoard} />
-=======
       </div>
->>>>>>> 3fe0f8e (Refactor: CardBoard/CardLista)
     </div>
   </div>
   )
