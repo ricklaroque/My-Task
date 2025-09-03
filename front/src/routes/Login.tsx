@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { toast } from "sonner";
-import { useUsuarioBoard } from "../context/UsuarioContext"
+import { useUsuarioStore } from "../context/UsuarioContext"
 
 type Inputs = {
     email: string
@@ -17,7 +17,7 @@ const apiUrl = import.meta.env.VITE_API_URL
 
 export default function Login() {
     const { register, handleSubmit } = useForm<Inputs>()
-    const { logaUsuario } = useUsuarioBoard()
+    const { logaUsuario } = useUsuarioStore()
 
     const navigate = useNavigate()
 
