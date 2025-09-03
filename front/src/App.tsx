@@ -1,6 +1,8 @@
 import type { BoardType } from "./utils/BoardType";
 import { useEffect, useState } from "react";
 import { CardBoard } from "./components/CardBoard";
+import NewBoard from './components/NewBoard';
+
 
 const apiUrl = import.meta.env.VITE_API_URL
 
@@ -25,10 +27,16 @@ export default function App() {
       <CardBoard data={board} key={board.id} />
     ))
 
+    const handleCreateBoard = () => {
+  // Lógica para criar novo board
+  console.log('Criando novo board...');
+};
+
   if (loading) return <div>Carregando...</div>
   return (
     <div className="grid grid-cols-3 gap-6 justify-items-center p-[2rem]">
         {listaBoards}
+        <NewBoard onClick={handleCreateBoard} />
     </div>
   );
 }
