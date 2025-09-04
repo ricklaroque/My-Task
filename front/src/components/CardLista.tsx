@@ -32,22 +32,32 @@ export default function CardLista() {
         }
         buscaDados()
     }, [boardId, carregarlistas])
+    useEffect(() => {
+        if (open) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [open]);
 
     if (loading) return <div>Carregando...</div>
     if (!board) return <div>Board não encontrado</div>
-    function abrirForm() {
-        // id: number
-        // selecionarlista(listas.find(l => l.id === id)!)
-        setOpen(true)
-    }
+
 
     const listasMap = listas.map(lista => (
         <div key={lista.id} className="p-4 rounded-lg shadow text-center w-[15rem] pb-[15rem] bg-gray-500">
             <div className="flex justify-between">
                 <h2 className="text-lg font-semibold bg-blue-400/40 rounded-lg border-black border w-[11rem]">{lista.titulo}</h2>
                 <button
-                    type="button" onClick={() => setOpen(true)} className="bg-white rounded-[5rem] py-[0.2rem] px-[0.5rem] cursor-pointer"
-                    // abrirForm(lista.id)
+                    type="button" 
+                    onClick={() => {
+                        selecionarlista(lista); 
+                        setOpen(true); 
+                    }} 
+                    className="bg-white rounded-[5rem] py-[0.2rem] px-[0.5rem] cursor-pointer hover:bg-gray-100 transition-colors"
                 >+
                 </button>
             </div>
@@ -60,17 +70,14 @@ export default function CardLista() {
             <div className="flex gap-4">
                 {listasMap}
             </div>
-            <Modal open={open} onClose={() => setOpen(false)} children={listaSelecionado?.id}>
-
-            </Modal>
-            {/* <Modal open={open} onClose={() => setOpen(false)} center>
+            <Modal open={open} onClose={() => setOpen(false)}>
                 {listaSelecionado && (
                     <NovaTask
                         listaId={listaSelecionado.id}
                         usuarioId={String(board.usuarioId)}
                     />
                 )}
-            </Modal> */}
+            </Modal>
 
         </div>
     )

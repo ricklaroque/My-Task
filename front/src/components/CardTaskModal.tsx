@@ -38,12 +38,12 @@ export function NovaTask({ listaId, usuarioId }: { listaId: number; usuarioId: s
             console.error("Falha ao criar task:", txt);
             return;
         }
-
-        reset(); // limpa o form
+        reset(); 
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 w-[30vw] mx-auto h-[50vh] my-auto bg-gray-300 px-[2rem] py-[4rem]">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 w-[20vw] mx-auto h-[40vh] my-auto px-[2rem] py-[1rem] rounded-lg">
+            <h1 className="font-bold text-center text-2xl">Adicione uma Task</h1>
             <div>
                 <label className="block text-sm">Título</label>
                 <input
@@ -55,7 +55,7 @@ export function NovaTask({ listaId, usuarioId }: { listaId: number; usuarioId: s
 
             <div>
                 <label className="block text-sm">Descrição</label>
-                <textarea className="border rounded px-2 py-1 w-full bg-gray-300" {...register("descricao")} />
+                <textarea className="border rounded px-2 py-1 w-full " {...register("descricao")} />
             </div>
 
             <div>
@@ -74,7 +74,7 @@ export function NovaTask({ listaId, usuarioId }: { listaId: number; usuarioId: s
             <button
                 type="submit"
                 disabled={isSubmitting}
-                className="bg-blue-600 text-white px-3 py-2 rounded hover:bg-blue-700"
+                className=" text-gray-900 px-3 py-2 rounded hover:bg-gray-300"
             >
                 {isSubmitting ? "Salvando..." : "Adicionar Task"}
             </button>
