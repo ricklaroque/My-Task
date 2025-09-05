@@ -13,8 +13,6 @@ const Modal: React.FC<propTypes> = ({ open, onClose, children }) => {
         } else {
             document.body.style.overflow = 'unset';
         }
-        
-
         return () => {
             document.body.style.overflow = 'unset';
         };

@@ -1,17 +1,9 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
-
-type TaskForm = {
-    titulo: string
-    descricao?: string;
-    prazo: string
-    listaId: number
-    usuarioId: string
-}
-
+import type { TaskType } from "../utils/TaskType";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export function NovaTask({ listaId, usuarioId }: { listaId: number; usuarioId: string }) {
-    const { register, handleSubmit, reset, formState: { errors, isSubmitting }, } = useForm<TaskForm>({
+    const { register, handleSubmit, reset, formState: { errors, isSubmitting }, } = useForm<TaskType>({
         defaultValues: {
             titulo: "",
             descricao: "",
@@ -21,13 +13,12 @@ export function NovaTask({ listaId, usuarioId }: { listaId: number; usuarioId: s
         },
     });
 
-    const onSubmit: SubmitHandler<TaskForm> = async (data) => {
+    const onSubmit: SubmitHandler<TaskType> = async (data) => {
         const isoPrazo = new Date(data.prazo + "T00:00:00");
         const payload = {
             ...data,
             prazo: isoPrazo.toISOString(),
         };
-
         const resp = await fetch(`${apiUrl}/tasks`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -38,7 +29,7 @@ export function NovaTask({ listaId, usuarioId }: { listaId: number; usuarioId: s
             console.error("Falha ao criar task:", txt);
             return;
         }
-        reset(); 
+        reset();
     };
 
     return (
