@@ -6,7 +6,7 @@ type ListaStore = {
     listaSelecionado: ListaType | null
     carregarlistas: (listasCarregados: ListaType[]) => void
     selecionarlista: (lista: ListaType) => void
-    adicionarlista: (novolista: ListaType) => void
+    adicionarlista: (novalista: ListaType) => void
     atualizarlista: (listaAtualizado: ListaType) => void
     removerlista: (listaId: number) => void
     limparlistas: () => void
@@ -17,8 +17,8 @@ export const uselistaStore = create<ListaStore>((set) => ({
     listaSelecionado: null,
     carregarlistas: (listasCarregados: ListaType[]) => set({ listas: listasCarregados }),
     selecionarlista: (lista: ListaType) => set({ listaSelecionado: lista }),
-    adicionarlista: (novolista: ListaType) => set((state) => ({
-        listas: [...state.listas, novolista]
+    adicionarlista: (novalista: ListaType) => set((state) => ({
+        listas: [...state.listas, novalista]
     })),
     atualizarlista: (listaAtualizado: ListaType) => set((state) => ({
         listas: state.listas.map(lista => 

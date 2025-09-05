@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 
 type propTypes = {
-    open: boolean;
-    onClose: () => void;
+    open?: boolean;
+    onClose?: () => void;
     children: React.ReactNode
 };
 

@@ -13,15 +13,13 @@ function corFundo(motivo: BoardType["motivo"]) {
 
 function corFonte(motivo: BoardType["motivo"]) {
   switch (motivo) {
-        case "TRABALHO": return "transition-colors duration-300 hover:bg-gray-100 hover:text-blue-300";    // Azul médio destacado
-    case "ESTUDO": return "transition-colors duration-300 hover:bg-gray-100 hover:text-indigo-500";    // Roxo/azulado vibrante
-    case "PESSOAL": return "transition-colors duration-300 hover:bg-gray-100 hover:text-blue-500";  // Verde esmeralda claro
-    case "OUTRO": return "transition-colors duration-300 hover:bg-gray-100 hover:text-rose-300";       // Rosa/vermelho claro
+        case "TRABALHO": return "transition-colors duration-300 hover:bg-gray-100 hover:text-blue-300";
+    case "ESTUDO": return "transition-colors duration-300 hover:bg-gray-100 hover:text-indigo-500";
+    case "PESSOAL": return "transition-colors duration-300 hover:bg-gray-100 hover:text-blue-500";
+    case "OUTRO": return "transition-colors duration-300 hover:bg-gray-100 hover:text-rose-300";
     default: return "focus:ring-gray-200";
   }
 }
-
-
 
 export function CardBoard({data}: {data:BoardType}) {
   

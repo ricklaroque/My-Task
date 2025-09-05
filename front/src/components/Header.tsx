@@ -4,6 +4,10 @@ import logo from "../img/MyT.png"
 import type { BoardType } from "../utils/BoardType";
 import { Link, useNavigate } from "react-router-dom";
 import { useUsuarioStore } from "../context/UsuarioContext";
+import { useBoardStore } from "../context/BoardContext";
+import { useState } from "react";
+import Modal from "../utils/Modal";
+import { NovaTask } from "./CardTaskModal";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -11,13 +15,27 @@ type Inputs = {
   termo: string;
 };
 
-type HeaderProps = {
-  setBoards: React.Dispatch<React.SetStateAction<BoardType[]>>;
-};
+// type HeaderProps = {
+//   setBoards: React.Dispatch<React.SetStateAction<BoardType[]>>;
+// };
+// { setBoards }: HeaderProps
+async function criarBoard() {
+  const { adicionarBoard } = useBoardStore.getState()
+  const resp = await fetch("/api/boards", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ titulo: "Novo Board", motivo: "Teste" })
+  });
+  const novoBoard = await resp.json()
+  adicionarBoard(novoBoard)
 
-export default function Header({ setBoards }: HeaderProps) {
+}
+
+export default function Header() {
   const { register, handleSubmit, reset } = useForm<Inputs>();
   const { usuario, deslogaUsuario } = useUsuarioStore()
+  // const { boards, carregarBoards, selecionarBoard, boardSelecionado } = useBoardStore()
+  const [openModal, setOpenModal] = useState<boolean>(false)
   const navigate = useNavigate()
 
   function usuarioSair() {
@@ -30,7 +48,10 @@ export default function Header({ setBoards }: HeaderProps) {
     }
   }
 
-
+  function handleOpenModal() {
+    setOpenModal(!openModal)
+  }
+  console.info(openModal)
 
   return (
     <header className="bg-cyan-600 dark:bg-gray-700">
@@ -58,13 +79,17 @@ export default function Header({ setBoards }: HeaderProps) {
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.35-4.35" />
             </svg>
-            <h1
+            <button
+              type="button"
+              onClick={async () => {
+                handleOpenModal();
+                await criarBoard();
+              }}
               className="ml-4 text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg 
-            transition-colors duration-300 
-            hover:bg-gray-300 hover:text-white"
+                transition-colors duration-300  hover:bg-gray-300 hover:text-white"
             >
               Criar
-            </h1>
+            </button>
           </ul>
         </form>
         <div className="flex items-center">

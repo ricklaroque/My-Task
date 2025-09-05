@@ -64,7 +64,7 @@ export default function CardLista() {
                         selecionarlista(lista);
                         setOpen(true);
                     }}
-                    className="bg-white rounded-[5rem] py-[0.2rem] px-[0.5rem] cursor-pointer hover:bg-gray-100 transition-colors font-bold shadow-md hover:shadow-lg focus:ring-2"
+                    className="bg-white rounded-[5rem] py-[0.2rem] px-[0.5rem] cursor-pointer hover:bg-gray-100 transition-colors font-bold "
                 ><NewBoard onClick={handleCreateBoard} />
                 </button>
             </div>
