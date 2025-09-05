@@ -1,6 +1,3 @@
-// import type { UsuarioType } from "./UsuarioType";
-
-
 export type BoardType = {
     id: number
     titulo: string

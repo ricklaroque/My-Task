@@ -7,11 +7,10 @@ const router = Router();
 
 const listaSchema = z.object({
   titulo: z.string().min(1, { message: 'Nome da lista deve ter pelo menos 1 caractere.' }),
-  ordem: z.coerce.number(),               // você já usava assim
+  ordem: z.coerce.number(),
   boardId: z.coerce.number().int().positive(),
 });
 
-// TODAS AS LISTAS (com o board)
 router.get('/', async (_req, res) => {
   try {
     const listas = await prisma.lista.findMany({
@@ -25,8 +24,6 @@ router.get('/', async (_req, res) => {
   }
 });
 
-// LISTAS DE UM BOARD ESPECÍFICO
-// use no front: GET /listas/by-board/:boardId
 router.get('/by-board/:boardId', async (req, res) => {
   const id = Number(req.params.boardId);
   if (Number.isNaN(id)) return res.status(400).json({ erro: 'boardId inválido' });
@@ -43,7 +40,6 @@ router.get('/by-board/:boardId', async (req, res) => {
   }
 });
 
-// CRIAR LISTA
 router.post('/', async (req, res) => {
   const valida = listaSchema.safeParse(req.body);
   if (!valida.success) {
@@ -61,7 +57,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// ATUALIZAR LISTA
 router.put('/:id', async (req, res) => {
   const id = Number(req.params.id);
   if (Number.isNaN(id)) return res.status(400).json({ erro: 'id inválido' });
@@ -84,7 +79,6 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// DELETAR LISTA
 router.delete('/:id', async (req, res) => {
   const id = Number(req.params.id);
   if (Number.isNaN(id)) return res.status(400).json({ erro: 'id inválido' });
@@ -97,10 +91,8 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// BUSCA POR TERMO (título da lista ou do board)
 router.get('/lista/:termo', async (req, res) => {
   const { termo } = req.params;
-  // quando termo NÃO for número, busca por texto
   if (Number.isNaN(Number(termo))) {
     try {
       const listas = await prisma.lista.findMany({
@@ -118,7 +110,6 @@ router.get('/lista/:termo', async (req, res) => {
       return res.status(500).json({ erro: 'Falha na busca.' });
     }
   }
-  // se termo for número e quiser tratar diferente, poderia buscar por id
   return res.status(400).json({ erro: 'Use /by-board/:boardId para listar por board.' });
 });
 
