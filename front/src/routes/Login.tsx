@@ -47,7 +47,7 @@ export default function Login() {
     async function verificaLogin(data: Inputs) {
         // alert(`${data.email} ${data.senha} ${data.manter}`)
         const response = await
-            fetch(`${apiUrl}/usuarios/login`, {
+            fetch(`${apiUrl}/login`, {
                 headers: { "Content-Type": "application/json" },
                 method: "POST",
                 body: JSON.stringify({ email: data.email, senha: data.senha })
