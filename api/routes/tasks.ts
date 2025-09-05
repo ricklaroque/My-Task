@@ -14,7 +14,6 @@ const taskSchema = z.object({
     listaId: z.coerce.number().int().positive(),
 })
 
-
 router.get("/", async (req, res) => {
     try{
         const tasks = await prisma.task.findMany({
@@ -25,6 +24,21 @@ router.get("/", async (req, res) => {
         res.status(200).json(tasks)
     } catch (error){
         res.status(500).json({ erro: error})
+    }
+})
+
+router.get("/by-lista/:listaId", async (req, res) => {
+    const id = Number(req.params.listaId);
+    if (Number.isNaN(id)) return res.status(400).json({ erro: 'listaId inválido'})
+    try {
+        const tasks = await prisma.task.findMany({
+            where: { listaId: id },
+            include: { lista: true },
+        })       
+        res.status(200).json(tasks) 
+    } catch (error) {
+        console.error('ERRO GET /tasks/by-lista/:listaId', error);
+    res.status(500).json({ erro: 'Falha ao buscar tasks do lista.' });
     }
 })
 
@@ -79,6 +93,28 @@ router.put("/:id", async (req, res) => {
   } catch (error) {
     res.status(400).json({ error })
   }
+})
+
+router.get('/task/:termo', async (req, res) => {
+    const { termo } = req.params;
+    if (Number.isNaN(Number(termo))) {
+        try {
+            const tasks = await prisma.task.findMany({
+                include: { lista: true },
+                where: {
+                    OR: [
+                        { titulo: { contains: termo, mode: 'insensitive'}},
+                        { lista: { titulo: { equals: termo, mode: 'insensitive'}}},
+                    ],
+                },
+            });
+            return res.status(200).json(tasks)
+        } catch (error) {
+            console.error('ERRO GET /tasks/task/:termo', error);
+            return res.status(500).json({ erro: 'Falha na busca.' })
+        }
+    }
+    return res.status(400).json({ erro: 'Use /by-lista/:listaId para listar por lista'})
 })
 
 export default router
