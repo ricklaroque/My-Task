@@ -47,7 +47,7 @@ export default function Login() {
     async function verificaLogin(data: Inputs) {
         // alert(`${data.email} ${data.senha} ${data.manter}`)
         const response = await
-            fetch(`${apiUrl}/usuarios/login`, {
+            fetch(`${apiUrl}/login`, {
                 headers: { "Content-Type": "application/json" },
                 method: "POST",
                 body: JSON.stringify({ email: data.email, senha: data.senha })
@@ -64,12 +64,12 @@ export default function Login() {
             // se o cliente indicou que quer se manter conectado
             // salvamos os dados (id) dele em localStorage
             if (data.manter) {
-                localStorage.setItem("clienteKey", dados.id)
+                localStorage.setItem("usuarioKey", dados.id)
             } else {
                 // se indicou que não quer permanecer logado e tem
                 // uma chave (anteriormente) salva, remove-a
-                if (localStorage.getItem("clienteKey")) {
-                    localStorage.removeItem("clienteKey")
+                if (localStorage.getItem("usuarioKey")) {
+                    localStorage.removeItem("usuarioKey")
                 }
             }
 
@@ -128,7 +128,7 @@ export default function Login() {
                     onClick={() => navigate("/cadastro")}
                     className="flex justify-center text-gray-500 mb-7 transition-all hover:text-lg bg-transparent border-none cursor-pointer"
                 >
-                    Não possue conta? Cadastre-se
+                    Não possui conta? Cadastre-se
                 </button>
             </div>
         </div>

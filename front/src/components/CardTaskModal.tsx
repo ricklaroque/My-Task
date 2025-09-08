@@ -15,14 +15,14 @@ export function NovaTask({ listaId, usuarioId }: { listaId: number; usuarioId: s
 
     const onSubmit: SubmitHandler<TaskType> = async (data) => {
         const isoPrazo = new Date(data.prazo + "T00:00:00");
-        const payload = {
+        const containerInfos = {
             ...data,
             prazo: isoPrazo.toISOString(),
         };
         const resp = await fetch(`${apiUrl}/tasks`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
+            body: JSON.stringify(containerInfos),
         });
         if (!resp.ok) {
             const txt = await resp.text();

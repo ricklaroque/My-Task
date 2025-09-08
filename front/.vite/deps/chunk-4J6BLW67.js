@@ -1,7 +1,7 @@
 import {
   __commonJS,
   require_react
-} from "./chunk-H3AANLML.js";
+} from "./chunk-WYQRYOQT.js";
 
 // node_modules/react-dom/cjs/react-dom.development.js
 var require_react_dom_development = __commonJS({
@@ -276,4 +276,4 @@ react-dom/cjs/react-dom.development.js:
    * LICENSE file in the root directory of this source tree.
    *)
 */
-//# sourceMappingURL=chunk-JJSCUBFW.js.map
+//# sourceMappingURL=chunk-4J6BLW67.js.map

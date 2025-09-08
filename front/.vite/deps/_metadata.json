@@ -1,58 +1,58 @@
 {
-  "hash": "4137a119",
-  "configHash": "7896562c",
-  "lockfileHash": "fea73f59",
-  "browserHash": "49c54dd2",
+  "hash": "e0b0b7ee",
+  "configHash": "f23e46ba",
+  "lockfileHash": "0b19ad5f",
+  "browserHash": "a143102b",
   "optimized": {
     "react/jsx-dev-runtime": {
       "src": "../../node_modules/react/jsx-dev-runtime.js",
       "file": "react_jsx-dev-runtime.js",
-      "fileHash": "27a99791",
+      "fileHash": "195839ce",
       "needsInterop": true
     },
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "825398e4",
+      "fileHash": "557ada3d",
       "needsInterop": true
     },
     "react-dom/client": {
       "src": "../../node_modules/react-dom/client.js",
       "file": "react-dom_client.js",
-      "fileHash": "d5888131",
+      "fileHash": "021db836",
       "needsInterop": true
     },
     "react-router-dom": {
       "src": "../../node_modules/react-router-dom/dist/index.js",
       "file": "react-router-dom.js",
-      "fileHash": "8cb652e7",
-      "needsInterop": false
-    },
-    "lucide-react": {
-      "src": "../../node_modules/lucide-react/dist/esm/lucide-react.js",
-      "file": "lucide-react.js",
-      "fileHash": "df10a323",
+      "fileHash": "46eaec25",
       "needsInterop": false
     },
     "react-hook-form": {
       "src": "../../node_modules/react-hook-form/dist/index.esm.mjs",
       "file": "react-hook-form.js",
-      "fileHash": "c596dfc5",
+      "fileHash": "697fe598",
       "needsInterop": false
     },
     "sonner": {
       "src": "../../node_modules/sonner/dist/index.mjs",
       "file": "sonner.js",
-      "fileHash": "d5a64c72",
+      "fileHash": "1bee5453",
+      "needsInterop": false
+    },
+    "zustand": {
+      "src": "../../node_modules/zustand/esm/index.mjs",
+      "file": "zustand.js",
+      "fileHash": "f4aa5110",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-JJSCUBFW": {
-      "file": "chunk-JJSCUBFW.js"
+    "chunk-4J6BLW67": {
+      "file": "chunk-4J6BLW67.js"
     },
-    "chunk-H3AANLML": {
-      "file": "chunk-H3AANLML.js"
+    "chunk-WYQRYOQT": {
+      "file": "chunk-WYQRYOQT.js"
     }
   }
 }
