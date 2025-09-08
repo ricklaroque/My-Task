@@ -1,7 +1,6 @@
 // AddBoard.tsx
 import { useForm, type SubmitHandler } from "react-hook-form";
-import type { BoardType } from "../utils/BoardType";
-import { useBoardStore } from "../context/BoardContext";
+import { toast } from "sonner";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -11,39 +10,30 @@ type BoardForm = {
   usuarioId: string;
 };
 
-export function AddBoard({ usuarioId, onCreated }: {
-  usuarioId: string;
-  onCreated?: (board: BoardType) => void;
-}) {
-  const adicionarBoardNaStore = useBoardStore(s => s.adicionarBoard);
+export async function AddBoard(data: BoardForm) {
+  const { register, handleSubmit, reset } = useForm<BoardForm>()
+  // const { boards } = useBoardStore()
+  const response = await fetch(`${apiUrl}/boards`, {
+    headers: {
+      "Content-Type": "application/json"
+    },
+    method: "POST",
+    body: JSON.stringify({
+      titulo: data.titulo,
+      motivo: data.motivo,
+      usuarioId: data.usuarioId
+    })
+  })
 
-  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } =
-    useForm<BoardForm>({
-      defaultValues: { titulo: "", motivo: "OUTRO", usuarioId }
-    });
-
-  const onSubmit: SubmitHandler<BoardForm> = async (data) => {
-    const resp = await fetch(`${apiUrl}/boards`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      // se usa cookie/sessão no backend, descomente:
-      // credentials: "include",
-      body: JSON.stringify(data),
-    });
-
-    if (!resp.ok) {
-      console.error("Falha ao criar board:", await resp.text());
-      return;
-    }
-
-    const criado: BoardType = await resp.json();
-    adicionarBoardNaStore(criado);
-    reset({ titulo: "", motivo: "OUTRO", usuarioId });
-    onCreated?.(criado);
-  };
+  if(response.status == 201){
+    toast.success("Board adicionado.")
+  } else {
+    toast.error("Não foi possível adicionar o Board.")
+  }
+  
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(AddBoard)} className="space-y-4">
       <div>
         <label className="block text-sm font-medium mb-1">Título</label>
         <input
@@ -55,7 +45,7 @@ export function AddBoard({ usuarioId, onCreated }: {
           className="w-full rounded-lg border px-3 py-2"
           placeholder="Ex.: Projeto X"
         />
-        {errors.titulo && <p className="text-red-600 text-xs mt-1">{errors.titulo.message}</p>}
+
       </div>
 
       <div>
@@ -69,14 +59,13 @@ export function AddBoard({ usuarioId, onCreated }: {
           <option value="PESSOAL">PESSOAL</option>
           <option value="OUTRO">OUTRO</option>
         </select>
-        {errors.motivo && <p className="text-red-600 text-xs mt-1">{errors.motivo.message}</p>}
+
       </div>
 
       <input type="hidden" {...register("usuarioId")} />
 
-      <button type="submit" disabled={isSubmitting}
+      <button type="submit"
         className="rounded-lg bg-blue-600 text-white px-4 py-2 disabled:opacity-60">
-        {isSubmitting ? "Salvando..." : "Adicionar Board"}
       </button>
     </form>
   );
