@@ -1,38 +1,77 @@
-import logo from "../img/MyT.png";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import logo from "../img/MyT.png"
+import type { BoardType } from "../utils/BoardType";
 import { Link, useNavigate } from "react-router-dom";
 import { useUsuarioStore } from "../context/UsuarioContext";
+import { useBoardStore } from "../context/BoardContext";
+import { useState } from "react";
+import Modal from "../utils/Modal";
+import { NovaTask } from "./CardTaskModal";
+
+const apiUrl = import.meta.env.VITE_API_URL;
+
+type Inputs = {
+  termo: string;
+};
+
+// type HeaderProps = {
+//   setBoards: React.Dispatch<React.SetStateAction<BoardType[]>>;
+// };
+// { setBoards }: HeaderProps
+async function criarBoard() {
+  const { adicionarBoard } = useBoardStore.getState()
+  const resp = await fetch("/api/boards", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ titulo: "Novo Board", motivo: "Teste" })
+  });
+  const novoBoard = await resp.json()
+  adicionarBoard(novoBoard)
+
+}
 
 export default function Header() {
+  const { register, handleSubmit, reset } = useForm<Inputs>();
+  const { usuario, deslogaUsuario } = useUsuarioStore()
+  // const { boards, carregarBoards, selecionarBoard, boardSelecionado } = useBoardStore()
+  const [openModal, setOpenModal] = useState<boolean>(false)
+  const navigate = useNavigate()
 
-  const { usuario, deslogaUsuario } = useUsuarioStore();
-  const navigate = useNavigate();
+  function getPrimeiroNome(nomeCompleto: string): string {
+    if (!nomeCompleto) return "Usuário";
+    return nomeCompleto.split(' ')[0];
+  }
 
   function usuarioSair() {
     if (confirm("Confirmar saída do sistema? ")) {
-      deslogaUsuario();
+      deslogaUsuario()
       if (localStorage.getItem("usuarioKey")) {
-        localStorage.removeItem("usuarioKey");
+        localStorage.removeItem("usuarioKey")
       }
-      navigate("/login");
+      navigate("/login")
     }
   }
 
+  function handleOpenModal() {
+    setOpenModal(!openModal)
+  }
+  console.info(openModal)
 
   return (
     <header className="bg-cyan-600 dark:bg-gray-700">
-      <div className="mx-auto px-6 flex items-center justify-between">
+      <div className=" mx-auto px-6 flex items-center justify-between">
         <div className="flex items-center">
           <img src={logo} className="w-25 h-20 rounded-full" />
         </div>
-
         <form className="relative flex-1 max-w-md mx-8 flex items-center focus:border-none">
           <ul className="flex">
             <input
-
+              {...register("termo")}
               type="search"
               placeholder="Pesquisa"
               className="h-10 w-[35rem] rounded-[5px] border-2 border-black pl-10 pr-10 text-sm text-black placeholder-black
-              outline-none focus:ring-gray-500 focus:ring-2 focus:border-none transition-colors duration-300 hover:border-gray-500"
+            outline-none focus:ring-gray-500 focus:ring-2 focus:border-none transition-colors duration-300 hover:border-gray-500"
             />
             <svg
               className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4"
@@ -45,36 +84,59 @@ export default function Header() {
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.35-4.35" />
             </svg>
-
             <button
               type="button"
+              onClick={async () => {
+                handleOpenModal();
+                await criarBoard();
+              }}
               className="ml-4 text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg 
-              transition-colors duration-300 hover:bg-gray-300 hover:text-white"
+                transition-colors duration-300  hover:bg-gray-300 hover:text-white"
             >
               Criar
             </button>
           </ul>
         </form>
-
         <div className="flex items-center">
-          <Link
-            to="/boards"
-            className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+
+          {usuario.id ? (
+            <>
+              <span className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
                        transition-colors duration-300
-                       hover:bg-gray-300 hover:text-white"
-          >
-            Boards
-          </Link>
-          <Link
-            to="/login"
-            className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
-                       transition-colors duration-300
-                       hover:bg-gray-300 hover:text-white"
-          >
-            Login
-          </Link>
+                       hover:bg-gray-300 hover:text-white">
+                Olá, {getPrimeiroNome(usuario.nome)}
+              </span>
+              &nbsp;&nbsp;
+              <Link
+                to="/boards"
+                className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+                           transition-colors duration-300
+                           hover:bg-gray-300 hover:text-white"
+              >
+                Boards
+              </Link>
+              <button
+                onClick={usuarioSair}
+                className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+                           transition-colors duration-300
+                           hover:bg-gray-300 hover:text-white"
+              >
+                Sair
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+                         transition-colors duration-300
+                         hover:bg-gray-300 hover:text-white"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </header>
   );
+
 }
