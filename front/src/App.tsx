@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { CardBoard } from "./components/CardBoard";
 import NewBoard from './components/NewBoard';
 import { useBoardStore } from "./context/BoardContext";
+import { useUsuarioStore } from "./context/UsuarioContext";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -10,6 +11,7 @@ export default function App() {
   // 🔽 lê da store (assina atualizações)
   const boards = useBoardStore(s => s.boards);
   const carregarBoards = useBoardStore(s => s.carregarBoards);
+  const { logaUsuario } = useUsuarioStore();
 
   const [loading, setLoading] = useState(true);
 
@@ -24,6 +26,23 @@ export default function App() {
       }
     })();
   }, [carregarBoards]);
+
+
+
+  useEffect(() => {
+    async function buscaUsuario(id: String) {
+      const response = await fetch(`${apiUrl}/usuarios/${id}`);
+      const dados = await response.json();
+      logaUsuario(dados)
+    }
+    if (localStorage.getItem("usuarioKey")) {
+      const idUsuario = localStorage.getItem("usuarioKey")
+      buscaUsuario(idUsuario as string)
+    }
+  }, [])
+
+
+
 
   const listaBoards = boards.map(board => (
     <CardBoard data={board} key={board.id} />
