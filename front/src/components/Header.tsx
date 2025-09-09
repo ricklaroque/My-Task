@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUsuarioStore } from "../context/UsuarioContext";
 
 export default function Header() {
-
   const { usuario, deslogaUsuario } = useUsuarioStore();
   const navigate = useNavigate();
 
@@ -17,18 +16,15 @@ export default function Header() {
     }
   }
 
-
   return (
     <header className="bg-cyan-600 dark:bg-gray-700">
       <div className="mx-auto px-6 flex items-center justify-between">
         <div className="flex items-center">
           <img src={logo} className="w-25 h-20 rounded-full" />
         </div>
-
         <form className="relative flex-1 max-w-md mx-8 flex items-center focus:border-none">
           <ul className="flex">
             <input
-
               type="search"
               placeholder="Pesquisa"
               className="h-10 w-[35rem] rounded-[5px] border-2 border-black pl-10 pr-10 text-sm text-black placeholder-black

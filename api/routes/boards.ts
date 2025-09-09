@@ -11,14 +11,12 @@ const boardSchema = z.object({
   motivo: z.enum(['TRABALHO', 'ESTUDO', 'PESSOAL', 'OUTRO']),
 });
 
-// LISTAR TODOS OS BOARDS (com listas básicas)
 router.get('/', async (_req, res) => {
   try {
     const boards = await prisma.board.findMany({
       include: {
         listas: {
-          select: { id: true, titulo: true, ordem: true, boardId: true },
-          orderBy: { ordem: 'asc' },
+          select: { id: true, titulo: true, boardId: true },
         },
       },
       orderBy: { id: 'asc' },
@@ -30,7 +28,6 @@ router.get('/', async (_req, res) => {
   }
 });
 
-// O BOARD + SUAS LISTAS (para abrir a página do board)
 router.get('/:id', async (req, res) => {
   const id = Number(req.params.id);
   if (Number.isNaN(id)) {
@@ -57,7 +54,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// CRIAR BOARD
 router.post('/', async (req, res) => {
   const valida = boardSchema.safeParse(req.body);
   if (!valida.success) {
@@ -75,7 +71,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// ATUALIZAR BOARD
 router.put('/:id', async (req, res) => {
   const id = Number(req.params.id);
   if (Number.isNaN(id)) return res.status(400).json({ erro: 'id inválido' });
@@ -97,7 +92,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// DELETAR BOARD
+
 router.delete('/:id', async (req, res) => {
   const id = Number(req.params.id);
   if (Number.isNaN(id)) return res.status(400).json({ erro: 'id inválido' });

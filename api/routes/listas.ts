@@ -24,6 +24,22 @@ router.get('/', async (_req, res) => {
   }
 });
 
+router.get('/:id/tasks', async (req, res) => {
+  const id = Number(req.params.id);
+  if (Number.isNaN(id)) return res.status(400).json({ erro: 'id inválido' });
+  try {
+    const lista = await prisma.lista.findUnique({
+      where: { id },
+      include: { task: true },
+    });
+    if (!lista) return res.status(404).json({ erro: 'Lista não encontrada.' });
+    res.status(200).json(lista.task);
+  } catch (error) {
+    console.error('ERRO GET /listas/:id/tasks', error);
+    res.status(500).json({ erro: 'Falha ao buscar tasks da lista.' });
+  }
+})
+
 router.get('/by-board/:boardId', async (req, res) => {
   const id = Number(req.params.boardId);
   if (Number.isNaN(id)) return res.status(400).json({ erro: 'boardId inválido' });
@@ -31,7 +47,6 @@ router.get('/by-board/:boardId', async (req, res) => {
     const listas = await prisma.lista.findMany({
       where: { boardId: id },
       include: { board: true },
-      orderBy: { ordem: 'asc' },
     });
     res.status(200).json(listas);
   } catch (error) {

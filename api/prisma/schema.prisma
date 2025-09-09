@@ -27,7 +27,7 @@ model Usuario {
   boards     Board[]
   Task       Task[]
   Log        Log[]
-
+  comentarios Comentario[]
   @@map("usuarios")
 }
 
@@ -52,10 +52,9 @@ model Board {
 model Lista {
   id      Int    @id @default(autoincrement())
   titulo  String @db.VarChar(30)
-  ordem   Int    @db.SmallInt() @default(autoincrement())
   board   Board  @relation(fields: [boardId], references: [id])
   boardId Int
-  task    Task[]
+  tasks    Task[]
 
   @@map("listas")
 }
@@ -79,7 +78,8 @@ model Comentario {
   conteudo String @db.VarChar(255)
   task     Task   @relation(fields: [taskId], references: [id])
   taskId   Int
-
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId String
   @@map("comentarios")
 }
 
