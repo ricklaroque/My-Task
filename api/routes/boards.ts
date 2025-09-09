@@ -11,14 +11,12 @@ const boardSchema = z.object({
   motivo: z.enum(['TRABALHO', 'ESTUDO', 'PESSOAL', 'OUTRO']),
 });
 
-// LISTAR TODOS OS BOARDS (com listas básicas)
 router.get('/', async (_req, res) => {
   try {
     const boards = await prisma.board.findMany({
       include: {
         listas: {
-          select: { id: true, titulo: true, ordem: true, boardId: true },
-          orderBy: { ordem: 'asc' },
+          select: { id: true, titulo: true, boardId: true },
         },
       },
       orderBy: { id: 'asc' },
@@ -30,7 +28,28 @@ router.get('/', async (_req, res) => {
   }
 });
 
-// O BOARD + SUAS LISTAS (para abrir a página do board)
+router.get('/:id/listas/tasks', async (req, res) => {
+  const { id } = req.params
+  
+  try {
+    const board = await prisma.board.findFirst({
+      where: { id: Number(id) },
+      include: {
+        listas: {
+          include: {
+            tasks: {
+              orderBy: { id: 'asc' }
+            }
+          }
+        },
+      }
+    })
+    res.status(200).json(board)
+  } catch (error) {
+    res.status(500).json({ erro: error })
+  }
+});
+
 router.get('/:id', async (req, res) => {
   const id = Number(req.params.id);
   if (Number.isNaN(id)) {
@@ -41,10 +60,8 @@ router.get('/:id', async (req, res) => {
       where: { id },
       include: {
         listas: {
-          orderBy: { ordem: 'asc' },
           include: {
-            // se quiser já vir com qtd de tasks no futuro:
-            // _count: { select: { task: true } }
+            _count: { select: { tasks: true } }
           },
         },
       },
@@ -57,7 +74,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// CRIAR BOARD
 router.post('/', async (req, res) => {
   const valida = boardSchema.safeParse(req.body);
   if (!valida.success) {
@@ -75,7 +91,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// ATUALIZAR BOARD
 router.put('/:id', async (req, res) => {
   const id = Number(req.params.id);
   if (Number.isNaN(id)) return res.status(400).json({ erro: 'id inválido' });
@@ -97,7 +112,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// DELETAR BOARD
+
 router.delete('/:id', async (req, res) => {
   const id = Number(req.params.id);
   if (Number.isNaN(id)) return res.status(400).json({ erro: 'id inválido' });
@@ -109,5 +124,6 @@ router.delete('/:id', async (req, res) => {
     res.status(400).json({ erro: 'Erro ao deletar board.' });
   }
 });
+
 
 export default router;

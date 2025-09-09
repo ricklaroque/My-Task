@@ -4,44 +4,36 @@ import logo from "../img/MyT.png"
 import type { BoardType } from "../utils/BoardType";
 import { Link, useNavigate } from "react-router-dom";
 import { useUsuarioStore } from "../context/UsuarioContext";
-import { useBoardStore } from "../context/BoardContext";
 import { useState } from "react";
 import Modal from "../utils/Modal";
 import { NovaTask } from "./CardTaskModal";
 
-const apiUrl = import.meta.env.VITE_API_URL;
+// const apiUrl = import.meta.env.VITE_API_URL;
 
-type Inputs = {
-  termo: string;
-};
+// type Inputs = {
+//   termo: string;
+// };
 
 // type HeaderProps = {
 //   setBoards: React.Dispatch<React.SetStateAction<BoardType[]>>;
 // };
 // { setBoards }: HeaderProps
-async function criarBoard() {
-  const { adicionarBoard } = useBoardStore.getState()
-  const resp = await fetch("/api/boards", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ titulo: "Novo Board", motivo: "Teste" })
-  });
-  const novoBoard = await resp.json()
-  adicionarBoard(novoBoard)
+// async function criarBoard() {
+//   const { adicionarBoard } = useBoardStore.getState()
+//   const resp = await fetch("/api/boards", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ titulo: "Novo Board", motivo: "Teste" })
+//   });
+//   const novoBoard = await resp.json()
+//   adicionarBoard(novoBoard)
 
-}
+// }
 
 export default function Header() {
-  const { register, handleSubmit, reset } = useForm<Inputs>();
-  const { usuario, deslogaUsuario } = useUsuarioStore()
-  // const { boards, carregarBoards, selecionarBoard, boardSelecionado } = useBoardStore()
-  const [openModal, setOpenModal] = useState<boolean>(false)
-  const navigate = useNavigate()
 
-  function getPrimeiroNome(nomeCompleto: string): string {
-    if (!nomeCompleto) return "Usuário";
-    return nomeCompleto.split(' ')[0];
-  }
+  const { usuario, deslogaUsuario } = useUsuarioStore();
+  const navigate = useNavigate();
 
   function usuarioSair() {
     if (confirm("Confirmar saída do sistema? ")) {
@@ -53,10 +45,6 @@ export default function Header() {
     }
   }
 
-  function handleOpenModal() {
-    setOpenModal(!openModal)
-  }
-  console.info(openModal)
 
   return (
     <header className="bg-cyan-600 dark:bg-gray-700">
@@ -67,7 +55,7 @@ export default function Header() {
         <form className="relative flex-1 max-w-md mx-8 flex items-center focus:border-none">
           <ul className="flex">
             <input
-              {...register("termo")}
+
               type="search"
               placeholder="Pesquisa"
               className="h-10 w-[35rem] rounded-[5px] border-2 border-black pl-10 pr-10 text-sm text-black placeholder-black
@@ -84,7 +72,7 @@ export default function Header() {
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.35-4.35" />
             </svg>
-            <button
+            {/* <button
               type="button"
               onClick={async () => {
                 handleOpenModal();
@@ -94,7 +82,7 @@ export default function Header() {
                 transition-colors duration-300  hover:bg-gray-300 hover:text-white"
             >
               Criar
-            </button>
+            </button> */}
           </ul>
         </form>
         <div className="flex items-center">
@@ -104,7 +92,7 @@ export default function Header() {
               <span className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
                        transition-colors duration-300
                        hover:bg-gray-300 hover:text-white">
-                Olá, {getPrimeiroNome(usuario.nome)}
+                Olá
               </span>
               &nbsp;&nbsp;
               <Link
