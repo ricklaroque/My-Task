@@ -27,8 +27,8 @@ router.get("/", async (req, res) => {
     }
 })
 
-router.get("/by-lista/:listaId", async (req, res) => {
-    const id = Number(req.params.listaId);
+router.get("/listas/tasks", async (req, res) => {
+    const id = Number(req.params);
     if (Number.isNaN(id)) return res.status(400).json({ erro: 'listaId inválido'})
     try {
         const tasks = await prisma.task.findMany({

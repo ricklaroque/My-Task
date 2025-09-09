@@ -1,7 +1,7 @@
 // CardBoardModal.tsx
 import { useForm, type SubmitHandler } from "react-hook-form";
 import type { BoardType } from "../utils/BoardType";
-import { useBoardStore } from "../context/BoardContext";
+// import { useBoardStore } from "../context/BoardContext";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -13,7 +13,7 @@ type BoardInput = {
 };
 
 export function NovoBoard({ usuarioId }: { usuarioId: string }) {
-  const adicionarBoard = useBoardStore((s) => s.adicionarBoard);
+  // const adicionarBoard = useBoardStore((s) => s.adicionarBoard);
 
   const {
     register,
@@ -42,7 +42,7 @@ export function NovoBoard({ usuarioId }: { usuarioId: string }) {
         return;
       }
       const novoBoard: BoardType = await resp.json();
-      adicionarBoard(novoBoard);
+      // adicionarBoard(novoBoard);
       reset({ titulo: "", motivo: "", usuarioId });
     } catch (e) {
       console.error("Erro inesperado ao criar Board:", e);

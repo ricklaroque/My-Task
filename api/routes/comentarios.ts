@@ -10,8 +10,8 @@ const comentarioSchema = z.object({
         { message: "Comentários devem ter pelo menos 1 caractere." }
     ),
     taskId: z.coerce.number().int().positive(),
+    usuarioId: z.string().uuid(),
 })
-
 
 
 router.get("/", async (req, res) => {
@@ -33,10 +33,10 @@ router.post("/", async (req, res) => {
         res.status(400).json({ erro: valida.error })
         return
     }
-    const { conteudo, taskId } = valida.data
+    const { conteudo, taskId, usuarioId } = valida.data
     try {
         const comentario = await prisma.comentario.create({
-            data: { conteudo, taskId },
+            data: { conteudo, taskId, usuarioId  },
         });
         res.status(201).json(comentario)
     } catch (error) {

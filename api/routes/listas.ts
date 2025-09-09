@@ -7,15 +7,15 @@ const router = Router();
 
 const listaSchema = z.object({
   titulo: z.string().min(1, { message: 'Nome da lista deve ter pelo menos 1 caractere.' }),
-  ordem: z.coerce.number(),
   boardId: z.coerce.number().int().positive(),
+  
 });
 
 router.get('/', async (_req, res) => {
   try {
     const listas = await prisma.lista.findMany({
       include: { board: true },
-      orderBy: [{ boardId: 'asc' }, { ordem: 'asc' }],
+      orderBy: [{ boardId: 'asc' }],
     });
     res.status(200).json(listas);
   } catch (error) {
@@ -30,40 +30,26 @@ router.get('/:id/tasks', async (req, res) => {
   try {
     const lista = await prisma.lista.findUnique({
       where: { id },
-      include: { task: true },
+      include: { tasks: true },
     });
     if (!lista) return res.status(404).json({ erro: 'Lista não encontrada.' });
-    res.status(200).json(lista.task);
+    res.status(200).json(lista.tasks);
   } catch (error) {
     console.error('ERRO GET /listas/:id/tasks', error);
     res.status(500).json({ erro: 'Falha ao buscar tasks da lista.' });
   }
 })
 
-router.get('/by-board/:boardId', async (req, res) => {
-  const id = Number(req.params.boardId);
-  if (Number.isNaN(id)) return res.status(400).json({ erro: 'boardId inválido' });
-  try {
-    const listas = await prisma.lista.findMany({
-      where: { boardId: id },
-      include: { board: true },
-    });
-    res.status(200).json(listas);
-  } catch (error) {
-    console.error('ERRO GET /listas/by-board/:boardId', error);
-    res.status(500).json({ erro: 'Falha ao buscar listas do board.' });
-  }
-});
 
 router.post('/', async (req, res) => {
   const valida = listaSchema.safeParse(req.body);
   if (!valida.success) {
     return res.status(400).json({ erro: valida.error.format() });
   }
-  const { titulo, ordem, boardId } = valida.data;
+  const { titulo, boardId } = valida.data;
   try {
     const nova = await prisma.lista.create({
-      data: { titulo, ordem, boardId },
+      data: { titulo, boardId },
     });
     res.status(201).json(nova);
   } catch (error) {
@@ -80,12 +66,12 @@ router.put('/:id', async (req, res) => {
   if (!valida.success) {
     return res.status(400).json({ erro: valida.error.format() });
   }
-  const { titulo, ordem, boardId } = valida.data;
+  const { titulo, boardId } = valida.data;
 
   try {
     const upd = await prisma.lista.update({
       where: { id },
-      data: { titulo, ordem, boardId },
+      data: { titulo, boardId },
     });
     res.status(200).json(upd);
   } catch (error) {

@@ -5,100 +5,66 @@ import { useParams } from "react-router-dom";
 import type { BoardType } from "../utils/BoardType";
 import Modal from "../utils/Modal";
 import { NovaTask } from "./CardTaskModal";
-import { uselistaStore } from "../context/ListaContext";
-import { usetaskStore } from "../context/TaskContext";
 import NewBoard from "./NewBoard";
+import type { ListaType } from "../utils/ListaType";
+import type { TaskType } from "../utils/TaskType";
 const apiUrl = import.meta.env.VITE_API_URL
-
 
 export default function CardLista() {
     const { boardId } = useParams<{ boardId: string }>();
-    const [board, setBoard] = useState<BoardType | null>(null)
-    const [loading, setLoading] = useState(true)
-    const [open, setOpen] = useState<boolean>(false)
-    const { listas, carregarlistas, selecionarlista, listaSelecionado } = uselistaStore()
-    const { tasks, carregartasks, selecionartask, taskSelecionado } = usetaskStore()
+    const [board, setBoard] = useState<BoardType | null>(null);
+    const [listas, setListas] = useState<ListaType[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        async function buscaDados() {
-            if (!boardId) { setLoading(false); return };
+        if (!boardId) return;
+        (async () => {
             try {
-                const responseBoard = await fetch(`${apiUrl}/boards/${boardId}`)
-                const dadosBoard = await responseBoard.json()
-                setBoard(dadosBoard)
-                carregarlistas(dadosBoard.listas ?? []);
-            } catch (error) {
-                console.error('Erro ao buscar dados:', error)
+                setLoading(true);
+                const response = await fetch(`${apiUrl}/boards/${boardId}/listas/tasks`);
+                const dados = await response.json();
+                setBoard(dados);
+                setListas(dados.listas ?? []);
+            } catch (e) {
+                console.error(e);
             } finally {
-                setLoading(false)
+                setLoading(false);
             }
-        }
-        buscaDados()
-    }, [boardId, carregarlistas])
-    useEffect(() => {
-        if (open) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'unset';
-        }
-        return () => {
-            document.body.style.overflow = 'unset';
-        };
-    }, [open]);
+        })();
+    }, [boardId]);
 
-    if (loading) return <div>Carregando...</div>
-    if (!board) return <div>Board não encontrado</div>
-
-    const handleCreateBoard = () => {
-        
-        console.log('Criando novo board...');
-    };
-
-    const listasMap = listas.map(lista => (
-        <div key={lista.id} className=" p-4 rounded-lg shadow w-[15rem] pb-[15rem] border-2 border-black ">
-            <div className="flex flex-col items-center justify-center text-center ">
-                <h2 className="hover:border-blue-500 hover:border-2 hover:text-blue-500 hover:bg-gray-300 text-lg font-semibold  rounded-lg border-black border w-[11.5rem] mb-[1rem]">{lista.titulo}</h2>
-                <button
-                    type="button"
-                    onClick={() => {
-                        selecionarlista(lista);
-                        setOpen(true);
-                    }}
-                    className="bg-white rounded-[5rem] py-[0.2rem] px-[0.5rem] cursor-pointer hover:bg-gray-100 transition-colors font-bold "
-                ><NewBoard onClick={handleCreateBoard} />
-                </button>
-            </div>
-        </div>
-    ))
-
-    const tasksMap = tasks.map(task => (
-        <div key={task.id} className="flex flex-col ">
-            <div>
-                <h1 className="text-red-600">{task.titulo}</h1>
-                <h4>{task.descricao}</h4>
-            </div>
-            <p>{task.prazo}</p>
-        </div>
-    ))
+    if (loading) return <div>Carregando…</div>;
+    if (!board) return <div>Board não encontrado</div>;
 
     return (
         <div className="p-6">
             <h1 className="text-2xl font-bold mb-6">Board: {board.titulo}</h1>
-            <div className="flex gap-4">
-                <div className="flex gap-4">
-                    {listasMap}
-                    {tasksMap}
-                </div>
-                <Modal open={open} onClose={() => setOpen(false)}>
-                    {listaSelecionado && (
-                        <NovaTask
-                            listaId={listaSelecionado.id}
-                            usuarioId={String(board.usuarioId)}
-                        />
-                    )}
-                </Modal>
 
+            <div className="flex gap-4">
+                {listas.map((lista) => (
+                    <div key={lista.id} className="p-4 rounded-lg shadow w-[15rem] border-2 border-black">
+                        <h2 className="text-lg font-semibold mb-3">{lista.titulo}</h2>
+
+                        {(lista.tasks ?? []).length ? (
+                            <ul className="space-y-2">
+                                {(lista.tasks ?? []).map((t) => (
+                                    <li key={t.id} className="rounded border p-2">
+                                        <div className="flex items-center justify-between">
+                                            <strong className="line-clamp-1">{t.titulo}</strong>
+                                            {/* <span>{t.feito ? "✅" : "⬜"}</span> */}
+                                        </div>
+                                        {t.descricao && <p className="text-sm text-gray-600 mt-1">{t.descricao}</p>}
+                                        {t.prazo && <p className="text-xs text-gray-500 mt-1">{new Date(t.prazo).toLocaleDateString("pt-BR")}</p>}
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p className="text-sm text-gray-500">Sem tasks</p>
+                        )}
+                    </div>
+                ))}
             </div>
         </div>
-    )
+    );
+
 }

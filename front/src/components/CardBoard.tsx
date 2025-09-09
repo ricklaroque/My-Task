@@ -22,9 +22,7 @@ function corFonte(motivo: BoardType["motivo"]) {
 }
 
 export function CardBoard({data}: {data:BoardType}) {
-  
   if(!data) return null;
-  
   return (
 
     <div className={`group w-full h-[10rem] bg-white rounded-2xl border-2 border-black shadow-md hover:shadow-lg focus:ring-2 ${corFonte(data.motivo)}`}>
@@ -55,7 +53,7 @@ export function CardBoard({data}: {data:BoardType}) {
         )}
 
         <Link
-          to={`/listas/${data?.id}`}
+          to={`/boards/${data?.id}/listas/tasks`}
           className={`mt-7 inline-flex items-center px-3 py-2 text-sm font-medium text-black white border-2 rounded-lg focus:ring-2 ${corFundo(data.motivo)}`}
         >
           Abrir board
