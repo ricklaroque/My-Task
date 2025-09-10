@@ -28,7 +28,7 @@ router.get('/', async (_req, res) => {
   }
 });
 
-router.get('/:id/listas/tasks', async (req, res) => {
+router.get('/:id/listas/tasks/', async (req, res) => {
   const { id } = req.params
   
   try {

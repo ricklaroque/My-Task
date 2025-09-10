@@ -26,7 +26,8 @@ export function CardBoard({data}: {data:BoardType}) {
   return (
     // #3B82F6
     // #3faafb
-    <div className={`group w-full h-[10rem] bg-[#FFFFFF] rounded-lg shadow-xl hover:shadow-lg focus:ring-2 border-[#3B82F6] border-b-2 border-l-2 `}>
+    // #D2B48C
+    <div className={`group w-full h-[10rem] bg-[#FFFFFF] rounded-lg  hover:shadow-gray-400 shadow-md`}>
       <div className="p-4">
         <div className="flex items-center  gap-3 col">
           <h5 className={`text-[#3B82F6] text-xl font-bold tracking-tight line-clamp-1  w-[10rem]`}>

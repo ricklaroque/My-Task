@@ -1,3 +1,4 @@
+import { FaRegCalendarCheck } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -73,7 +74,7 @@ export default function CardLista() {
             <h1 className="text-2xl font-bold mb-6 text-[#3B82F6] border-[#3B82F6] border-b-2">{board.titulo}</h1>
             <div className="flex gap-4">
                 {listas.map((lista) => (
-                    <div key={lista.id} className="text-[#fff] bg-[#3B82F6] p-4 rounded-[8px] shadow w-[15rem] border-2 border-[#3B82F6]">
+                    <div key={lista.id} className="text-[#3B82F6] bg-[#FFFFFF] p-4 rounded-[8px] shadow w-[15rem] border-2 border-[#3B82F6]">
                         <div className="flex justify-between">
                             <h2 className="text-lg font-bold mb-3">{lista.titulo}</h2>
                             <FaPencil className="cursor-pointer" />
@@ -81,7 +82,7 @@ export default function CardLista() {
                         {(lista.tasks ?? []).length ? (
                             <ul className="space-y-2">
                                 {(lista.tasks ?? []).map((t) => (
-                                    <li key={t.id} className="text-[#fff] rounded-[8px] border p-2">
+                                    <li key={t.id} className="text-[#3B82F6] rounded-[8px] border p-2">
                                         <div className="flex items-center">
                                             <input type="checkbox" className="cursor-pointer ml-[0.4rem]" />
                                             <button
@@ -106,10 +107,7 @@ export default function CardLista() {
                                                 <div className="flex gap-6 pl-[1rem] ">
                                                         <div className="rounded-2xl p-5 w-[27rem] h-[20rem] shadow-md shadow-blue-400">
                                                             <div className="flex items-center gap-2 mb-2">
-                                                                <svg width="18" height="18" viewBox="0 0 24 24" className="opacity-70">
-                                                                    <path d="M4 4h16v16H4z" fill="none" stroke="currentColor" strokeWidth="2" />
-                                                                    <path d="M7 9h10M7 13h10M7 17h6" stroke="currentColor" strokeWidth="2" />
-                                                                </svg>
+                                                                <FaRegCalendarCheck className="text-[#3B82F6]"/>
                                                                 <h3 className="font-semibold text-[#3B82F6]">Descrição</h3>
                                                                 <div className="ml-[14rem] text-[#3B82F6] cursor-pointer">
                                                                     <button className="rounded-md border px-3 py-1.5 text-sm hover:bg-white">
