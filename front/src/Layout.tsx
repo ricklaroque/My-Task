@@ -1,13 +1,14 @@
-// Layout.tsx
-import { Outlet, useLocation } from "react-router-dom";
-import { useState } from "react";
 import Header from "./components/Header";
-import type { BoardType } from "./utils/BoardType";
+// Layout.tsx
+import { Outlet } from "react-router-dom";
+import { Toaster } from "sonner";
+// import { useState } from "react";
+// import type { BoardType } from "./utils/BoardType";
 
 export default function Layout() {
-  const [boards, setBoards] = useState<BoardType[]>([]);
-  const location = useLocation()
-  const routesSemHeader = ['/login', '/cadastro']
+  // const [boards, setBoards] = useState<BoardType[]>([]);
+  // const location = useLocation()
+  // const routesSemHeader = ['/login', '/cadastro']
 
   return (
     <>
@@ -15,6 +16,7 @@ export default function Layout() {
       {/* {!routesSemHeader.includes(location.pathname) && <Header setBoards={setBoards} />} */}
       <Header/>
       <Outlet />
+      <Toaster richColors position="top-center"/>
       {/* context={{ boards, setBoards }}  */}
     </>
   );

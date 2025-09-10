@@ -21,8 +21,7 @@ router.get("/", async (req, res) => {
         const usuarios = await prisma.usuario.findMany()
         res.status(200).json(usuarios)
     } catch (error) {
-        console.error("Erro ao listar usuários:", error);
-        res.status(500).json({ erro: "Erro ao listar usuários." })
+        res.status(400).json(error)
     }
 })
 
@@ -71,16 +70,14 @@ router.post("/", async (req, res) => {
         return
     }
 
-    const { nome, email, senha } = valida.data
-    const mensagensErro = validaSenha(senha)
-
-    if (mensagensErro.length > 0) {
-        res.status(400).json({ erro: mensagensErro.join(";") })
+    const erros = validaSenha(valida.data.senha)
+    if (erros.length > 0) {
+        res.status(400).json({ erro: erros.join("; ") })
         return
-    }
-
+    } 
     const salt = bcrypt.genSaltSync(12)
-    const hash = bcrypt.hashSync(senha, salt)
+    const hash = bcrypt.hashSync(valida.data.senha, salt)
+    const { nome, email } = valida.data
 
     try {
         const usuario = await prisma.usuario.create({
@@ -88,8 +85,7 @@ router.post("/", async (req, res) => {
         })
         res.status(201).json(usuario)
     } catch (error) {
-        console.error("Erro ao criar usuário:", error);
-        res.status(400).json({ erro: "Erro ao criar usuário. Verifique se o e-mail já está em uso." })
+        res.status(400).json(error)
     }
 })
 
@@ -102,8 +98,7 @@ router.delete("/:id", async (req, res) => {
         })
         res.status(200).json(usuario)
     } catch (error) {
-        console.error("Erro ao deletar usuário:", error);
-        res.status(400).json({ erro: "Erro ao deletar usuário. Verifique se o ID existe ou se há registros relacionados." })
+        res.status(400).json(error)
     }
 })
 
@@ -125,8 +120,7 @@ router.put("/:id", async (req, res) => {
         })
         res.status(200).json(usuario)
     } catch (error) {
-        console.error("Erro ao atualizar usuário:", error);
-        res.status(400).json({ erro: "Erro ao atualizar usuário. Verifique o ID ou dados fornecidos." })
+        res.status(400).json(error)
     }
 })
 
@@ -195,5 +189,17 @@ router.patch("/altera_senha/:id", verificaToken, async (req, res) => {
         res.status(500).json({ erro: "Erro ao tentar alterar a senha." });
     }
 });
+
+router.get("/:id", async (req, res) => {
+    const { id } = req.params
+    try {
+    const usuario = await prisma.usuario.findUnique({
+      where: { id }
+    })
+    res.status(200).json(usuario)
+  } catch (error) {
+    res.status(400).json(error)
+  }
+})
 
 export default router;

@@ -1,12 +1,12 @@
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+// import { useForm } from "react-hook-form";
+// import { toast } from "sonner";
 import logo from "../img/MyT.png"
-import type { BoardType } from "../utils/BoardType";
+// import type { BoardType } from "../utils/BoardType";
 import { Link, useNavigate } from "react-router-dom";
 import { useUsuarioStore } from "../context/UsuarioContext";
-import { useState } from "react";
-import Modal from "../utils/Modal";
-import { NovaTask } from "./CardTaskModal";
+// import { useState } from "react";
+// import Modal from "../utils/Modal";
+// import { NovaTask } from "./CardTaskModal";
 
 // const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -31,12 +31,11 @@ import { NovaTask } from "./CardTaskModal";
 // }
 
 export default function Header() {
-
-  const { usuario, deslogaUsuario } = useUsuarioStore();
-  const navigate = useNavigate();
+  const { usuario, deslogaUsuario } = useUsuarioStore()
+  const navigate = useNavigate()
 
   function usuarioSair() {
-    if (confirm("Confirmar saída do sistema? ")) {
+    if (confirm("Confirma saída do sistema?")) {
       deslogaUsuario()
       if (localStorage.getItem("usuarioKey")) {
         localStorage.removeItem("usuarioKey")
@@ -44,7 +43,6 @@ export default function Header() {
       navigate("/login")
     }
   }
-
 
   return (
     <header className="bg-cyan-600 dark:bg-gray-700">
@@ -72,56 +70,55 @@ export default function Header() {
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.35-4.35" />
             </svg>
-            {/* <button
+            <button
               type="button"
-              onClick={async () => {
-                handleOpenModal();
-                await criarBoard();
-              }}
               className="ml-4 text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg 
                 transition-colors duration-300  hover:bg-gray-300 hover:text-white"
             >
               Criar
-            </button> */}
+            </button>
           </ul>
         </form>
         <div className="flex items-center">
-
-          {usuario.id ? (
-            <>
-              <span className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+          <ul>
+            <li>
+              {usuario?.id ?
+                <>
+                  <span className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
                        transition-colors duration-300
                        hover:bg-gray-300 hover:text-white">
-                Olá
-              </span>
-              &nbsp;&nbsp;
-              <Link
-                to="/boards"
-                className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+                    {usuario?.nome}
+                  </span>
+                  &nbsp;&nbsp;
+                  <Link
+                    to="/boards"
+                    className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
                            transition-colors duration-300
                            hover:bg-gray-300 hover:text-white"
-              >
-                Boards
-              </Link>
-              <button
-                onClick={usuarioSair}
-                className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+                  >
+                    Boards
+                  </Link>
+                  <button
+                    onClick={usuarioSair}
+                    className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
                            transition-colors duration-300
                            hover:bg-gray-300 hover:text-white"
-              >
-                Sair
-              </button>
-            </>
-          ) : (
-            <Link
-              to="/login"
-              className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+                  >
+                    Sair
+                  </button>
+                </>
+                :
+                <Link
+                  to="/login"
+                  className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
                          transition-colors duration-300
                          hover:bg-gray-300 hover:text-white"
-            >
-              Login
-            </Link>
-          )}
+                >
+                  Login
+                </Link>
+              }
+            </li>
+          </ul>
         </div>
       </div>
     </header>
