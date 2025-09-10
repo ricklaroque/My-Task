@@ -31,6 +31,7 @@ export default function CardLista() {
             try {
                 setLoading(true);
                 const response = await fetch(`${apiUrl}/boards/${boardId}/listas/tasks`);
+                // const responseComentarios = await fetch(`${apiUrl}/`)
                 const dados = await response.json();
                 setBoard(dados);
                 setListas(dados.listas ?? []);
@@ -68,11 +69,11 @@ export default function CardLista() {
     }
 
     return (
-        <div className="p-6 ">
+        <div className="p-6 w-[80vw] h-[85vh] m-auto bg-white rounded-sm">
             <h1 className="text-2xl font-bold mb-6 text-[#3B82F6] border-[#3B82F6] border-b-2">{board.titulo}</h1>
             <div className="flex gap-4">
                 {listas.map((lista) => (
-                    <div key={lista.id} className="text-[#3B82F6] bg-[#FFFFFF] p-4 rounded-[8px] shadow w-[15rem] border-2 border-[#3B82F6]">
+                    <div key={lista.id} className="text-[#fff] bg-[#3B82F6] p-4 rounded-[8px] shadow w-[15rem] border-2 border-[#3B82F6]">
                         <div className="flex justify-between">
                             <h2 className="text-lg font-bold mb-3">{lista.titulo}</h2>
                             <FaPencil className="cursor-pointer" />
@@ -80,7 +81,7 @@ export default function CardLista() {
                         {(lista.tasks ?? []).length ? (
                             <ul className="space-y-2">
                                 {(lista.tasks ?? []).map((t) => (
-                                    <li key={t.id} className="text-[#3B82F6] rounded-[8px] border p-2">
+                                    <li key={t.id} className="text-[#fff] rounded-[8px] border p-2">
                                         <div className="flex items-center">
                                             <input type="checkbox" className="cursor-pointer ml-[0.4rem]" />
                                             <button
@@ -96,35 +97,33 @@ export default function CardLista() {
                                             onClose={() => setOpenTaskId(null)}
                                         >
                                             <div className="max-w-[90vw]  h-[27rem] mr-[2rem]">
-                                                <h1 className="text-2xl font-black leading-snug mb-2 w-[54.9vw] pl-[1rem] ">{lista.titulo}</h1>
+                                                <h1 className="text-2xl font-black leading-snug mb-2 w-[54.9vw] pl-[1rem] text-[#3B82F6]">{lista.titulo}</h1>
                                                 <div className="flex items-center justify-between py-3 ">
-                                                    <h1 className="text-l font-bold pl-[1rem]">
+                                                    <h1 className="text-l font-bold pl-[1rem] text-[#3B82F6]">
                                                         {t.titulo}
                                                     </h1>
                                                 </div>
                                                 <div className="flex gap-6 pl-[1rem] ">
-                                                    
                                                         <div className="rounded-2xl p-5 w-[27rem] h-[20rem] shadow-md shadow-blue-400">
                                                             <div className="flex items-center gap-2 mb-2">
                                                                 <svg width="18" height="18" viewBox="0 0 24 24" className="opacity-70">
                                                                     <path d="M4 4h16v16H4z" fill="none" stroke="currentColor" strokeWidth="2" />
                                                                     <path d="M7 9h10M7 13h10M7 17h6" stroke="currentColor" strokeWidth="2" />
                                                                 </svg>
-                                                                <h3 className="font-semibold">Descrição</h3>
-                                                                <div className="ml-[14rem]">
+                                                                <h3 className="font-semibold text-[#3B82F6]">Descrição</h3>
+                                                                <div className="ml-[14rem] text-[#3B82F6] cursor-pointer">
                                                                     <button className="rounded-md border px-3 py-1.5 text-sm hover:bg-white">
                                                                         Editar
                                                                     </button>
                                                                 </div>
                                                             </div>
-                                                            <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                                                            <p className="text-sm leading-relaxed whitespace-pre-wrap text-[#3B82F6]">
                                                                 {t?.descricao?.trim() ? t.descricao : "Sem descrição"}
                                                             </p>
                                                             {(t as any)?.prazo && (
-                                                                <div className="mt-4 flex items-center gap-2 text-sm">
-                                                                    <span className="font-bold">Prazo para:</span>
+                                                                <div className="mt-4 flex items-center gap-2 text-sm text-[#3B82F6]">
+                                                                    <span className="font-bold ">Prazo para:</span>
                                                                     <span className="font-medium opacity-90">
-
                                                                         {new Date((t as any).prazo).toLocaleDateString("pt-BR", {
                                                                             day: "2-digit",
                                                                             month: "short",
@@ -134,7 +133,7 @@ export default function CardLista() {
                                                                 </div>
                                                             )}
                                                         </div>
-                                                    <form className="rounded-2xl p-5 w-[28rem] h-[20rem] ml-[1rem] shadow-md shadow-blue-400 ">
+                                                    <form className="rounded-2xl p-5 w-[28rem] h-[20rem] ml-[1rem] shadow-md shadow-blue-400 text-[#3B82F6]">
                                                         <div className="flex items-center justify-between mb-3">
                                                             <h2 className="font-semibold">Comentários e atividade</h2>
                                                             <button className="rounded-md border px-3 py-1.5 text-sm hover:bg-white">
@@ -142,7 +141,7 @@ export default function CardLista() {
                                                             </button>
                                                         </div>
                                                         <div className="flex items-start gap-3 mb-4">
-                                                            <div className="h-8 w-8 rounded-full bg-blue-600 text-white grid place-items-center text-sm font-bold">
+                                                            <div className="h-8 w-8 rounded-full bg-white-600 text-[#3B82F6] grid place-items-center text-sm font-bold">
                                                                 {("LF").slice(0, 2)}
                                                             </div>
                                                             <div className="flex-1">
