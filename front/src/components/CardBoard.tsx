@@ -25,7 +25,7 @@ export function CardBoard({data}: {data:BoardType}) {
   if(!data) return null;
   return (
 
-    <div className={`group w-full h-[10rem] bg-white rounded-2xl border-2 border-black shadow-md hover:shadow-lg focus:ring-2 ${corFonte(data.motivo)}`}>
+    <div className={`group w-full h-[10rem] bg-white rounded-lg border-2 border-black shadow-md hover:shadow-lg focus:ring-2 ${corFonte(data.motivo)}`}>
       <div className="p-4">
         <div className="flex items-center  gap-3 col">
           <h5 className={`text-xl font-bold tracking-tight line-clamp-1  w-[10rem]`}>

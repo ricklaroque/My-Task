@@ -34,6 +34,10 @@ export default function Header() {
   const { usuario, deslogaUsuario } = useUsuarioStore()
   const navigate = useNavigate()
 
+  function primeiroNome(nomeCompleto: string) {
+    return nomeCompleto.split(" ")[0];
+  }
+
   function usuarioSair() {
     if (confirm("Confirma saída do sistema?")) {
       deslogaUsuario()
@@ -45,7 +49,7 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-cyan-600 dark:bg-gray-700">
+    <header className="px-50 bg-gray-100 dark:bg-gray-700">
       <div className=" mx-auto px-6 flex items-center justify-between">
         <div className="flex items-center">
           <img src={logo} className="w-25 h-20 rounded-full" />
@@ -82,7 +86,7 @@ export default function Header() {
             to="/boards"
             className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
                            transition-colors duration-300
-                           hover:bg-gray-300 hover:text-white"
+                           hover:bg-gray-300 hover:text-white ml-4"
           >
             Boards
           </Link>
@@ -94,10 +98,9 @@ export default function Header() {
                 <>
                   <span className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
                        transition-colors duration-300
-                       hover:bg-gray-300 hover:text-white">
-                    {usuario.nome}
+                       hover:bg-gray-300 hover:text-white mr-8">
+                    Olá {primeiroNome(usuario.nome)}
                   </span>
-                  &nbsp;&nbsp;
                   <button
                     onClick={usuarioSair}
                     className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
