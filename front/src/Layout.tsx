@@ -12,7 +12,7 @@ export default function Layout() {
 
   return (
     <>
-      <div className="bg-gray-100 min-h-screen">
+      <div className="bg-[#111827] min-h-screen">
         {/* <Header setBoards={setBoards} /> */}
         {/* {!routesSemHeader.includes(location.pathname) && <Header setBoards={setBoards} />} */}
         <Header />

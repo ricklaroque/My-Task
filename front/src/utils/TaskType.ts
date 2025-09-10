@@ -5,4 +5,10 @@ export type TaskType = {
     prazo: string
     listaId: number,
     usuarioId: string
+    comentarios?: {
+        id: number
+        conteudo: string
+        taskId: number
+        usuarioId: string
+    }
 }
