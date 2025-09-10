@@ -5,15 +5,24 @@ import type { BoardType } from "../utils/BoardType";
 import type { ListaType } from "../utils/ListaType";
 import { Modal } from "./Modal";
 import type { ComentarioType } from "../utils/ComentarioType";
+import { useUsuarioStore } from "../context/UsuarioContext";
+import { toast } from "sonner";
+import { useForm } from "react-hook-form";
 
 const apiUrl = import.meta.env.VITE_API_URL;
+
+type Inputs = {
+    conteudo: string
+}
 
 export default function CardLista() {
     const { boardId } = useParams<{ boardId: string }>();
     const [board, setBoard] = useState<BoardType | null>(null);
     const [listas, setListas] = useState<ListaType[]>([]);
+    const {usuario} = useUsuarioStore()
     const [comentarios, setComentarios] = useState<ComentarioType[]>([]);
     const [loading, setLoading] = useState(true);
+    const {register, handleSubmit, reset } = useForm<Inputs>();
     const [openTaskId, setOpenTaskId] = useState<number | null>(null);
 
     useEffect(() => {
@@ -37,14 +46,26 @@ export default function CardLista() {
     if (loading) return <div>Carregando…</div>;
     if (!board) return <div>Board não encontrado</div>;
 
-    // useEffect(() => {
-    //     if (openTaskId == null) {
-    //         setComentarios([]);
-    //         return
-    //     }
-    //     const taskAberta = listas.flatMap(l => l.tasks ?? []).find(t => t.id === openTaskId)
-    //     setComentarios(taskAberta?.comentarios ?? []);
-    // }, [])
+    async function enviarComentario(data: Inputs) {
+        if (!openTaskId) return;
+        const response = await fetch(`${apiUrl}/tasks/${openTaskId}/comentarios`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                conteudo: data.conteudo,
+                usuarioId: usuario.id,
+                taskId: openTaskId
+            }),
+        })
+
+        if(response.status == 201) {
+            toast.success("Comentário adicionado!")
+        } else {
+            toast.error("Erro ao adicionar comentário.")
+        }
+    }
 
     return (
         <div className="p-6 ">
@@ -99,7 +120,6 @@ export default function CardLista() {
                                                             <p className="text-sm leading-relaxed whitespace-pre-wrap">
                                                                 {t?.descricao?.trim() ? t.descricao : "Sem descrição"}
                                                             </p>
-                                                            {/* <input type="text" className="border-2 w-[27.3rem] h-[7rem] rounded-sm"/> */}
                                                             {(t as any)?.prazo && (
                                                                 <div className="mt-4 flex items-center gap-2 text-sm">
                                                                     <span className="font-bold">Prazo para:</span>
@@ -114,7 +134,7 @@ export default function CardLista() {
                                                                 </div>
                                                             )}
                                                         </div>
-                                                    <form className="rounded-2xl p-5 w-[28rem] h-[20rem] ml-[1rem] shadow-md shadow-blue-400">
+                                                    <form className="rounded-2xl p-5 w-[28rem] h-[20rem] ml-[1rem] shadow-md shadow-blue-400 ">
                                                         <div className="flex items-center justify-between mb-3">
                                                             <h2 className="font-semibold">Comentários e atividade</h2>
                                                             <button className="rounded-md border px-3 py-1.5 text-sm hover:bg-white">
@@ -126,12 +146,15 @@ export default function CardLista() {
                                                                 {("LF").slice(0, 2)}
                                                             </div>
                                                             <div className="flex-1">
-                                                                <input
+                                                                <input {...register("conteudo", {required: true})}
                                                                     type="text"
-                                                                    placeholder="Escrever um comentário…"
+                                                                    placeholder="Escreva um comentário…"
                                                                     className="w-full rounded-md border px-3 py-2 text-sm bg-white outline-none focus:ring-2 focus:ring-blue-600"
                                                                 />
                                                             </div>
+                                                        </div>
+                                                        <div className="w-[25.5rem] h-[2rem]  bg-gray-200 rounded-xl">
+                                                        <h1 className="ml-2">Comentarios</h1>
                                                         </div>
                                                     </form>
                                                 </div>
