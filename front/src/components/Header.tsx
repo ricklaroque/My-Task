@@ -1,5 +1,6 @@
 // import { useForm } from "react-hook-form";
 // import { toast } from "sonner";
+import { IoSearchSharp } from "react-icons/io5";
 import logo from "../img/MyT.png"
 // import type { BoardType } from "../utils/BoardType";
 import { Link, useNavigate } from "react-router-dom";
@@ -49,82 +50,71 @@ export default function Header() {
   }
 
   return (
-    <header className="px-50 bg-gray-100 dark:bg-gray-700">
-      <div className=" mx-auto px-6 flex items-center justify-between">
+    <header className="bg-gray-100 dark:bg-gray-700">
+      <div className="w-[80%] mx-auto px-6 flex items-center justify-between">
+
         <div className="flex items-center">
           <img src={logo} className="w-25 h-20 rounded-full" />
         </div>
-        <form className="relative flex-1 max-w-md mx-8 flex items-center focus:border-none">
-          <ul className="flex">
-            <input
 
-              type="search"
-              placeholder="Pesquisa"
-              className="h-10 w-[35rem] rounded-[5px] border-2 border-black pl-10 pr-10 text-sm text-black placeholder-black
-            outline-none focus:ring-gray-500 focus:ring-2 focus:border-none transition-colors duration-300 hover:border-gray-500"
-            />
-            <svg
-              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={3}
-            >
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.35-4.35" />
-            </svg>
+        <div className="flex flex-1 justify-center">
+          <div className="flex items-center gap-4">
             <button
               type="button"
-              className="ml-4 text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg 
-                transition-colors duration-300  hover:bg-gray-300 hover:text-white"
+              className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg 
+            transition-colors duration-300 hover:bg-gray-300 hover:text-white"
             >
               Criar
             </button>
-          </ul>
-          <Link
-            to="/boards"
-            className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
-                           transition-colors duration-300
-                           hover:bg-gray-300 hover:text-white ml-4"
-          >
-            Boards
-          </Link>
-        </form>
+
+            <div className="relative">
+              <IoSearchSharp className="pointer-events-none absolute top-1/2 -translate-y-1/2 left-2 h-4 text-gray-500" />
+              <input
+                type="search"
+                placeholder="Pesquisa"
+                className="h-10 w-[30rem] rounded-[5px] border-2 border-black pl-8 pr-10 text-sm text-black placeholder-black
+              outline-none focus:ring-gray-500 focus:ring-2 focus:border-none transition-colors duration-300 hover:border-gray-500"
+              />
+            </div>
+
+            <Link
+              to="/boards"
+              className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+            transition-colors duration-300 hover:bg-gray-300 hover:text-white"
+            >
+              Boards
+            </Link>
+          </div>
+        </div>
+
         <div className="flex items-center">
-          <ul>
-            <li>
-              {usuario.id ?
-                <>
-                  <span className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
-                       transition-colors duration-300
-                       hover:bg-gray-300 hover:text-white mr-8">
-                    Olá {primeiroNome(usuario.nome)}
-                  </span>
-                  <button
-                    onClick={usuarioSair}
-                    className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
-                           transition-colors duration-300
-                           hover:bg-gray-300 hover:text-white"
-                  >
-                    Sair
-                  </button>
-                </>
-                :
-                <Link
-                  to="/login"
-                  className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
-                         transition-colors duration-300
-                         hover:bg-gray-300 hover:text-white"
-                >
-                  Login
-                </Link>
-              }
-            </li>
-          </ul>
+          {usuario.id ? (
+            <>
+              <span className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+            transition-colors duration-300 hover:bg-gray-300 hover:text-white mr-4">
+                Olá {primeiroNome(usuario.nome)}
+              </span>
+              <button
+                onClick={usuarioSair}
+                className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+              transition-colors duration-300 hover:bg-gray-300 hover:text-white"
+              >
+                Sair
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+            transition-colors duration-300 hover:bg-gray-300 hover:text-white"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </header>
+
   );
 
 }
