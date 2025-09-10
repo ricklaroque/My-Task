@@ -78,6 +78,14 @@ export default function Header() {
               Criar
             </button>
           </ul>
+          <Link
+            to="/boards"
+            className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+                           transition-colors duration-300
+                           hover:bg-gray-300 hover:text-white"
+          >
+            Boards
+          </Link>
         </form>
         <div className="flex items-center">
           <ul>
@@ -90,14 +98,6 @@ export default function Header() {
                     {usuario.nome}
                   </span>
                   &nbsp;&nbsp;
-                  <Link
-                    to="/boards"
-                    className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
-                           transition-colors duration-300
-                           hover:bg-gray-300 hover:text-white"
-                  >
-                    Boards
-                  </Link>
                   <button
                     onClick={usuarioSair}
                     className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg

@@ -1,13 +1,9 @@
-// import type { ListaType } from "../utils/ListaType";
-// import Modal from "react-responsive-modal";
+
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import type { BoardType } from "../utils/BoardType";
-import Modal from "../utils/Modal";
-import { NovaTask } from "./CardTaskModal";
-import NewBoard from "./NewBoard";
 import type { ListaType } from "../utils/ListaType";
-import type { TaskType } from "../utils/TaskType";
+
 const apiUrl = import.meta.env.VITE_API_URL
 
 export default function CardLista() {
