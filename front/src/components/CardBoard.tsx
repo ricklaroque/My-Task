@@ -27,20 +27,20 @@ export function CardBoard({data}: {data:BoardType}) {
     <div className={`group w-full h-[10rem] bg-[#FFFFFF] rounded-lg shadow-md hover:shadow-lg focus:ring-2 `}>
       <div className="p-4">
         <div className="flex items-center  gap-3 col">
-          <h5 className={`text-[#3B82F6] text-xl font-bold tracking-tight line-clamp-1  w-[10rem]`}>
+          <h5 className={`text-[#2563EB] text-xl font-bold tracking-tight line-clamp-1  w-[10rem]`}>
             {data.titulo}
           </h5>
 
           {data.motivo && (
-            <span className={`text-[#3B82F6] py-1 rounded-full text-xs font-bold ml-[5rem]`}>
+            <span className={`text-[#2563EB] py-1 rounded-full text-xs font-bold ml-[5rem]`}>
               {data.motivo}
             </span>
           )}
         </div>
 
-        <div className="mt-3 h-2 w-full rounded-full bg-[#3B82F6] dark:bg-gray-700">
+        <div className="mt-3 h-2 w-full rounded-full bg-[#2563EB] dark:bg-gray-700">
           <div
-            className="h-2 rounded-full bg-[#3B82F6] transition-all"
+            className="h-2 rounded-full bg-[#2563EB] transition-all"
             style={{ width: `${Math.max(0, Math.min(100, data?.progresso ?? 0))}%` }}
           />
         </div>
@@ -53,7 +53,7 @@ export function CardBoard({data}: {data:BoardType}) {
 
         <Link
           to={`/boards/${data?.id}/listas/tasks`}
-          className={`text-[#3B82F6] mt-7 inline-flex items-center px-3 py-2 text-sm font-medium  white border-2 rounded-lg focus:ring-2 ${corFundo(data.motivo)}`}
+          className={`text-[#2563EB] mt-7 inline-flex items-center px-3 py-2 text-sm font-medium  white border-2 rounded-lg focus:ring-2 ${corFundo(data.motivo)}`}
         >
           Abrir board
           <svg
