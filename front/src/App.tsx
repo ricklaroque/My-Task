@@ -25,12 +25,14 @@ export default function App() {
       logaUsuario(dados)
     }
       if(localStorage.getItem("usuarioKey")){
-        const idUsuario = localStorage.getItem("usuariokey")
+        const idUsuario = localStorage.getItem("usuarioKey")
         buscaUsuario(idUsuario as string)
       }
   }, [])
 
-  const listaBoards = boards.map((board) => <CardBoard data={board} key={board.id} />)
+  const listaBoards = boards.map((board) => 
+  <CardBoard data={board} key={board.id} />
+)
 
   const handleCreateBoard = () => {
     console.log("Criando novo board...")

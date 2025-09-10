@@ -17,7 +17,6 @@ export default function Login() {
   const { logaUsuario } = useUsuarioStore()
   const navigate = useNavigate()
 
-  // mantém seu efeito/decoração (se não usa, pode remover este useEffect)
   useEffect(() => {
     const script = document.createElement("script")
     script.src = "/finisher-header.es5.min.js"
@@ -49,10 +48,8 @@ export default function Login() {
 
     if (response.status === 200) {
       const dados = await response.json()
-      // coloca os dados do USUÁRIO no contexto (equivalente ao exemplo do prof)
       logaUsuario(dados)
 
-      // persistência opcional (usa USUARIO key!)
       if (data.manter) {
         localStorage.setItem("usuarioKey", dados.id)
       } else {
@@ -60,8 +57,7 @@ export default function Login() {
           localStorage.removeItem("usuarioKey")
         }
       }
-
-      navigate("/boards")
+      navigate("/")
     } else {
       toast.error("Erro... Login ou senha incorretos")
     }
