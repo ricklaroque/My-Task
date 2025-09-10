@@ -12,12 +12,14 @@ export default function Layout() {
 
   return (
     <>
-      {/* <Header setBoards={setBoards} /> */}
-      {/* {!routesSemHeader.includes(location.pathname) && <Header setBoards={setBoards} />} */}
-      <Header/>
-      <Outlet />
-      <Toaster richColors position="top-center"/>
-      {/* context={{ boards, setBoards }}  */}
+      <div className="bg-gray-100 min-h-screen">
+        {/* <Header setBoards={setBoards} /> */}
+        {/* {!routesSemHeader.includes(location.pathname) && <Header setBoards={setBoards} />} */}
+        <Header />
+        <Outlet />
+        <Toaster richColors position="top-center" />
+        {/* context={{ boards, setBoards }}  */}
+      </div>
     </>
   );
 }

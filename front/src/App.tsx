@@ -39,7 +39,7 @@ export default function App() {
   if (loading) return <div>Carregando...</div>
 
   return (
-    <div className="min-h-screen bg-gray-200 rounded-lg w-[80vw] mx-auto mt-2[rem]">
+    <div className="min-h-screen bg-gray-100 rounded-lg w-[80vw] mx-auto mt-[1rem]">
       <div className="mx-auto max-w-7xl px-4 py-6">
         <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-3 md:gap-4 place-items-stretch">
           {listaBoards}

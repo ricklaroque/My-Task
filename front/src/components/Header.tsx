@@ -45,7 +45,7 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-cyan-600 dark:bg-gray-700">
+    <header className="px-50 bg-gray-100 dark:bg-gray-700">
       <div className=" mx-auto px-6 flex items-center justify-between">
         <div className="flex items-center">
           <img src={logo} className="w-25 h-20 rounded-full" />
