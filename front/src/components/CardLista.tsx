@@ -1,3 +1,4 @@
+import { FaPencil } from "react-icons/fa6";
 import { FaRegComment } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -38,22 +39,24 @@ export default function CardLista() {
 
             <div className="flex gap-4">
                 {listas.map((lista) => (
-                    <div key={lista.id} className="p-4 rounded-lg shadow w-[15rem] border-2 border-black">
-                        <h2 className="text-lg font-semibold mb-3">{lista.titulo}</h2>
-
+                    <div key={lista.id} className="p-4 rounded-[8px] shadow w-[15rem] border-2 border-black">
+                        <div className="flex justify-between">
+                            <h2 className="text-lg font-bold mb-3">{lista.titulo}</h2>
+                            <FaPencil className="cursor-pointer"/>
+                        </div>
                         {(lista.tasks ?? []).length ? (
                             <ul className="space-y-2">
                                 {(lista.tasks ?? []).map((t) => (
-                                    <li key={t.id} className="rounded border p-2">
-                                        <div className="flex items-center ">
-                                            <strong className="line-clamp-1">{t.titulo}</strong>
-                                            <div className="flex ml-[5rem]">
+                                    <li key={t.id} className="rounded-[8px] border p-2">
+                                        <div className="flex justify-between ">
+                                            <strong className="line-clamp-1 font-medium ">{t.titulo}</strong>
+                                            <div className="flex ml-[5rem] text-center items-center">
                                                 <input type="checkbox" className="cursor-pointer" />
                                                 <FaRegComment className="cursor-pointer" />
                                             </div>
                                         </div>
-                                        {t.descricao && <p className="text-sm text-gray-600 mt-1">{t.descricao}</p>}
-                                        {t.prazo && <p className="text-xs text-gray-500 mt-1">{new Date(t.prazo).toLocaleDateString("pt-BR")}</p>}
+                                        {/* {t.descricao && <p className="text-sm text-gray-600 mt-1">{t.descricao}</p>}
+                                        {t.prazo && <p className="text-xs text-gray-500 mt-1">{new Date(t.prazo).toLocaleDateString("pt-BR")}</p>} */}
                                     </li>
 
                                 ))}
