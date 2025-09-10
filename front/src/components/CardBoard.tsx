@@ -24,8 +24,7 @@ function corFonte(motivo: BoardType["motivo"]) {
 export function CardBoard({data}: {data:BoardType}) {
   if(!data) return null;
   return (
-
-    <div className={`group w-full h-[10rem] bg-[#1F2937] rounded-lg shadow-md hover:shadow-lg focus:ring-2 `}>
+    <div className={`group w-full h-[10rem] bg-[#FFFFFF] rounded-lg shadow-md hover:shadow-lg focus:ring-2 `}>
       <div className="p-4">
         <div className="flex items-center  gap-3 col">
           <h5 className={`text-[#3B82F6] text-xl font-bold tracking-tight line-clamp-1  w-[10rem]`}>

@@ -49,10 +49,9 @@ export default function CardLista() {
     return (
         <div className="p-6">
             <h1 className="text-2xl font-bold mb-6 text-[#3B82F6] border-[#3B82F6] border-b-2">{board.titulo}</h1>
-
             <div className="flex gap-4">
                 {listas.map((lista) => (
-                    <div key={lista.id} className="text-[#3B82F6] p-4 rounded-[8px] shadow w-[15rem] border-2 border-[#3B82F6]">
+                    <div key={lista.id} className="text-[#3B82F6] bg-[#FFFFFF] p-4 rounded-[8px] shadow w-[15rem] border-2 border-[#3B82F6]">
                         <div className="flex justify-between">
                             <h2 className="text-lg font-bold mb-3">{lista.titulo}</h2>
                             <FaPencil className="cursor-pointer" />
