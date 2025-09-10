@@ -7,21 +7,16 @@ import App from './App.tsx'
 import Layout from './Layout.tsx'
 import Login from './routes/Login.tsx'
 import CardLista from './components/CardLista.tsx'
-// import { Autenticador } from './context/Autenticador.tsx'
 
 import './index.css'
 
 const rotas = createBrowserRouter([
   {
     path: '/',
-    element: (
-      // <Autenticador>
-      /* </Autenticador> */
-        <Layout />
-    ),
+    element: <Layout />,
     children: [
-      { index: true, element: <Navigate to="/boards" replace /> }, // Redireciona direto para boards
-      { path: 'login', element: <Login /> },                       // Login em rota específica
+      { index: true, element: <Navigate to="/boards" replace /> }, 
+      { path: 'login', element: <Login /> },                       
       { path: 'boards', element: <App /> },                        
       { path: 'boards/:boardId/listas/tasks', element: <CardLista /> },
       { path: '*', element: <Navigate to="/boards" replace /> },
