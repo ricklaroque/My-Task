@@ -1,4 +1,4 @@
-
+import { FaRegComment } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import type { BoardType } from "../utils/BoardType";
@@ -45,13 +45,17 @@ export default function CardLista() {
                             <ul className="space-y-2">
                                 {(lista.tasks ?? []).map((t) => (
                                     <li key={t.id} className="rounded border p-2">
-                                        <div className="flex items-center justify-between">
+                                        <div className="flex items-center ">
                                             <strong className="line-clamp-1">{t.titulo}</strong>
-                                            {/* <span>{t.feito ? "✅" : "⬜"}</span> */}
+                                            <div className="flex ml-[5rem]">
+                                                <input type="checkbox" className="cursor-pointer" />
+                                                <FaRegComment className="cursor-pointer" />
+                                            </div>
                                         </div>
                                         {t.descricao && <p className="text-sm text-gray-600 mt-1">{t.descricao}</p>}
                                         {t.prazo && <p className="text-xs text-gray-500 mt-1">{new Date(t.prazo).toLocaleDateString("pt-BR")}</p>}
                                     </li>
+
                                 ))}
                             </ul>
                         ) : (
