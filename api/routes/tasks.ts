@@ -37,8 +37,7 @@ router.get("/listas/tasks", async (req, res) => {
         })       
         res.status(200).json(tasks) 
     } catch (error) {
-        console.error('ERRO GET /tasks/by-lista/:listaId', error);
-    res.status(500).json({ erro: 'Falha ao buscar tasks do lista.' });
+    res.status(400).json({error});
     }
 })
 

@@ -9,6 +9,7 @@ import type { ComentarioType } from "../utils/ComentarioType";
 import { useUsuarioStore } from "../context/UsuarioContext";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
+import type { TaskType } from "../utils/TaskType";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -20,6 +21,7 @@ export default function CardLista() {
     const { boardId } = useParams<{ boardId: string }>();
     const [board, setBoard] = useState<BoardType | null>(null);
     const [listas, setListas] = useState<ListaType[]>([]);
+    const [tasks, setTasks] = useState<TaskType[]>([])
     const {usuario} = useUsuarioStore()
     const [comentarios, setComentarios] = useState<ComentarioType[]>([]);
     const [loading, setLoading] = useState(true);
@@ -31,11 +33,12 @@ export default function CardLista() {
         (async () => {
             try {
                 setLoading(true);
-                const response = await fetch(`${apiUrl}/boards/${boardId}/listas/tasks`);
+                const response = await fetch(`${apiUrl}/boards/${boardId}/listas/tasks/comentarios`);
                 // const responseComentarios = await fetch(`${apiUrl}/`)
                 const dados = await response.json();
                 setBoard(dados);
                 setListas(dados.listas ?? []);
+                setTasks(dados.tasks ?? [])
                 setComentarios(dados.comentarios ?? [])
             } catch (e) {
                 console.error(e);
@@ -48,6 +51,7 @@ export default function CardLista() {
     if (loading) return <div>Carregando…</div>;
     if (!board) return <div>Board não encontrado</div>;
 
+    
     async function enviarComentario(data: Inputs) {
         if (!openTaskId) return;
         const response = await fetch(`${apiUrl}/tasks/${openTaskId}/comentarios`, {
@@ -89,7 +93,6 @@ export default function CardLista() {
                                                 onClick={() => setOpenTaskId(t.id)}
                                                 className="font-medium ml-[1rem] w-[8.5rem] cursor-pointer text-start"
                                             >
-
                                                 {t.titulo}
                                             </button>
                                         </div>
@@ -151,6 +154,7 @@ export default function CardLista() {
                                                             </div>
                                                         </div>
                                                         <div className="w-[25.5rem] h-[2rem]  bg-gray-200 rounded-xl">
+                                                            {/* <h1>{(listas.tasks.comentarios ?? []).map (c)}</h1> */}
                                                         <h1 className="ml-2">Comentarios</h1>
                                                         </div>
                                                     </form>

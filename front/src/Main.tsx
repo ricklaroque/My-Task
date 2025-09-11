@@ -18,7 +18,7 @@ const rotas = createBrowserRouter([
       { index: true, element: <Navigate to="/boards" replace /> }, 
       { path: 'login', element: <Login /> },                       
       { path: 'boards', element: <App /> },                        
-      { path: 'boards/:boardId/listas/tasks', element: <CardLista /> },
+      { path: 'boards/:boardId/listas/tasks/comentarios', element: <CardLista /> },
       { path: '*', element: <Navigate to="/boards" replace /> },
     ],
   },

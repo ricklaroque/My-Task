@@ -72,7 +72,7 @@ export default function Header() {
             <>
               <span className="text-[#3B82F6] font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
             transition-colors duration-300 hover:bg-[#155fd6] hover:text-white mr-4">
-                Olá {primeiroNome(usuario.nome)}
+                Olá, {primeiroNome(usuario.nome)}!
               </span>
               <button
                 onClick={usuarioSair}

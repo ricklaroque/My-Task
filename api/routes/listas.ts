@@ -35,8 +35,8 @@ router.get('/:id/tasks', async (req, res) => {
     if (!lista) return res.status(404).json({ erro: 'Lista não encontrada.' });
     res.status(200).json(lista.tasks);
   } catch (error) {
-    console.error('ERRO GET /listas/:id/tasks', error);
-    res.status(500).json({ erro: 'Falha ao buscar tasks da lista.' });
+    res.status(400).json({error});
+    return
   }
 })
 
@@ -44,7 +44,7 @@ router.get('/:id/tasks', async (req, res) => {
 router.post('/', async (req, res) => {
   const valida = listaSchema.safeParse(req.body);
   if (!valida.success) {
-    return res.status(400).json({ erro: valida.error.format() });
+    return res.status(400).json();
   }
   const { titulo, boardId } = valida.data;
   try {
@@ -53,8 +53,8 @@ router.post('/', async (req, res) => {
     });
     res.status(201).json(nova);
   } catch (error) {
-    console.error('ERRO POST /listas', error);
-    res.status(400).json({ erro: 'Erro ao criar lista.' });
+   res.status(400).json({error});
+    return
   }
 });
 
@@ -75,8 +75,8 @@ router.put('/:id', async (req, res) => {
     });
     res.status(200).json(upd);
   } catch (error) {
-    console.error('ERRO PUT /listas/:id', error);
-    res.status(400).json({ erro: 'Erro ao atualizar lista.' });
+    res.status(400).json({error});
+    return
   }
 });
 
@@ -87,8 +87,8 @@ router.delete('/:id', async (req, res) => {
     const del = await prisma.lista.delete({ where: { id } });
     res.status(200).json(del);
   } catch (error) {
-    console.error('ERRO DELETE /listas/:id', error);
-    res.status(400).json({ erro: 'Erro ao deletar lista.' });
+    res.status(400).json({error});
+    return
   }
 });
 
@@ -107,8 +107,8 @@ router.get('/lista/:termo', async (req, res) => {
       });
       return res.status(200).json(listas);
     } catch (error) {
-      console.error('ERRO GET /listas/lista/:termo', error);
-      return res.status(500).json({ erro: 'Falha na busca.' });
+      res.status(500).json({error});
+      return 
     }
   }
   return res.status(400).json({ erro: 'Use /by-board/:boardId para listar por board.' });

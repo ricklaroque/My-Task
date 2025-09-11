@@ -28,9 +28,8 @@ router.get('/', async (_req, res) => {
   }
 });
 
-router.get('/:id/listas/tasks/', async (req, res) => {
+router.get('/:id/listas/tasks/comentarios', async (req, res) => {
   const { id } = req.params
-  
   try {
     const board = await prisma.board.findFirst({
       where: { id: Number(id) },
@@ -38,7 +37,12 @@ router.get('/:id/listas/tasks/', async (req, res) => {
         listas: {
           include: {
             tasks: {
-              orderBy: { id: 'asc' }
+              orderBy: { id: 'asc' },
+              include: {
+                comentarios: {
+                  orderBy: { id: 'asc'},
+                }
+              }
             }
           }
         },
@@ -46,7 +50,7 @@ router.get('/:id/listas/tasks/', async (req, res) => {
     })
     res.status(200).json(board)
   } catch (error) {
-    res.status(500).json({ erro: error })
+    res.status(400).json({ erro: error })
   }
 });
 

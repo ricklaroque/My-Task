@@ -25,7 +25,7 @@ model Usuario {
   updatedAt   DateTime     @updatedAt
   lastAccess  DateTime?
   boards      Board[]
-  Task        Task[]
+  tasks       Task[]
   Log         Log[]
   comentarios Comentario[]
 
@@ -79,8 +79,8 @@ model Comentario {
   conteudo  String  @db.VarChar(255)
   task      Task    @relation(fields: [taskId], references: [id])
   taskId    Int
-  usuario   Usuario @relation(fields: [usuarioId], references: [id])
-  usuarioId String
+  usuario   Usuario? @relation(fields: [usuarioId], references: [id])
+  usuarioId String?
 
   @@map("comentarios")
 }
