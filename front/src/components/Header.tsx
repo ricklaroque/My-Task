@@ -38,11 +38,10 @@ export default function Header() {
 
         <div className="flex flex-1 justify-center">
           <div className="flex items-center gap-4">
-
             <button
               type="button"
               className="text-[#3B82F6] font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg 
-            transition-colors duration-300 hover:bg-[#155fd6] hover:text-white hover:shadow-md"
+            transition-colors duration-500 hover:bg-[#155fd6] hover:text-white hover:shadow-md "
             >
               Criar
             </button>
@@ -53,14 +52,14 @@ export default function Header() {
                 type="search"
                 placeholder="Pesquisa"
                 className="h-10 w-[30rem] rounded-[5px] border-2 border-[#3B82F6] pl-8 pr-10 text-sm text-[#3B82F6] placeholder-[#3B82F6]
-              outline-none focus:ring-[#3B82F6] focus:ring-2 focus:border-none transition-all duration-300 hover:border-[#155fd6] hover:shadow-md"
+              outline-none focus:ring-[#3B82F6] focus:ring-2 focus:border-none transition-all duration-500 hover:border-[#155fd6] hover:shadow-md "
               />
             </div>
 
             <Link
               to="/boards"
               className="text-[#3B82F6] font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
-            transition-colors duration-300 hover:bg-[#155fd6] hover:text-white hover:shadow-md"
+            transition-colors duration-500 hover:bg-[#155fd6] hover:text-white hover:shadow-md"
             >
               Boards
             </Link>
@@ -71,13 +70,13 @@ export default function Header() {
           {usuario.id ? (
             <>
               <span className="text-[#3B82F6] font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
-            transition-colors duration-300 hover:bg-[#155fd6] hover:text-white mr-4">
+            transition-colors duration-500 hover:bg-[#155fd6] hover:text-white mr-4">
                 Olá, {primeiroNome(usuario.nome)}!
               </span>
               <button
                 onClick={usuarioSair}
                 className="text-[#3B82F6] font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
-              transition-colors duration-300 hover:bg-[#155fd6] hover:text-white"
+              transition-colors duration-500 hover:bg-[#155fd6] hover:text-white"
               >
                 Sair
               </button>
@@ -86,7 +85,7 @@ export default function Header() {
             <Link
               to="/login"
               className="text-[#3B82F6] font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
-            transition-colors duration-300 hover:bg-[#155fd6] hover:text-white hover:shadow-md"
+            transition-colors duration-500 hover:bg-[#155fd6] hover:text-white hover:shadow-md"
             >
               Login
             </Link>

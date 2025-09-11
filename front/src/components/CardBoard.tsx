@@ -1,26 +1,6 @@
 import { Link } from "react-router-dom";
 import type { BoardType } from "../utils/BoardType";
 
-function corFundo(motivo: BoardType["motivo"]) {
-  switch (motivo) {
-    case "TRABALHO": return "transition-colors duration-300 hover:bg-[#155fd6] hover:border-none hover:text-white";    // Azul médio destacado
-    case "ESTUDO": return "transition-colors duration-300 hover:bg-[#155fd6] hover:border-none hover:text-white";    // Roxo/azulado vibrante
-    case "PESSOAL": return "transition-colors duration-300 hover:bg-[#155fd6] hover:border-none hover:text-white";  // Verde esmeralda claro
-    case "OUTRO": return "transition-colors duration-300 hover:bg-[#155fd6] hover:border-none hover:text-white";       // Rosa/vermelho claro
-    default: return "focus:ring-gray-200";
-  }
-}
-
-function corFonte(motivo: BoardType["motivo"]) {
-  switch (motivo) {
-        case "TRABALHO": return "transition-colors duration-300 hover:bg-gray-100 hover:text-[#F87171]";
-    case "ESTUDO": return "transition-colors duration-300 hover:bg-gray-100 hover:text-[#F87171]";
-    case "PESSOAL": return "transition-colors duration-300 hover:bg-gray-100 hover:text-[#F87171]";
-    case "OUTRO": return "transition-colors duration-300 hover:bg-gray-100 hover:text-[#F87171]";
-    default: return "focus:ring-gray-200";
-  }
-}
-
 export function CardBoard({data}: {data:BoardType}) {
   if(!data) return null;
   return (
@@ -56,7 +36,7 @@ export function CardBoard({data}: {data:BoardType}) {
 
         <Link
           to={`/boards/${data?.id}/listas/tasks/comentarios`}
-          className={`text-[#3B82F6] mt-7 inline-flex items-center px-3 py-2 text-sm font-medium  white border-2 rounded-lg focus:ring-2 ${corFundo(data.motivo)}`}
+          className={`text-[#3B82F6] mt-7 inline-flex items-center px-3 py-2 text-sm font-medium  white border-2 rounded-lg focus:ring-2 hover:bg-[#155fd6] hover:border-none hover:text-white duration-1000`}
         >
           Abrir board
           <svg

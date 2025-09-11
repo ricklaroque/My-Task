@@ -9,5 +9,11 @@ export type ListaType = {
         titulo: string
         descricao: string
         prazo: string
+        comentarios?: {
+            id: number
+            conteudo: string
+            taskId: number
+            usuarioId: string
+        }[]
     }[]
 }
