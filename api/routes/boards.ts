@@ -58,28 +58,6 @@ router.get('/:id/listas/tasks/comentarios', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
-  const id = Number(req.params.id);
-  if (Number.isNaN(id)) {
-    return res.status(400).json({ erro: 'id inválido' });
-  }
-  try {
-    const board = await prisma.board.findUnique({
-      where: { id },
-      include: {
-        listas: {
-          include: {
-            _count: { select: { tasks: true } }
-          },
-        },
-      },
-    });
-    if (!board) return res.status(404).json({ erro: 'Board não encontrado.' });
-    res.status(200).json(board);
-  } catch (error) {
-    res.status(400).json({error});
-  }
-});
 
 router.post('/', async (req, res) => {
   const valida = boardSchema.safeParse(req.body);
@@ -133,4 +111,24 @@ router.delete('/:id', async (req, res) => {
 });
 
 
+router.get("/pesquisa/:termo", async (req, res) => {
+  const { termo } = req.params
+
+  try {
+      const boards = await prisma.board.findMany({
+        include: {
+          usuario: true,
+        },
+        where: {
+          OR: [
+            { titulo: { contains: termo, mode: "insensitive" } },
+            { usuario: { nome: { equals: termo, mode: "insensitive" } } },
+          ],
+        },
+      })
+      res.status(200).json(boards)
+    } catch (error) {
+      res.status(500).json({ erro: error })
+    }
+})
 export default router;
