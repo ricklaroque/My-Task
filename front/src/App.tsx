@@ -2,13 +2,15 @@ import type { BoardType } from "./utils/BoardType"
 import { useEffect, useState } from "react"
 import { CardBoard } from "./components/CardBoard"
 import NewBoard from "./components/NewBoard"
-import { useUsuarioStore } from "./context/UsuarioContext"
 
 const apiUrl = import.meta.env.VITE_API_URL
 
-export default function App() {
+type AppProps = {
+  termoPesquisa?: string
+}
+
+export default function App({ termoPesquisa }: AppProps) {
   const [boards, setBoards] = useState<BoardType[]>([])
-  const { logaUsuario } = useUsuarioStore()
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -19,33 +21,32 @@ export default function App() {
       setLoading(false)
     }
     buscaBoards()
-    async function buscaUsuario(id: string) {
-      const response = await fetch(`${apiUrl}/usuarios/${id}`)
-      const dados = await response.json()
-      logaUsuario(dados)
-    }
-      if(localStorage.getItem("usuarioKey")){
-        const idUsuario = localStorage.getItem("usuarioKey")
-        buscaUsuario(idUsuario as string)
-      }
   }, [])
 
-  const listaBoards = boards.map((board) => 
+  // Filtra boards baseado no termo de pesquisa
+  const boardsFiltrados = termoPesquisa && termoPesquisa.trim().length > 0
+    ? boards.filter(board => 
+        board.titulo.toLowerCase().includes(termoPesquisa.toLowerCase()) ||
+        board.motivo.toLowerCase().includes(termoPesquisa.toLowerCase())
+      )
+    : boards
+
+  const listaBoards = boardsFiltrados.map((board) => 
   <CardBoard data={board} key={board.id} />
 )
 
-  const handleCreateBoard = () => {
+  const criarBoard = () => {
     console.log("Criando novo board...")
   }
 
   if (loading) return <div>Carregando...</div>
 
   return (
-    <div className="min-h-screen bg-gray-200 rounded-lg w-[80vw] mx-auto mt-2[rem]">
+    <div className="min-h-screen bg-[#F5F7FA] rounded-lg w-[80vw] mx-auto mt-[1rem]">
       <div className="mx-auto max-w-7xl px-4 py-6">
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-3 md:gap-4 place-items-stretch">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {listaBoards}
-          <NewBoard onClick={handleCreateBoard} />
+          <NewBoard onClick={criarBoard} />
         </div>
       </div>
     </div>

@@ -1,39 +1,21 @@
-// import { useForm } from "react-hook-form";
-// import { toast } from "sonner";
-import logo from "../img/MyT.png"
-// import type { BoardType } from "../utils/BoardType";
+import { InputPesquisa } from "./InputPesquisa";
+import { IoSearchSharp } from "react-icons/io5";
+import { FaRegCalendarCheck } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useUsuarioStore } from "../context/UsuarioContext";
-// import { useState } from "react";
-// import Modal from "../utils/Modal";
-// import { NovaTask } from "./CardTaskModal";
 
-// const apiUrl = import.meta.env.VITE_API_URL;
+type HeaderProps = {
+  onPesquisa?: (termo: string) => void
+}
 
-// type Inputs = {
-//   termo: string;
-// };
-
-// type HeaderProps = {
-//   setBoards: React.Dispatch<React.SetStateAction<BoardType[]>>;
-// };
-// { setBoards }: HeaderProps
-// async function criarBoard() {
-//   const { adicionarBoard } = useBoardStore.getState()
-//   const resp = await fetch("/api/boards", {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({ titulo: "Novo Board", motivo: "Teste" })
-//   });
-//   const novoBoard = await resp.json()
-//   adicionarBoard(novoBoard)
-
-// }
-
-export default function Header() {
+export default function Header({ onPesquisa }: HeaderProps) {
   const { usuario, deslogaUsuario } = useUsuarioStore()
   const navigate = useNavigate()
-
+// AAAAAAAAA
+  function primeiroNome(nomeCompleto: string) {
+    return nomeCompleto.split(" ")[0];
+  }
+// /pesquisa/:termo
   function usuarioSair() {
     if (confirm("Confirma saída do sistema?")) {
       deslogaUsuario()
@@ -45,83 +27,73 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-cyan-600 dark:bg-gray-700">
-      <div className=" mx-auto px-6 flex items-center justify-between">
-        <div className="flex items-center">
-          <img src={logo} className="w-25 h-20 rounded-full" />
-        </div>
-        <form className="relative flex-1 max-w-md mx-8 flex items-center focus:border-none">
-          <ul className="flex">
-            <input
+    <header className="bg-[#F5F7FA] dark:bg-gray-700 py-4">
+      <div className="w-[80%] mx-auto px-6 flex items-center justify-between">
 
-              type="search"
-              placeholder="Pesquisa"
-              className="h-10 w-[35rem] rounded-[5px] border-2 border-black pl-10 pr-10 text-sm text-black placeholder-black
-            outline-none focus:ring-gray-500 focus:ring-2 focus:border-none transition-colors duration-300 hover:border-gray-500"
-            />
-            <svg
-              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={3}
-            >
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.35-4.35" />
-            </svg>
+        <div className="flex items-center gap-2 ">
+          <FaRegCalendarCheck size={24} className="text-[#3B82F6]" />
+          <h1 className="text-[#3B82F6] text-[1.5rem] font-bold">MyT</h1>
+        </div>
+
+        <div className="flex flex-1 justify-center">
+          <div className="flex items-center gap-4">
             <button
               type="button"
-              className="ml-4 text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg 
-                transition-colors duration-300  hover:bg-gray-300 hover:text-white"
+              className="text-[#3B82F6] font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg 
+            transition-colors duration-500 hover:bg-[#155fd6] hover:text-white hover:shadow-md "
             >
               Criar
             </button>
-          </ul>
-          <Link
-            to="/boards"
-            className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
-                           transition-colors duration-300
-                           hover:bg-gray-300 hover:text-white"
-          >
-            Boards
-          </Link>
-        </form>
+
+            <div className="relative">
+              <IoSearchSharp className="pointer-events-none absolute top-1/2 -translate-y-1/2 left-2 h-4 text-[#3B82F6]" />
+              <InputPesquisa onPesquisa={onPesquisa || (() => {})} />
+              {/* <input
+                type="search"
+                placeholder="Pesquisa"
+                className="h-10 w-[30rem] rounded-[5px] border-2 border-[#3B82F6] pl-8 pr-10 text-sm text-[#3B82F6] placeholder-[#3B82F6]
+              outline-none focus:ring-[#3B82F6] focus:ring-2 focus:border-none transition-all duration-500 hover:border-[#155fd6] hover:shadow-md "
+              />*/}
+            </div> 
+
+            <Link
+              to="/boards"
+              className="text-[#3B82F6] font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+            transition-colors duration-500 hover:bg-[#155fd6] hover:text-white hover:shadow-md"
+            >
+              Boards
+            </Link>
+          </div>
+        </div>
+
         <div className="flex items-center">
-          <ul>
-            <li>
-              {usuario.id ?
-                <>
-                  <span className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
-                       transition-colors duration-300
-                       hover:bg-gray-300 hover:text-white">
-                    {usuario.nome}
-                  </span>
-                  &nbsp;&nbsp;
-                  <button
-                    onClick={usuarioSair}
-                    className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
-                           transition-colors duration-300
-                           hover:bg-gray-300 hover:text-white"
-                  >
-                    Sair
-                  </button>
-                </>
-                :
-                <Link
-                  to="/login"
-                  className="text-black font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
-                         transition-colors duration-300
-                         hover:bg-gray-300 hover:text-white"
-                >
-                  Login
-                </Link>
-              }
-            </li>
-          </ul>
+          {usuario.id ? (
+            <>
+              <span className="text-[#3B82F6] font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+            transition-colors duration-500 hover:bg-[#155fd6] hover:text-white mr-4">
+                Olá, {primeiroNome(usuario.nome)}!
+              </span>
+              <button
+                onClick={usuarioSair}
+                className="text-[#3B82F6] font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+              transition-colors duration-500 hover:bg-[#155fd6] hover:text-white"
+              >
+                Sair
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className="text-[#3B82F6] font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+            transition-colors duration-500 hover:bg-[#155fd6] hover:text-white hover:shadow-md"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </header>
+
   );
 
 }

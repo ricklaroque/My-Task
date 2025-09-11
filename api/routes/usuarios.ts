@@ -185,8 +185,7 @@ router.patch("/altera_senha/:id", verificaToken, async (req, res) => {
         res.status(200).json({ mensagem: "Senha alterada com sucesso!" });
 
     } catch (error) {
-        console.error("Erro ao tentar alterar a senha:", error);
-        res.status(500).json({ erro: "Erro ao tentar alterar a senha." });
+        res.status(400).json({error});
     }
 });
 

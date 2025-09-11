@@ -1,23 +1,61 @@
+
+import { useEffect, useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "./components/Header";
-// Layout.tsx
-import { Outlet } from "react-router-dom";
-import { Toaster } from "sonner";
-// import { useState } from "react";
-// import type { BoardType } from "./utils/BoardType";
+import { useUsuarioStore } from "./context/UsuarioContext";
+import App from "./App";
+
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function Layout() {
-  // const [boards, setBoards] = useState<BoardType[]>([]);
-  // const location = useLocation()
-  // const routesSemHeader = ['/login', '/cadastro']
+  const { logaUsuario, deslogaUsuario } = useUsuarioStore();
+  const [termoPesquisa, setTermoPesquisa] = useState<string>("");
+  const location = useLocation();
+
+  useEffect(() => {
+    async function buscaUsuario(id: string) {
+      const response = await fetch(`${apiUrl}/usuarios/${id}`);
+      if (!response.ok) {
+        deslogaUsuario();
+        return;
+      }
+      const dados = await response.json();
+      logaUsuario(dados);
+    }
+
+    if (localStorage.getItem("usuarioKey")) {
+      const idUsuario = localStorage.getItem("usuarioKey") as string;
+      buscaUsuario(idUsuario); 
+    } else {
+      deslogaUsuario();
+    }
+  }, []);
+
+
+  useEffect(() => {
+    if (location.pathname !== '/boards') {
+      setTermoPesquisa("");
+    }
+  }, [location.pathname]);
+
+  function handlePesquisa(termo: string) {
+    setTermoPesquisa(termo);
+  }
+
+  // Se estiver na rota /boards, renderiza o App com pesquisa
+  if (location.pathname === '/boards') {
+    return (
+      <div className="bg-[#F5F7FA] min-h-screen">
+        <Header onPesquisa={handlePesquisa} />
+        <App termoPesquisa={termoPesquisa} />
+      </div>
+    );
+  }
 
   return (
-    <>
-      {/* <Header setBoards={setBoards} /> */}
-      {/* {!routesSemHeader.includes(location.pathname) && <Header setBoards={setBoards} />} */}
-      <Header/>
+    <div className="bg-[#F5F7FA] min-h-screen">
+      <Header />
       <Outlet />
-      <Toaster richColors position="top-center"/>
-      {/* context={{ boards, setBoards }}  */}
-    </>
+    </div>
   );
 }

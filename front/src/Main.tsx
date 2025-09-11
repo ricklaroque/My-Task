@@ -1,4 +1,3 @@
-// main.tsx
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
@@ -6,6 +5,7 @@ import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import App from './App.tsx'
 import Layout from './Layout.tsx'
 import Login from './routes/Login.tsx'
+import Cadastro from './routes/Cadastro.tsx'
 import CardLista from './components/CardLista.tsx'
 
 import './index.css'
@@ -17,8 +17,9 @@ const rotas = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to="/boards" replace /> }, 
       { path: 'login', element: <Login /> },                       
+      { path: 'cadastro', element: <Cadastro /> }, 
       { path: 'boards', element: <App /> },                        
-      { path: 'boards/:boardId/listas/tasks', element: <CardLista /> },
+      { path: 'boards/:boardId/listas/tasks/comentarios', element: <CardLista /> },
       { path: '*', element: <Navigate to="/boards" replace /> },
     ],
   },

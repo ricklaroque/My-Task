@@ -1,47 +1,29 @@
 import { Link } from "react-router-dom";
 import type { BoardType } from "../utils/BoardType";
 
-function corFundo(motivo: BoardType["motivo"]) {
-  switch (motivo) {
-    case "TRABALHO": return "transition-colors duration-300 hover:bg-blue-300 hover:text-white";    // Azul médio destacado
-    case "ESTUDO": return "transition-colors duration-300 hover:bg-indigo-500 hover:text-white";    // Roxo/azulado vibrante
-    case "PESSOAL": return "transition-colors duration-300 hover:bg-blue-500 hover:text-white";  // Verde esmeralda claro
-    case "OUTRO": return "transition-colors duration-300 hover:bg-rose-300 hover:text-white";       // Rosa/vermelho claro
-    default: return "focus:ring-gray-200";
-  }
-}
-
-function corFonte(motivo: BoardType["motivo"]) {
-  switch (motivo) {
-        case "TRABALHO": return "transition-colors duration-300 hover:bg-gray-100 hover:text-blue-300";
-    case "ESTUDO": return "transition-colors duration-300 hover:bg-gray-100 hover:text-indigo-500";
-    case "PESSOAL": return "transition-colors duration-300 hover:bg-gray-100 hover:text-blue-500";
-    case "OUTRO": return "transition-colors duration-300 hover:bg-gray-100 hover:text-rose-300";
-    default: return "focus:ring-gray-200";
-  }
-}
-
 export function CardBoard({data}: {data:BoardType}) {
   if(!data) return null;
   return (
-
-    <div className={`group w-full h-[10rem] bg-white rounded-2xl border-2 border-black shadow-md hover:shadow-lg focus:ring-2 ${corFonte(data.motivo)}`}>
+    // #3B82F6
+    // #3faafb
+    // #D2B48C
+    <div className={`group w-full h-[10rem] bg-[#FFFFFF] rounded-lg  hover:shadow-gray-400 shadow-md`}>
       <div className="p-4">
         <div className="flex items-center  gap-3 col">
-          <h5 className={`text-xl font-bold tracking-tight line-clamp-1  w-[10rem]`}>
+          <h5 className={`text-[#3B82F6] text-xl font-bold tracking-tight line-clamp-1  w-[10rem]`}>
             {data.titulo}
           </h5>
 
           {data.motivo && (
-            <span className={`py-1 rounded-full text-xs font-bold ml-[5rem]`}>
+            <span className={`text-[#3B82F6] py-1 rounded-full text-xs font-bold ml-[5rem]`}>
               {data.motivo}
             </span>
           )}
         </div>
 
-        <div className="mt-3 h-2 w-full rounded-full bg-black dark:bg-gray-700">
+        <div className="mt-3 h-2 w-full rounded-full bg-[#3B82F6] dark:bg-gray-700">
           <div
-            className="h-2 rounded-full bg-black transition-all"
+            className="h-2 rounded-full bg-[#3B82F6] transition-all"
             style={{ width: `${Math.max(0, Math.min(100, data?.progresso ?? 0))}%` }}
           />
         </div>
@@ -53,8 +35,8 @@ export function CardBoard({data}: {data:BoardType}) {
         )}
 
         <Link
-          to={`/boards/${data?.id}/listas/tasks`}
-          className={`mt-7 inline-flex items-center px-3 py-2 text-sm font-medium text-black white border-2 rounded-lg focus:ring-2 ${corFundo(data.motivo)}`}
+          to={`/boards/${data?.id}/listas/tasks/comentarios`}
+          className={`text-[#3B82F6] mt-7 inline-flex items-center px-3 py-2 text-sm font-medium  white border-2 rounded-lg focus:ring-2 hover:bg-[#155fd6] hover:border-none hover:text-white duration-1000`}
         >
           Abrir board
           <svg

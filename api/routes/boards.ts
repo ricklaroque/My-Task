@@ -23,22 +23,30 @@ router.get('/', async (_req, res) => {
     });
     res.status(200).json(boards);
   } catch (error) {
-    console.error('ERRO GET /boards:', error);
-    res.status(500).json({ erro: 'Falha ao listar boards.' });
+    res.status(400).json({error});
   }
 });
 
-router.get('/:id/listas/tasks', async (req, res) => {
+router.get('/:id/listas/tasks/comentarios', async (req, res) => {
   const { id } = req.params
-  
   try {
-    const board = await prisma.board.findFirst({
+    const board = await prisma.board.findUnique({
       where: { id: Number(id) },
       include: {
         listas: {
           include: {
             tasks: {
-              orderBy: { id: 'asc' }
+              orderBy: { id: 'asc' },
+              include: {
+                comentarios: {
+                  orderBy: { id: 'asc'},
+                  include: {
+                    usuario: {
+                      select: { id: true, nome: true }
+                    }
+                  }
+                }
+              }
             }
           }
         },
@@ -46,33 +54,10 @@ router.get('/:id/listas/tasks', async (req, res) => {
     })
     res.status(200).json(board)
   } catch (error) {
-    res.status(500).json({ erro: error })
+    res.status(400).json({ erro: error })
   }
 });
 
-router.get('/:id', async (req, res) => {
-  const id = Number(req.params.id);
-  if (Number.isNaN(id)) {
-    return res.status(400).json({ erro: 'id inválido' });
-  }
-  try {
-    const board = await prisma.board.findUnique({
-      where: { id },
-      include: {
-        listas: {
-          include: {
-            _count: { select: { tasks: true } }
-          },
-        },
-      },
-    });
-    if (!board) return res.status(404).json({ erro: 'Board não encontrado.' });
-    res.status(200).json(board);
-  } catch (error) {
-    console.error('ERRO GET /boards/:id', error);
-    res.status(500).json({ erro: 'Falha ao buscar board.' });
-  }
-});
 
 router.post('/', async (req, res) => {
   const valida = boardSchema.safeParse(req.body);
@@ -87,7 +72,7 @@ router.post('/', async (req, res) => {
     res.status(201).json(novo);
   } catch (error) {
     console.error('ERRO POST /boards', error);
-    res.status(400).json({ erro: 'Erro ao criar board.' });
+    res.status(400).json({error});
   }
 });
 
@@ -126,4 +111,24 @@ router.delete('/:id', async (req, res) => {
 });
 
 
+router.get("/pesquisa/:termo", async (req, res) => {
+  const { termo } = req.params
+
+  try {
+      const boards = await prisma.board.findMany({
+        include: {
+          usuario: true,
+        },
+        where: {
+          OR: [
+            { titulo: { contains: termo, mode: "insensitive" } },
+            { usuario: { nome: { equals: termo, mode: "insensitive" } } },
+          ],
+        },
+      })
+      res.status(200).json(boards)
+    } catch (error) {
+      res.status(500).json({ erro: error })
+    }
+})
 export default router;

@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
         })
         res.status(200).json(comentarios)
     } catch (error) {
-        res.status(500).json({ erro: error })
+        res.status(400).json({ erro: error })
     }
 })
 
