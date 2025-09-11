@@ -1,13 +1,16 @@
-// Layout.tsx
-import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+
+import { useEffect, useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import { useUsuarioStore } from "./context/UsuarioContext";
+import App from "./App";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function Layout() {
   const { logaUsuario, deslogaUsuario } = useUsuarioStore();
+  const [termoPesquisa, setTermoPesquisa] = useState<string>("");
+  const location = useLocation();
 
   useEffect(() => {
     async function buscaUsuario(id: string) {
@@ -27,6 +30,27 @@ export default function Layout() {
       deslogaUsuario();
     }
   }, []);
+
+
+  useEffect(() => {
+    if (location.pathname !== '/boards') {
+      setTermoPesquisa("");
+    }
+  }, [location.pathname]);
+
+  function handlePesquisa(termo: string) {
+    setTermoPesquisa(termo);
+  }
+
+  // Se estiver na rota /boards, renderiza o App com pesquisa
+  if (location.pathname === '/boards') {
+    return (
+      <div className="bg-[#F5F7FA] min-h-screen">
+        <Header onPesquisa={handlePesquisa} />
+        <App termoPesquisa={termoPesquisa} />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#F5F7FA] min-h-screen">

@@ -1,17 +1,21 @@
+import { InputPesquisa } from "./InputPesquisa";
 import { IoSearchSharp } from "react-icons/io5";
 import { FaRegCalendarCheck } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useUsuarioStore } from "../context/UsuarioContext";
 
+type HeaderProps = {
+  onPesquisa?: (termo: string) => void
+}
 
-export default function Header() {
+export default function Header({ onPesquisa }: HeaderProps) {
   const { usuario, deslogaUsuario } = useUsuarioStore()
   const navigate = useNavigate()
-
+// AAAAAAAAA
   function primeiroNome(nomeCompleto: string) {
     return nomeCompleto.split(" ")[0];
   }
-
+// /pesquisa/:termo
   function usuarioSair() {
     if (confirm("Confirma saída do sistema?")) {
       deslogaUsuario()
@@ -43,13 +47,14 @@ export default function Header() {
 
             <div className="relative">
               <IoSearchSharp className="pointer-events-none absolute top-1/2 -translate-y-1/2 left-2 h-4 text-[#3B82F6]" />
-              <input
+              <InputPesquisa onPesquisa={onPesquisa || (() => {})} />
+              {/* <input
                 type="search"
                 placeholder="Pesquisa"
                 className="h-10 w-[30rem] rounded-[5px] border-2 border-[#3B82F6] pl-8 pr-10 text-sm text-[#3B82F6] placeholder-[#3B82F6]
               outline-none focus:ring-[#3B82F6] focus:ring-2 focus:border-none transition-all duration-500 hover:border-[#155fd6] hover:shadow-md "
-              />
-            </div>
+              />*/}
+            </div> 
 
             <Link
               to="/boards"
