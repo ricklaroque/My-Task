@@ -22,28 +22,28 @@ export default function Cadastro() {
 
     const navigate = useNavigate()
 
-    useEffect(() => {
-        // garante que o script só roda depois do componente montar
-        const script = document.createElement("script");
-        script.src = "/finisher-header.es5.min.js";
-        script.onload = () => {
-            // @ts-ignore porque o TS não conhece FinisherHeader 
-            new window.FinisherHeader({
-                count: 12,
-                size: { min: 1300, max: 1500, pulse: 0 },
-                speed: { x: { min: 0.6, max: 1 }, y: { min: 0.6, max: 3 } },
-                colors: {
-                    background: "#fff",
-                    particles: ["#1cffb3", "#87ddfe", "#231efe", "#5f0aff"], //514df roxo 274360 azul
-                },
-                blending: "lighten",
-                opacity: { center: 0.6, edge: 0 },
-                skew: 0,
-                shapes: ["c"],
-            });
-        };
-        document.body.appendChild(script);
-    }, []);
+    // useEffect(() => {
+    //     // garante que o script só roda depois do componente montar
+    //     const script = document.createElement("script");
+    //     script.src = "/finisher-header.es5.min.js";
+    //     script.onload = () => {
+    //         // @ts-ignore porque o TS não conhece FinisherHeader 
+    //         new window.FinisherHeader({
+    //             count: 12,
+    //             size: { min: 1300, max: 1500, pulse: 0 },
+    //             speed: { x: { min: 0.6, max: 1 }, y: { min: 0.6, max: 3 } },
+    //             colors: {
+    //                 background: "#fff",
+    //                 particles: ["#1cffb3", "#87ddfe", "#231efe", "#5f0aff"], //514df roxo 274360 azul
+    //             },
+    //             blending: "lighten",
+    //             opacity: { center: 0.6, edge: 0 },
+    //             skew: 0,
+    //             shapes: ["c"],
+    //         });
+    //     };
+    //     document.body.appendChild(script);
+    // }, []);
 
     async function verificaLogin(data: Inputs) {
         // alert(`${data.email} ${data.senha} ${data.manter}`)
@@ -86,15 +86,15 @@ export default function Cadastro() {
             {/* background animado */}
             <div className="finisher-header absolute inset-0 w-full h-full" />
 
-            <div className="relative w-full max-w-sm p-6 bg-white rounded-2xl shadow-lg py-14transition-colors z-10">
+            <div className="relative w-full max-w-sm p-6 bg-white rounded-2xl shadow-lg py-14 transition-colors z-10">
                 <h1 className="text-2xl font-bold text-left mb-6">Cadastro</h1>
                 <form onSubmit={handleSubmit(verificaLogin)} className="space-y-4">
-                    <input 
-                    type="nome" 
-                    placeholder="Nome"
-                    id="nome"
-                    className="w-full p-2 border-b-2 border-blue-500 focus:outline-none"
-                    required {...register("nome")}
+                    <input
+                        type="nome"
+                        placeholder="Nome"
+                        id="nome"
+                        className="w-full p-2 border-b-2 border-blue-500 focus:outline-none"
+                        required {...register("nome")}
                     />
                     <input
                         type="email"
@@ -117,12 +117,13 @@ export default function Cadastro() {
                         CONTINUE
                     </button>
                 </form>
-                <a
-                    href=""
-                    className="flex justify-center text-gray-500 mb-7 transition-all hover:text-lg"
+                <button
+                    type="button"
+                    onClick={() => navigate("/login")}
+                    className="flex justify-center text-gray-500 mb-7 transition-all hover:text-lg bg-transparent border-none cursor-pointer itemscenter mx-auto"
                 >
-                    Não possue conta? Cadastre-se
-                </a>
+                    Já possui conta? Faça Login!
+                </button>
             </div>
         </div>
     );
