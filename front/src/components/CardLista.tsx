@@ -40,6 +40,7 @@ export default function CardLista() {
                 setLoading(false);
             }
         })();
+        
     }, [boardId]);
 
     useEffect(() => {
@@ -107,7 +108,7 @@ export default function CardLista() {
     }
 
     return (
-        <div className="p-6 w-[80vw] h-[85vh] m-auto bg-white rounded-sm">
+        <div className="p-6 w-[80vw] h-[80vh] m-auto bg-white rounded-sm mt-[1rem]">
             <h1 className="text-2xl font-bold mb-6 text-[#3B82F6] border-[#3B82F6] border-b-2">
                 {board.titulo}
             </h1>
@@ -116,20 +117,18 @@ export default function CardLista() {
                     {listas.map((lista) => (
                         <div
                             key={lista.id}
-                            className="text-[#3B82F6] bg-[#FFFFFF] p-4 rounded-[8px] shadow-xl w-[15rem] hover:shadow-2xl"
-                        >
+                            className="text-[#3B82F6] bg-[#FFFFFF] p-4 rounded-[8px] shadow-xl w-[15rem] hover:shadow-2xl
+             flex flex-col h-[50vh] min-h-0">
                             <div className="flex justify-between">
                                 <h2 className="text-lg font-bold mb-3">{lista.titulo}</h2>
                                 <FaPencil className="cursor-pointer hover:text-blue-300" />
                             </div>
-
                             {lista.tasks?.length ? (
-                                <ul className="space-y-2">
+                                <ul className="mt-2 flex-1 overflow-y-auto overflow-x-hidden pr-1 space-y-2">
                                     {lista.tasks.map((t) => (
                                         <li
                                             key={t.id}
-                                            className="text-[#3B82F6] rounded-[8px] border p-2 hover:bg-blue-300 hover:text-white "
-                                        >
+                                            className="text-[#3B82F6] rounded-[8px] border p-2 hover:bg-blue-300 hover:text-white ">
                                             <div className="flex items-center">
                                                 <input type="checkbox" className="cursor-pointer ml-[0.4rem]" />
                                                 <button
@@ -139,19 +138,15 @@ export default function CardLista() {
                                                     {t.titulo}
                                                 </button>
                                             </div>
-
                                             <Modal isOpen={openTaskId === t.id} onClose={() => setOpenTaskId(null)}>
                                                 <div className="max-w-[90vw] h-[27rem] mr-[2rem]">
                                                     <h1 className="text-2xl font-black leading-snug mb-2 w-[54.9vw] pl-[1rem] text-[#3B82F6]">
                                                         {lista.titulo}
                                                     </h1>
-
                                                     <div className="flex items-center justify-between py-3 ">
                                                         <h1 className="text-l font-bold pl-[1rem] text-[#3B82F6]">{t.titulo}</h1>
                                                     </div>
-
                                                     <div className="flex gap-6 pl-[1rem]">
-                                                        {/* Coluna esquerda - descrição */}
                                                         <div className="bg-gray-100 rounded-2xl p-5 w-[27rem] h-[20rem] shadow-md shadow-blue-400">
                                                             <div className="flex items-center gap-2 mb-2">
                                                                 <FaRegCalendarCheck className="text-[#3B82F6]" />
@@ -162,11 +157,9 @@ export default function CardLista() {
                                                                     </button>
                                                                 </div>
                                                             </div>
-
                                                             <p className="text-sm leading-relaxed whitespace-pre-wrap break-words text-[#3B82F6]">
                                                                 {t?.descricao?.trim() ? t.descricao : "Sem descrição"}
                                                             </p>
-
                                                             {(t as any)?.prazo && (
                                                                 <div className="mt-4 flex items-center gap-2 text-sm text-[#3B82F6]">
                                                                     <span className="font-bold ">Prazo para:</span>
@@ -182,9 +175,7 @@ export default function CardLista() {
                                                         </div>
                                                         <form
                                                             onSubmit={handleSubmit(enviarComentario)}
-                                                            className="bg-gray-100 rounded-2xl p-5 w-[28rem] h-[20rem] ml-[1rem] shadow-md shadow-blue-400 text-[#3B82F6] 
-                                       flex flex-col min-h-0 overflow-hidden"
-                                                        >
+                                                            className="bg-gray-100 rounded-2xl p-5 w-[28rem] h-[20rem] ml-[1rem] shadow-md shadow-blue-400 text-[#3B82F6] flex flex-col min-h-0 overflow-hidden">
                                                             <div className="flex items-center gap-3 mb-3">
                                                                 <MdOutlineInsertComment className="mt-1" />
                                                                 <h2 className="font-semibold">Comentários e atividade</h2>
@@ -201,15 +192,13 @@ export default function CardLista() {
                                                                 </div>
                                                                 <button
                                                                     type="submit"
-                                                                    className="rounded-md border px-3 py-1.5 text-sm bg-white hover:shadow-2xl "
+                                                                    className="rounded-md  px-3 py-2 text-sm bg-[#3B82F6] text-white font-bold cursor-pointer"
                                                                 >
                                                                     Enviar
                                                                 </button>
                                                             </div>
-                                                            <div
-                                                                ref={listaComentariosRef}
-                                                                className="flex-1 overflow-y-auto pr-2 space-y-2"
-                                                            >
+                                                            <div ref={listaComentariosRef}
+                                                                className="flex-1 overflow-y-auto pr-2 space-y-2">
                                                                 {(comentarios ?? []).length > 0 ? (
                                                                     comentarios.map((c) => (
                                                                         <div key={c.id} className="py-1">

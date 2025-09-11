@@ -27,7 +27,6 @@ export default function Header() {
       <div className="w-[80%] mx-auto px-6 flex items-center justify-between">
 
         <div className="flex items-center gap-2 ">
-          {/* <img src={logo} className="w-25 h-20 rounded-full" /> */}
           <FaRegCalendarCheck size={24} className="text-[#3B82F6]" />
           <h1 className="text-[#3B82F6] text-[1.5rem] font-bold">MyT</h1>
         </div>

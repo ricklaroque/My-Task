@@ -1,25 +1,37 @@
-import Header from "./components/Header";
 // Layout.tsx
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import { Toaster } from "sonner";
-// import { useState } from "react";
-// import type { BoardType } from "./utils/BoardType";
+import Header from "./components/Header";
+import { useUsuarioStore } from "./context/UsuarioContext";
+
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function Layout() {
-  // const [boards, setBoards] = useState<BoardType[]>([]);
-  // const location = useLocation()
-  // const routesSemHeader = ['/login', '/cadastro']
+  const { logaUsuario, deslogaUsuario } = useUsuarioStore();
+
+  useEffect(() => {
+    async function buscaUsuario(id: string) {
+      const response = await fetch(`${apiUrl}/usuarios/${id}`);
+      if (!response.ok) {
+        deslogaUsuario();
+        return;
+      }
+      const dados = await response.json();
+      logaUsuario(dados);
+    }
+
+    if (localStorage.getItem("usuarioKey")) {
+      const idUsuario = localStorage.getItem("usuarioKey") as string;
+      buscaUsuario(idUsuario); 
+    } else {
+      deslogaUsuario();
+    }
+  }, []);
 
   return (
-    <>
-      <div className="bg-[#F5F7FA] min-h-screen">
-        {/* <Header setBoards={setBoards} /> */}
-        {/* {!routesSemHeader.includes(location.pathname) && <Header setBoards={setBoards} />} */}
-        <Header />
-        <Outlet />
-        <Toaster richColors position="top-center" />
-        {/* context={{ boards, setBoards }}  */}
-      </div>
-    </>
+    <div className="bg-[#F5F7FA] min-h-screen">
+      <Header />
+      <Outlet />
+    </div>
   );
 }
