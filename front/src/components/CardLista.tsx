@@ -104,7 +104,7 @@ export default function CardLista() {
                                                     </h1>
                                                 </div>
                                                 <div className="flex gap-6 pl-[1rem] ">
-                                                        <div className="rounded-2xl p-5 w-[27rem] h-[20rem] shadow-md shadow-blue-400">
+                                                        <div className="rounded-2xl p-5 w-[27rem] h-[20rem] shadow-md shadow-blue-400 bg-[#F5F7FA]">
                                                             <div className="flex items-center gap-2 mb-2">
                                                                 <svg width="18" height="18" viewBox="0 0 24 24" className="opacity-70">
                                                                     <path d="M4 4h16v16H4z" fill="none" stroke="currentColor" strokeWidth="2" />
@@ -133,7 +133,7 @@ export default function CardLista() {
                                                                 </div>
                                                             )}
                                                         </div>
-                                                    <form className="rounded-2xl p-5 w-[28rem] h-[20rem] ml-[1rem] shadow-md shadow-blue-400 text-[#3B82F6]">
+                                                    <form className="rounded-2xl p-5 w-[28rem] h-[20rem] ml-[1rem] shadow-md shadow-blue-400 text-[#3B82F6] bg-[#F5F7FA]" onSubmit={handleSubmit(enviarComentario)}>
                                                         <div className="flex items-center justify-between mb-3">
                                                             <h2 className="font-semibold">Comentários e atividade</h2>
                                                             <button className="rounded-md border px-3 py-1.5 text-sm hover:bg-white">
