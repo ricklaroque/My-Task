@@ -31,7 +31,7 @@ router.get('/', async (_req, res) => {
 router.get('/:id/listas/tasks/comentarios', async (req, res) => {
   const { id } = req.params
   try {
-    const board = await prisma.board.findFirst({
+    const board = await prisma.board.findUnique({
       where: { id: Number(id) },
       include: {
         listas: {
@@ -41,6 +41,11 @@ router.get('/:id/listas/tasks/comentarios', async (req, res) => {
               include: {
                 comentarios: {
                   orderBy: { id: 'asc'},
+                  include: {
+                    usuario: {
+                      select: { id: true, nome: true }
+                    }
+                  }
                 }
               }
             }

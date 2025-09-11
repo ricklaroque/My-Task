@@ -1,3 +1,4 @@
+import { MdOutlineInsertComment } from "react-icons/md";
 import { FaRegCalendarCheck } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import { useState, useEffect } from "react";
@@ -17,13 +18,13 @@ type Inputs = {
 }
 
 export default function CardLista() {
-    const { boardId } = useParams<{ boardId: string }>();
+    const {boardId} = useParams<{ boardId: string }>();
     const [board, setBoard] = useState<BoardType | null>(null);
     const [listas, setListas] = useState<ListaType[]>([]);
-    const { usuario } = useUsuarioStore()
+    const {usuario} = useUsuarioStore()
     const [comentarios, setComentarios] = useState<ComentarioType[]>([]);
     const [loading, setLoading] = useState(true);
-    const { register, handleSubmit, reset } = useForm<Inputs>();
+    const {register, handleSubmit, reset } = useForm<Inputs>();
     const [openTaskId, setOpenTaskId] = useState<number | null>(null);
 
     useEffect(() => {
@@ -87,7 +88,15 @@ export default function CardLista() {
         if (response.status == 201) {
             toast.success("Comentário adicionado!")
             const novoComentario = await response.json();
-            setComentarios(prev => [...prev, novoComentario]);
+            // Adiciona os dados do usuário ao comentário criado
+            const comentarioComUsuario = {
+                ...novoComentario,
+                usuario: {
+                    id: usuario.id,
+                    nome: usuario.nome
+                }
+            };
+            setComentarios(prev => [...prev, comentarioComUsuario]);
             reset();
         } else {
             toast.error("Erro ao adicionar comentário.")
@@ -104,10 +113,10 @@ export default function CardLista() {
                             <h2 className="text-lg font-bold mb-3">{lista.titulo}</h2>
                             <FaPencil className="cursor-pointer hover:text-blue-300" />
                         </div>
-                        {(lista.tasks ?? []).length ? (
+                        {(lista.tasks ?? []) ? (
                             <ul className="space-y-2">
                                 {(lista.tasks ?? []).map((t) => (
-                                    <li key={t.id} className="text-[#3B82F6] rounded-[8px] border p-2 hover:bg-blue-300 hover:text-white cursor-pointer">
+                                    <li key={t.id} className="text-[#3B82F6] rounded-[8px] border p-2 hover:bg-blue-300 hover:text-white ">
                                         <div className="flex items-center">
                                             <input type="checkbox" className="cursor-pointer ml-[0.4rem]" />
                                             <button
@@ -127,12 +136,12 @@ export default function CardLista() {
                                                     </h1>
                                                 </div>
                                                 <div className="flex gap-6 pl-[1rem] ">
-                                                    <div className="rounded-2xl p-5 w-[27rem] h-[20rem] shadow-md shadow-blue-400">
+                                                    <div className=" bg-gray-100 rounded-2xl p-5 w-[27rem] h-[20rem] shadow-md shadow-blue-400">
                                                         <div className="flex items-center gap-2 mb-2">
                                                             <FaRegCalendarCheck className="text-[#3B82F6]" />
                                                             <h3 className="font-semibold text-[#3B82F6]">Descrição</h3>
                                                             <div className="ml-[14rem] text-[#3B82F6] cursor-pointer">
-                                                                <button className="rounded-md border px-3 py-1.5 text-sm hover:bg-white">
+                                                                <button className="rounded-md border px-3 py-1.5 text-sm hover:bg-blue-50 hover:shadow-2xl ">
                                                                     Editar
                                                                 </button>
                                                             </div>
@@ -153,17 +162,12 @@ export default function CardLista() {
                                                             </div>
                                                         )}
                                                     </div>
-                                                    <form className="rounded-2xl p-5 w-[28rem] h-[20rem] ml-[1rem] shadow-md shadow-blue-400 text-[#3B82F6]" onSubmit={handleSubmit(enviarComentario)}>
-                                                        <div className="flex items-center justify-between mb-3">
+                                                    <form className=" bg-gray-100 rounded-2xl p-5 w-[28rem] h-[20rem] ml-[1rem] shadow-md shadow-blue-400 text-[#3B82F6]" onSubmit={handleSubmit(enviarComentario)}>
+                                                        <div className="flex items-center gap-3 mb-3">
+                                                            <MdOutlineInsertComment className="mt-1 "/>
                                                             <h2 className="font-semibold">Comentários e atividade</h2>
-                                                            <button type="submit" className="rounded-md border px-3 py-1.5 text-sm hover:bg-white">
-                                                                Enviar
-                                                            </button>
                                                         </div>
                                                         <div className="flex items-start gap-3 mb-4">
-                                                            <div className="h-8 w-8 rounded-full bg-white-600 text-[#3B82F6] grid place-items-center text-sm font-bold">
-                                                                {("LF").slice(0, 2)}
-                                                            </div>
                                                             <div className="flex-1">
                                                                 <input {...register("conteudo", { required: true })}
                                                                     type="text"
@@ -171,16 +175,28 @@ export default function CardLista() {
                                                                     className="w-full rounded-md border px-3 py-2 text-sm bg-white outline-none focus:ring-2 focus:ring-blue-600"
                                                                 />
                                                             </div>
+                                                            <button type="submit" className="rounded-md border px-3 py-1.5 text-sm bg-white hover:shadow-2xl ">
+                                                                Enviar
+                                                            </button>
                                                         </div>
-                                                        <div className="w-[25.5rem] h-[9rem] bg-gray-200 rounded-xl p-2 overflow-y-auto">
+                                                        <div className="">
                                                             {(comentarios ?? []).length > 0 ? (
                                                                 comentarios.map((c) => (
-                                                                    <div key={c.id} className="border-b border-gray-300 py-2 mb-2">
-                                                                        <p className="text-sm text-black">{c.conteudo}</p>
+                                                                    <div key={c.id} className=" border-gray-300 py-2 mb-2">
+                                                                        {c.usuarioId === usuario.id ? (
+                                                                            <span className="text-sm font-bold text-blue-600"></span>
+                                                                        ) : (
+                                                                            <span className="text-sm font-bold text-gray-600"></span>
+                                                                        )}
+                                                                        <p className="text-sm bg-white rounded-[20px] py-2 pl-4 text-gray-500">
+                                                                            <span className="font-semibold text-blue-600">
+                                                                                {c.usuario?.nome || 'Usuário desconhecido'}:
+                                                                            </span> {c.conteudo}
+                                                                        </p>
                                                                     </div>
                                                                 ))
                                                             ) : (
-                                                                <p className="text-sm text-gray-500">Sem comentários ainda.</p>
+                                                                <p className="text-gray-400">Sem comentários</p>
                                                             )}
                                                         </div>
                                                     </form>
@@ -191,7 +207,9 @@ export default function CardLista() {
                                 ))}
                             </ul>
                         ) : (
-                            <p className="text-sm text-gray-500">Sem tasks</p>
+                            <>
+                                <p className="text-[2rem] text-gray-500">Sem tasks</p>
+                            </>
                         )}
                     </div>
                 ))}

@@ -3,4 +3,8 @@ export type ComentarioType = {
     conteudo: string
     taskId: number
     usuarioId: string
+    usuario?: {
+        id: string
+        nome: string
+    }
 }

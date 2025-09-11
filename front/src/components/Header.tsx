@@ -1,9 +1,5 @@
-// import { useForm } from "react-hook-form";
-// import { toast } from "sonner";
 import { IoSearchSharp } from "react-icons/io5";
 import { FaRegCalendarCheck } from "react-icons/fa";
-import logo from "../img/logoMyT.png"
-
 import { Link, useNavigate } from "react-router-dom";
 import { useUsuarioStore } from "../context/UsuarioContext";
 
