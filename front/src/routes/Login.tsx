@@ -17,27 +17,27 @@ export default function Login() {
   const { logaUsuario } = useUsuarioStore()
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const script = document.createElement("script")
-    script.src = "/finisher-header.es5.min.js"
-    script.onload = () => {
-      // @ts-ignore
-      if (window.FinisherHeader) {
-        // @ts-ignore
-        new window.FinisherHeader({
-          count: 12,
-          size: { min: 1300, max: 1500, pulse: 0 },
-          speed: { x: { min: 0.6, max: 1 }, y: { min: 0.6, max: 3 } },
-          colors: { background: "#fff", particles: ["#1cffb3", "#87ddfe", "#231efe", "#5f0aff"] },
-          blending: "lighten",
-          opacity: { center: 0.6, edge: 0 },
-          skew: 0,
-          shapes: ["c"],
-        })
-      }
-    }
-    document.body.appendChild(script)
-  }, [])
+  // useEffect(() => {
+  //   const script = document.createElement("script")
+  //   script.src = "/finisher-header.es5.min.js"
+  //   script.onload = () => {
+  //     // @ts-ignore
+  //     if (window.FinisherHeader) {
+  //       // @ts-ignore
+  //       new window.FinisherHeader({
+  //         count: 12,
+  //         size: { min: 1300, max: 1500, pulse: 0 },
+  //         speed: { x: { min: 0.6, max: 1 }, y: { min: 0.6, max: 3 } },
+  //         colors: { background: "#fff", particles: ["#1cffb3", "#87ddfe", "#231efe", "#5f0aff"] },
+  //         blending: "lighten",
+  //         opacity: { center: 0.6, edge: 0 },
+  //         skew: 0,
+  //         shapes: ["c"],
+  //       })
+  //     }
+  //   }
+  //   document.body.appendChild(script)
+  // }, [])
 
   async function verificaLogin(data: Inputs) {
     const response = await fetch(`${apiUrl}/login`, {
@@ -109,9 +109,9 @@ export default function Login() {
         <button
           type="button"
           onClick={() => navigate("/cadastro")}
-          className="flex justify-center text-gray-500 mb-7 transition-all hover:text-lg bg-transparent border-none cursor-pointer"
+          className="flex justify-center text-gray-500 mb-7 transition-all hover:text-lg bg-transparent border-none cursor-pointer itemscenter mx-auto"
         >
-          Não possui conta? Cadastre-se
+          Não possui conta? Cadastre-se!
         </button>
       </div>
     </div>
