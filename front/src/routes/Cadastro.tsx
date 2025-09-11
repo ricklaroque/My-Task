@@ -86,7 +86,7 @@ export default function Cadastro() {
             {/* background animado */}
             <div className="finisher-header absolute inset-0 w-full h-full" />
 
-            <div className="relative w-full max-w-sm p-6 bg-white rounded-2xl shadow-lg py-14transition-colors z-10">
+            <div className="relative w-full max-w-sm p-6 bg-white rounded-2xl shadow-lg py-14 transition-colors z-10">
                 <h1 className="text-2xl font-bold text-left mb-6">Cadastro</h1>
                 <form onSubmit={handleSubmit(verificaLogin)} className="space-y-4">
                     <input
