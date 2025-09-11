@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
         })
         res.status(200).json(tasks)
     } catch (error){
-        res.status(500).json({ erro: error})
+        res.status(400).json({ erro: error})
     }
 })
 
@@ -109,8 +109,7 @@ router.get('/task/:termo', async (req, res) => {
             });
             return res.status(200).json(tasks)
         } catch (error) {
-            console.error('ERRO GET /tasks/task/:termo', error);
-            return res.status(500).json({ erro: 'Falha na busca.' })
+            res.status(400).json({error});
         }
     }
     return res.status(400).json({ erro: 'Use /by-lista/:listaId para listar por lista'})

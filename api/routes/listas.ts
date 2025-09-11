@@ -19,8 +19,7 @@ router.get('/', async (_req, res) => {
     });
     res.status(200).json(listas);
   } catch (error) {
-    console.error('ERRO GET /listas', error);
-    res.status(500).json({ erro: 'Falha ao listar listas.' });
+    res.status(400).json({error});
   }
 });
 

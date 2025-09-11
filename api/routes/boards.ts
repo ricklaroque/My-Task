@@ -23,8 +23,7 @@ router.get('/', async (_req, res) => {
     });
     res.status(200).json(boards);
   } catch (error) {
-    console.error('ERRO GET /boards:', error);
-    res.status(500).json({ erro: 'Falha ao listar boards.' });
+    res.status(400).json({error});
   }
 });
 
@@ -78,8 +77,7 @@ router.get('/:id', async (req, res) => {
     if (!board) return res.status(404).json({ erro: 'Board não encontrado.' });
     res.status(200).json(board);
   } catch (error) {
-    console.error('ERRO GET /boards/:id', error);
-    res.status(500).json({ erro: 'Falha ao buscar board.' });
+    res.status(400).json({error});
   }
 });
 
@@ -96,7 +94,7 @@ router.post('/', async (req, res) => {
     res.status(201).json(novo);
   } catch (error) {
     console.error('ERRO POST /boards', error);
-    res.status(400).json({ erro: 'Erro ao criar board.' });
+    res.status(400).json({error});
   }
 });
 
