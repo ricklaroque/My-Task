@@ -1,12 +1,22 @@
 import { Link } from "react-router-dom";
 import type { BoardType } from "../utils/BoardType";
 
-export function CardBoard({data}: {data:BoardType}) {
-  if(!data) return null;
+
+export function CardBoard({ data }: { data: BoardType }) {
+
+  let motivoColor = "#3B82F6";
+  if (data.motivo && data.motivo.toUpperCase() === "TRABALHO") {
+    motivoColor = "bg-color-[#FACC16]";
+  } else if (data.motivo && data.motivo.toUpperCase() === "ESTUDO") {
+    motivoColor = "bg-color-[#3faafb]";
+  } else if (data.motivo && data.motivo.toUpperCase() === "PESSOAL") {
+    motivoColor = "bg-color-[#D2B48C]";
+  } else if (data.motivo && data.motivo.toUpperCase() === "OUTRO") {
+    motivoColor = "bg-color-[#808080]";
+  }
+  if (!data) return null;
   return (
-    // #3B82F6
-    // #3faafb
-    // #D2B48C
+
     <div className={`group w-full h-[10rem] bg-[#FFFFFF] rounded-lg  hover:shadow-gray-400 shadow-md`}>
       <div className="p-4">
         <div className="flex items-center  gap-3 col">

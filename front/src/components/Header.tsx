@@ -11,11 +11,11 @@ type HeaderProps = {
 export default function Header({ onPesquisa }: HeaderProps) {
   const { usuario, deslogaUsuario } = useUsuarioStore()
   const navigate = useNavigate()
-// AAAAAAAAA
+
   function primeiroNome(nomeCompleto: string) {
     return nomeCompleto.split(" ")[0];
   }
-// /pesquisa/:termo
+
   function usuarioSair() {
     if (confirm("Confirma saída do sistema?")) {
       deslogaUsuario()
@@ -27,39 +27,33 @@ export default function Header({ onPesquisa }: HeaderProps) {
   }
 
   return (
-    <header className="bg-[#F5F7FA] dark:bg-gray-700 py-4">
+    <header className="bg-white dark:bg-gray-700 py-4">
       <div className="w-[80%] mx-auto px-6 flex items-center justify-between">
 
         <div className="flex items-center gap-2 ">
-          <FaRegCalendarCheck size={24} className="text-[#3B82F6]" />
-          <h1 className="text-[#3B82F6] text-[1.5rem] font-bold">MyT</h1>
+          <FaRegCalendarCheck size={24} className="text-black" />
+          <h1 className="text-black text-[1.5rem] font-medium">MyTask</h1>
         </div>
 
         <div className="flex flex-1 justify-center">
           <div className="flex items-center gap-4">
             <button
               type="button"
-              className="text-[#3B82F6] font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg 
-            transition-colors duration-500 hover:bg-[#155fd6] hover:text-white hover:shadow-md "
+              className="text-white bg-[#2563EB] font-medium text-[1rem] cursor-pointer px-4 py-2 rounded-lg 
+            transition-colors duration-500 hover:shadow-md hover:bg-[#155fd6] flex items-center gap-2"
             >
               Criar
             </button>
 
             <div className="relative">
-              <IoSearchSharp className="pointer-events-none absolute top-1/2 -translate-y-1/2 left-2 h-4 text-[#3B82F6]" />
-              <InputPesquisa onPesquisa={onPesquisa || (() => {})} />
-              {/* <input
-                type="search"
-                placeholder="Pesquisa"
-                className="h-10 w-[30rem] rounded-[5px] border-2 border-[#3B82F6] pl-8 pr-10 text-sm text-[#3B82F6] placeholder-[#3B82F6]
-              outline-none focus:ring-[#3B82F6] focus:ring-2 focus:border-none transition-all duration-500 hover:border-[#155fd6] hover:shadow-md "
-              />*/}
+              <IoSearchSharp className="ml-2 pointer-events-none absolute top-1/2 -translate-y-1/2 left-2 h-4 text-black" />
+              <InputPesquisa  onPesquisa={onPesquisa || (() => {})} />
             </div> 
 
             <Link
               to="/boards"
-              className="text-[#3B82F6] font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
-            transition-colors duration-500 hover:bg-[#155fd6] hover:text-white hover:shadow-md"
+              className="text-black font-medium text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+            transition-colors duration-500 hover:text-shadow-md"
             >
               Boards
             </Link>
@@ -69,14 +63,14 @@ export default function Header({ onPesquisa }: HeaderProps) {
         <div className="flex items-center">
           {usuario.id ? (
             <>
-              <span className="text-[#3B82F6] font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
-            transition-colors duration-500 hover:bg-[#155fd6] hover:text-white mr-4">
+              <span className="text-black font-medium text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+            transition-colors duration-500 ">
                 Olá, {primeiroNome(usuario.nome)}!
               </span>
               <button
                 onClick={usuarioSair}
-                className="text-[#3B82F6] font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
-              transition-colors duration-500 hover:bg-[#155fd6] hover:text-white"
+                className="text-black font-medium text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+              transition-colors duration-500 "
               >
                 Sair
               </button>
@@ -84,8 +78,8 @@ export default function Header({ onPesquisa }: HeaderProps) {
           ) : (
             <Link
               to="/login"
-              className="text-[#3B82F6] font-bold text-[1rem] cursor-pointer px-4 py-2 rounded-lg
-            transition-colors duration-500 hover:bg-[#155fd6] hover:text-white hover:shadow-md"
+              className="text-black font-medium text-[1rem] cursor-pointer px-4 py-2 rounded-lg
+            transition-colors duration-500 hover:text-shadow-md"
             >
               Login
             </Link>
