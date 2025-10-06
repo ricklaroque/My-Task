@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Admin {
-  id    Int    @id @default(autoincrement())
+  id    String @db.VarChar(36) @id @default(uuid())
   nome  String @db.VarChar(70)
   email String @db.VarChar(155)
   senha String @db.VarChar(35)
