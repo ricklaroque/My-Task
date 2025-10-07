@@ -43,7 +43,6 @@ export default function Layout() {
     setTermoPesquisa(termo);
   }
 
-  // Se estiver na rota /boards, renderiza o App com pesquisa
   if (location.pathname === '/boards') {
     return (
       <div className="bg-[#F5F7FA] min-h-screen">

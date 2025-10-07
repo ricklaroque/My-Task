@@ -28,25 +28,11 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     async function getDadosGerais() {
-      const response = await fetch(`${apiUrl}/dashboard/gerais`)
+      const response = await fetch(`${apiUrl}/dashboard/boardsNome`)
       const dados = await response.json()
       setDados(dados)
     }
     getDadosGerais()
-
-    async function getDadosGraficoMarca() {
-      const response = await fetch(`${apiUrl}/dashboard/carrosMarca`)
-      const dados = await response.json()
-      setBoardMotivo(dados)
-    }
-    getDadosGraficoMarca()
-
-    async function getDadosGraficoCliente() {
-      const response = await fetch(`${apiUrl}/dashboard/clientesCidade`)
-      const dados = await response.json()
-      setUsuario(dados)
-    }
-    getDadosGraficoCliente()
 
   }, [])
 
