@@ -107,6 +107,8 @@ export default function CardLista() {
         }
     }
 
+    
+
     return (
         <div className="p-6 w-[80vw] h-[80vh] m-auto bg-white rounded-sm mt-[1rem]">
             <h1 className="text-2xl font-bold mb-6 text-[#3B82F6] border-[#3B82F6] border-b-2">
@@ -121,7 +123,9 @@ export default function CardLista() {
                             flex flex-col h-[50vh] min-h-0">
                             <div className="flex justify-between">
                                 <h2 className="text-lg font-bold mb-3">{lista.titulo}</h2>
-                                <FaPencil className="cursor-pointer hover:text-blue-300" />
+                                <button>
+                                    <FaPencil className="cursor-pointer hover:text-blue-300" />
+                                </button>
                             </div>
                             {lista.tasks?.length ? (
                                 <ul className="mt-2 flex-1 overflow-y-auto overflow-x-hidden pr-1 space-y-2">

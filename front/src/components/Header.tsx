@@ -27,7 +27,7 @@ export default function Header({ onPesquisa }: HeaderProps) {
   }
 
   return (
-    <header className="bg-white dark:bg-gray-700 py-4">
+    <header className="bg-white d py-4">
       <div className="w-[80%] mx-auto px-6 flex items-center justify-between">
 
         <div className="flex items-center gap-2 ">

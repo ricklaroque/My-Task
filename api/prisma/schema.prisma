@@ -8,10 +8,13 @@ datasource db {
 }
 
 model Admin {
-  id    Int    @id @default(autoincrement())
-  nome  String @db.VarChar(70)
-  email String @db.VarChar(155)
-  senha String @db.VarChar(35)
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  nome      String   @db.VarChar(60)
+  email     String   @db.VarChar(40)
+  senha     String   @db.VarChar(60)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  logs      Log[]
 
   @@map("admins")
 }
@@ -26,8 +29,8 @@ model Usuario {
   lastAccess  DateTime?
   boards      Board[]
   tasks       Task[]
-  Log         Log[]
   comentarios Comentario[]
+  Log         Log[]
 
   @@map("usuarios")
 }
@@ -75,9 +78,9 @@ model Task {
 }
 
 model Comentario {
-  id        Int     @id @default(autoincrement())
-  conteudo  String  @db.VarChar(255)
-  task      Task    @relation(fields: [taskId], references: [id])
+  id        Int      @id @default(autoincrement())
+  conteudo  String   @db.VarChar(255)
+  task      Task     @relation(fields: [taskId], references: [id])
   taskId    Int
   usuario   Usuario? @relation(fields: [usuarioId], references: [id])
   usuarioId String?
@@ -88,7 +91,9 @@ model Comentario {
 model Log {
   id          Int      @id @default(autoincrement())
   usuario     Usuario  @relation(fields: [usuarioId], references: [id])
-  usuarioId   String
+  usuarioId   String   @db.VarChar(36)
+  admin       Admin    @relation(fields: [adminId], references: [id])
+  adminId     String   @db.VarChar(36)
   descricao   String   @db.VarChar(60)
   complemento String   @db.VarChar(200)
   createdAt   DateTime @default(now())
