@@ -110,7 +110,7 @@ export default function CardLista() {
     
 
     return (
-        <div className="p-6 w-[80vw] h-[80vh] m-auto bg-white rounded-sm mt-[1rem]">
+        <div className="pl-34 pt-6 w-[80vw] h-[80vh] m-auto group  bg-blue rounded-sm mt-[1rem]">
             <h1 className="text-2xl font-bold mb-6 text-[#3B82F6] border-[#3B82F6] border-b-2">
                 {board.titulo}
             </h1>
@@ -137,7 +137,7 @@ export default function CardLista() {
                                                 <input type="checkbox" className="cursor-pointer ml-[0.4rem]" />
                                                 <button
                                                     onClick={() => setOpenTaskId(t.id)}
-                                                    className="font-medium ml-[1rem] w-[8.5rem] cursor-pointer text-start"
+                                                    className="font-medium ml-[1rem] w-[8.5rem] cursor-pointer text-start transition-all "
                                                 >
                                                     {t.titulo}
                                                 </button>

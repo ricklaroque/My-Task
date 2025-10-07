@@ -25,7 +25,7 @@ export function verificaToken(req: Request, res: Response, next: NextFunction) {
 
     try {
         const decode = jwt.verify(token, process.env.JWT_KEY as string)
-        console.log(decode)
+        // console.log(decode)
         const { userLogadoId, userLogadoNome } = decode as TokenInterface
         req.userLogadoId = userLogadoId
         req.userLogadoNome = userLogadoNome
